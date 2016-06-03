@@ -14,6 +14,6 @@ sys.path.append('/opt/django/stun/stun')
 sys.path.append('/Users/agustin/git/stun/stun/stun')
 
 # os.environ.setdefault("DJANGO_SETTINGS_MODULE", "stun.settings")
-os.environ['DJANGO_SETTINGS_MODULE'] = 'simon_project.settings'
+os.environ['DJANGO_SETTINGS_MODULE'] = 'stun.settings'
 
 application = get_wsgi_application()

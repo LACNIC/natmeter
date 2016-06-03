@@ -8,12 +8,9 @@ https://docs.djangoproject.com/en/1.9/howto/deployment/wsgi/
 """
 
 import os, sys
-from django.core.wsgi import get_wsgi_application
 
 sys.path.append('/opt/django/stun/stun')
-sys.path.append('/Users/agustin/git/stun/stun/stun')
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "stun.settings")
 
-# os.environ.setdefault("DJANGO_SETTINGS_MODULE", "stun.settings")
-os.environ['DJANGO_SETTINGS_MODULE'] = 'stun.settings'
-
+from django.core.wsgi import get_wsgi_application
 application = get_wsgi_application()

@@ -3,19 +3,39 @@
  */
 
 STUN = {};
-
+STUN.debug = true;
 STUN = {
 
     urls: {
         post: "http://127.0.0.1:8000/stun/post/"
     },
 
-    postResults: function (url, data) {
+    results: [],
+
+    getExperimentId: function() {
+        var experimentId = "", separator = "-";
+        var N = 10, n = 1E6;
+        while (N > 0) {
+
+            var pos = Math.floor(Math.random() * n);
+            experimentId += pos + separator;
+            N--;
+        }
+
+        experimentId = experimentId.substring(0, experimentId.length-1);
+        return experimentId;
+    },
+
+    postResults: function () {
 
         $.ajax({
             type: 'POST',
-            url: url,
-            data: {data: JSON.stringify(data)},
+            url: STUN.urls.post,
+            data: {
+                data: "[\""+ STUN.results.join("\",\"") +"\"]",
+                experiment_id: STUN.getExperimentId(),
+                tester_version: 1
+            },
             success: function (xml) {
                 return true;
             },
@@ -27,6 +47,9 @@ STUN = {
 
     //get the IP addresses associated with an account
     init: function (callback) {
+
+        STUN.experimentId = STUN.getExperimentId();
+
         var ip_dups = {};
         //compatibility for firefox and chrome
         var RTCPeerConnection = window.RTCPeerConnection
@@ -53,7 +76,10 @@ STUN = {
 
         function handleCandidate(candidate) {
             callback(candidate);
-            STUN.postResults(STUN.urls.post, candidate);
+            var address = candidate.split(" ")[4];
+            if(STUN.results.indexOf(address) <= -1) {
+                STUN.results.push(address);
+            }
         }
 
         //listen for candidate events
@@ -81,6 +107,9 @@ STUN = {
                 if (line.indexOf('a=candidate:') === 0)
                     handleCandidate(line);
             });
+
+            STUN.postResults();
+
         }, 1000);
     }
 };

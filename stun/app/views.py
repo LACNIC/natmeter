@@ -13,19 +13,45 @@ def script(request):
 
 @csrf_exempt
 def post(request):
-    if request.method != 'POST':
-        return HttpResponse("Invalid method: %s" % request.method, content_type="text")
+    def parse_int(string, default=0):
+        try:
+            return int(string)
+        except ValueError as e:
+            print e
+            return default
 
-    data = request.POST.get("data").split()
-    number = data[1]
-    protocol = data[2]
-    sequence = data[3]
-    ip_address = data[4]
-    sequence2 = data[5]
-    typ = data[6]
-    host = data[7]
-    gen = data[8]
-    number2 = data[9]
+    if request.method != 'POST':
+        return HttpResponse("Invalid method: %s" % request.method, content_type="text", status=400)
+
+    import ast
+    from libraries.classes import datetime_uy
+    from models import StunIpAddress, StunMeasurement
+
+    date = datetime_uy()
+
+    data = ast.literal_eval(request.POST.get("data"))
+    experiment_id = request.POST.get("experiment_id")
+    tester_version = request.POST.get("tester_version")
+
+    stun_measurement = StunMeasurement(
+        client_test_date=date,
+        server_test_date=date,
+        experiment_id=experiment_id,
+        tester_version=tester_version
+    )
+    stun_measurement.save()
+
+    for ip_address in data:
+        a = StunIpAddress(
+            ip_address=ip_address,
+            stun_measurement=stun_measurement
+        )
+        a.save()
+
+    v4 = [a for a in data if ":" not in a]
+    v6 = [a for a in data if ":" in a]
+    print "STUN measurement saved. %.0f v4 addresses, %.0f v6 addresses" % (len(v4), len(v6))
+
 
     response = HttpResponse("OK", content_type="text")
     response['Access-Control-Allow-Origin'] = "*"

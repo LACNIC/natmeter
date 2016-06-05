@@ -8,7 +8,7 @@ from django.contrib import admin
 
 
 urlpatterns = patterns('',
-                       url(r'^stun/', include('app.urls')),
+                       url(r'', include('app.urls')),
                        url(r'admin/', include(admin.site.urls)),
                        )
 admin.autodiscover()

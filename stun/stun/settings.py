@@ -60,11 +60,12 @@ CORS_ORIGIN_ALLOW_ALL = True
 ROOT_URLCONF = 'stun.urls'
 
 # STATIC_ROOT = os.path.join(BASE_DIR, "app/static")
-STATIC_ROOT = "%s/app/static" % (PROJECT_ROOT)
+
+STATIC_ROOT = '%s/app/static' % (PROJECT_ROOT)
 
 # URL prefix for static files.
 # Example: "http://media.lawrence.com/static/"
-STATIC_URL = URL_PFX + "/static/app"
+STATIC_URL = URL_PFX + '/static/'
 
 TEMPLATES = [
     {

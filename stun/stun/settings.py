@@ -19,6 +19,11 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.9/howto/deployment/checklist/
 
+PROJECT_ROOT = os.path.abspath(os.path.pardir)
+PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+
+URL_PFX = '/stun'
+
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'sp^ubdme0xfp_tl0)+8v=sb7%7fe@qwo9bq_(4dt)#i(6%8rmj'
 
@@ -54,7 +59,12 @@ CORS_ORIGIN_ALLOW_ALL = True
 
 ROOT_URLCONF = 'stun.urls'
 
-STATIC_ROOT = os.path.join(BASE_DIR, "app/static")
+# STATIC_ROOT = os.path.join(BASE_DIR, "app/static")
+STATIC_ROOT = "%s/app/static" % (PROJECT_ROOT)
+
+# URL prefix for static files.
+# Example: "http://media.lawrence.com/static/"
+STATIC_URL = URL_PFX + "/static/app"
 
 TEMPLATES = [
     {

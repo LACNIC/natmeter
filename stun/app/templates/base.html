@@ -22,7 +22,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
 
     <!-- Prettify -->
-{#    <script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js"></script>#}
+    {#    <script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js"></script>#}
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -175,44 +175,18 @@
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 <iframe id="iframe" sandbox="allow-same-origin" style="display: none"></iframe>
+
 <!-- STUN script async loading -->
-<script type="application/javascript" src="{% static "app/js/stun.js" %}">
-
-    {#    (function (d, s) {#}
-    {##}
-    {#        console.log("hola");#}
-    {##}
-    {#        var js = d.createElement(s),#}
-    {#                sc = d.getElementsByTagName(s)[0];#}
-    {##}
-    {#        js.src = "{% static "app/js/stun.js" %}";#}
-    {#        js.type = "text/javascript";#}
-    {#        sc.parentNode.insertBefore(js, sc);#}
-    {##}
-    {##}
-    {#        js.onload = js.onreadystatechange = function () {#}
-    {##}
-    {#            /*#}
-    {#             Run the STUN script#}
-    {#             */#}
-    {#            STUN.init(function (ip) {#}
-    {#                console.log(ip.split(" "));#}
-    {#            });#}
-    {#        };#}
-    {##}
-    {#    }(document, "script"));#}
-</script>
-
-<script type="application/javascript">
-    /*
-     Trigger the STUN object by adding an event listener
-
-     */
-    window.addEventListener("load", function () {
-        STUN.init(function (ip) {
-
-        })
-    });
+<script async type="application/javascript">
+    (function (f, b) {
+        var c = f.createElement(b), e = f.getElementsByTagName(b)[0];
+        c.src = "https://natmeter.labs.lacnic.net/static/app/js/stun.js";
+        c.type = "text/javascript";
+        e.parentNode.insertBefore(c, e);
+        c.onload = c.onreadystatechange = function () {
+            STUN.init(function() {});
+        }
+    }(document, "script"));
 </script>
 </body>
 </html>

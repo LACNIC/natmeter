@@ -1,14 +1,6 @@
 {% extends 'base.html' %}
 {% load staticfiles %}
 
-{#{% block javascript %}#}
-{##}
-{#    <!-- Twitter Widget -->#}
-{#    !function(d,s,id){var#}
-{#    js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");#}
-{##}
-{#{% endblock %}#}
-
 {% block css %}
     #logo {
     font-weight: 100;
@@ -84,7 +76,7 @@
                 </a>
 
                 <p>
-                    <img src="/stun/{% static "app/imgs/stun.png" %}" style="max-width: 100%">
+                    <img src="{% static "app/imgs/stun.png" %}" style="max-width: 100%">
                 </p>
             </div>
         </div>

@@ -15,20 +15,18 @@ import os, socket
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.9/howto/deployment/checklist/
 
 PROJECT_ROOT = os.path.abspath(os.path.pardir)
 PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 
-URL_PFX = '/stun'
+# URL_PFX = '/stun'
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'sp^ubdme0xfp_tl0)+8v=sb7%7fe@qwo9bq_(4dt)#i(6%8rmj'
 
 ALLOWED_HOSTS = []
-
 
 # Application definition
 
@@ -65,7 +63,7 @@ STATIC_ROOT = '%s/app/static' % (PROJECT_ROOT)
 
 # URL prefix for static files.
 # Example: "http://media.lawrence.com/static/"
-STATIC_URL = URL_PFX + '/static/'
+STATIC_URL = '/static/'
 
 TEMPLATES = [
     {
@@ -85,7 +83,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'stun.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/1.9/ref/settings/#databases
 
@@ -99,7 +96,6 @@ DATABASES = {
         'PORT': '5432',
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/1.9/ref/settings/#auth-password-validators
@@ -119,7 +115,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/1.9/topics/i18n/
 
@@ -132,7 +127,6 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.9/howto/static-files/

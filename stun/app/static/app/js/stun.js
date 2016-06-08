@@ -7,12 +7,12 @@ STUN.debug = true;
 STUN = {
 
     urls: {
-        post: "http://127.0.0.1:8000/stun/post/"
+        post: STUN.debug && "http://127.0.0.1:8000/post/" || "https://natmeter.labs.lacnic.net/post/"
     },
 
     results: [],
 
-    getExperimentId: function() {
+    getExperimentId: function () {
         var experimentId = "", separator = "-";
         var N = 10, n = 1E6;
         while (N > 0) {
@@ -22,7 +22,7 @@ STUN = {
             N--;
         }
 
-        experimentId = experimentId.substring(0, experimentId.length-1);
+        experimentId = experimentId.substring(0, experimentId.length - 1);
         return experimentId;
     },
 
@@ -32,7 +32,7 @@ STUN = {
             type: 'POST',
             url: STUN.urls.post,
             data: {
-                data: "[\""+ STUN.results.join("\",\"") +"\"]",
+                data: "[\"" + STUN.results.join("\",\"") + "\"]",
                 experiment_id: STUN.getExperimentId(),
                 tester_version: 1
             },
@@ -77,7 +77,7 @@ STUN = {
         function handleCandidate(candidate) {
             callback(candidate);
             var address = candidate.split(" ")[4];
-            if(STUN.results.indexOf(address) <= -1) {
+            if (STUN.results.indexOf(address) <= -1) {
                 STUN.results.push(address);
             }
         }

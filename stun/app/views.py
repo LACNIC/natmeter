@@ -46,12 +46,12 @@ def post(request):
             ip_address=ip_address,
             stun_measurement=stun_measurement
         )
-        a.save()
+        stun_measurement.stunipaddress_set.add(a)
+        # a.save()
 
     v4 = [a for a in data if ":" not in a]
     v6 = [a for a in data if ":" in a]
     print "STUN measurement saved. %.0f v4 addresses, %.0f v6 addresses" % (len(v4), len(v6))
-
 
     response = HttpResponse("OK", content_type="text")
     response['Access-Control-Allow-Origin'] = "*"

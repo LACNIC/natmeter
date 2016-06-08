@@ -3,7 +3,7 @@
  */
 
 STUN = {};
-STUN.debug = true;
+STUN.debug = false;
 STUN = {
 
     urls: {

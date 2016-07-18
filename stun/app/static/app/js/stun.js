@@ -3,16 +3,38 @@
  */
 
 STUN = {};
-STUN.debug = false;
+STUN.debug = true;
+STUN.COOKIES.cookieName = "lacnic-stun-cookie";
+STUN.COOKIES.cookieDays = 14;
 STUN = {
 
     urls: {
-        post: STUN.debug && "http://127.0.0.1:8000/post/" || "https://natmeter.labs.lacnic.net/post/"
+        post: STUN.debug && "http://127.0.0.1:8000/post/" || "https://natmeter.labs.lacnic.net/post/",
+        ipv6ResolveURL: "http://simon.v6.labs.lacnic.net/cemd/getip/jsonp/",
+        ipv4ResolveURL: "https://simon.v4.labs.lacnic.net/cemd/getip/jsonp/"
     },
 
     results: [],
 
     COOKIES: {
+
+        manageCookie: function () {
+            /*
+             * gets or sets the cookie
+             */
+            const currentIPAddress = STUN.NETWORK.getMyIPAddress();
+            const previousIPAddress = STUN.COOKIES.readCookie(STUN.COOKIES.cookieName);
+
+            if (previousIPAddress != null && previousIPAddress == currentIPAddress) {
+
+                // do nothing
+
+            } else {
+                // create or re-create the cookie
+                STUN.COOKIES.createCookie(STUN.COOKIES.cookieName, currentIPAddress, STUN.COOKIES.cookieDays)
+            }
+
+        },
         createCookie: function (name, value, days) {
             if (days) {
                 var date = new Date();
@@ -97,6 +119,11 @@ STUN = {
 
         getMyIPAddress: function (url) {
 
+            if(!url) {
+                // default value
+                url = STUN.urls.ipv6ResolveURL;
+            }
+
             $.ajax({
                 type: 'GET',
                 url: url,
@@ -106,16 +133,19 @@ STUN = {
                 context: this,
                 success: function (data) {
 
-                    if(!data.ip || data.ip === null || data.ip == undefined) {
+                    if (!data.ip || data.ip === null || data.ip == undefined) {
                         // error
                         this.error(null, "Error getting one of the IP addresses", "Error: IP address not gotten");
                     }
+
 
                     STUN.NETWORK.addresses.push(data.ip);
                     return data.ip;
                 },
                 error: function (jqXHR, textStatus, errorThrown) {
-
+                    if(url != STUN.urls.ipv4ResolveURL) {
+                        STUN.NETWORK.getMyIPAddress(STUN.urls.ipv4ResolveURL);
+                    }
                 },
                 complete: function () {
 

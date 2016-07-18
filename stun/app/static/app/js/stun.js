@@ -45,17 +45,50 @@ STUN = {
             v6: 6
         },
         addresses: [], // IP addresses as seen externally
+        prefixesMatch: function(address1, address2) {
+
+            if (!(STUN.PARAMS.validate(address1) && STUN.PARAMS.validate(address2))) {
+                return false;
+            }
+
+            if (STUN.NETWORK.addressVersion(address1) != STUN.NETWORK.addressVersion(address2)) {
+                return false;
+            }
+
+            // same address version...
+            if (STUN.NETWORK.addressVersion(address1) == this.v4) {
+
+                const octets = [1, 2, 3];
+                const octets1 = address1.split(".");
+                const octets2 = address2.split(".");
+
+                octets.forEach(
+                    function (o) {
+                        if (octets1[o] != octets2[o]) {
+                            return false;
+                        }
+                    }
+                );
+
+                return true;
+            }
+
+            if (STUN.NETWORK.addressVersion(address1) == this.v4) {
+                // TODO implement this part...
+            }
+
+        },
         addressVersion: function (address) {
 
             var _error = 0;
 
-            if(!address) {
+            if (!address) {
                 return _error;
             }
 
-            if(address.indexOf(":") > -1) {
+            if (address.indexOf(":") > -1) {
                 return STUN.NETWORK.CONSTANTS.v6;
-            } else if(address.indexOf(".") > -1){
+            } else if (address.indexOf(".") > -1) {
                 return STUN.NETWORK.CONSTANTS.v4;
             } else {
                 return _error;
@@ -190,5 +223,11 @@ STUN = {
             STUN.postResults();
 
         }, 1000);
+    },
+
+    PARAMS: {
+        validate: function(param) {
+            return param != null && param != undefined;
+        }
     }
 };

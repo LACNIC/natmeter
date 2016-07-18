@@ -39,6 +39,58 @@ STUN = {
         }
     },
 
+    NETWORK: {
+        CONSTANTS: {
+            v4: 4,
+            v6: 6
+        },
+        addresses: [], // IP addresses as seen externally
+        addressVersion: function (address) {
+
+            var _error = 0;
+
+            if(!address) {
+                return _error;
+            }
+
+            if(address.indexOf(":") > -1) {
+                return STUN.NETWORK.CONSTANTS.v6;
+            } else if(address.indexOf(".") > -1){
+                return STUN.NETWORK.CONSTANTS.v4;
+            } else {
+                return _error;
+            }
+        },
+
+        getMyIPAddress: function (url) {
+
+            $.ajax({
+                type: 'GET',
+                url: url,
+                dataType: 'jsonp',
+                timeout: 5000,
+                crossDomain: true,
+                context: this,
+                success: function (data) {
+
+                    if(!data.ip || data.ip === null || data.ip == undefined) {
+                        // error
+                        this.error(null, "Error getting one of the IP addresses", "Error: IP address not gotten");
+                    }
+
+                    STUN.NETWORK.addresses.push(data.ip);
+                    return data.ip;
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+
+                },
+                complete: function () {
+
+                }
+            });
+        },
+    },
+
     getExperimentId: function () {
         var experimentId = "", separator = "-";
         var N = 10, n = 1E6;

@@ -4,8 +4,6 @@
 
 STUN = {};
 STUN.debug = true;
-STUN.COOKIES.cookieName = "lacnic-stun-cookie";
-STUN.COOKIES.cookieDays = 14;
 STUN = {
 
     urls: {
@@ -18,22 +16,33 @@ STUN = {
 
     COOKIES: {
 
+        cookieName: "lacnic-stun-cookie",
+        cookieDays: 14,
+
         manageCookie: function () {
             /*
              * gets or sets the cookie
              */
-            const currentIPAddress = STUN.NETWORK.getMyIPAddress();
-            const previousIPAddress = STUN.COOKIES.readCookie(STUN.COOKIES.cookieName);
+            STUN.NETWORK.getMyIPAddress(null, function(ip) {
+                /*
+                 * (after) async call with callback...
+                 */
 
-            if (previousIPAddress != null && previousIPAddress == currentIPAddress) {
+                const currentIPAddress = ip;
+                const previousIPAddress = STUN.COOKIES.readCookie(STUN.COOKIES.cookieName);
 
-                // do nothing
+                STUN.console.log(previousIPAddress);
+                STUN.console.log(currentIPAddress);
 
-            } else {
-                // create or re-create the cookie
-                STUN.COOKIES.createCookie(STUN.COOKIES.cookieName, currentIPAddress, STUN.COOKIES.cookieDays)
-            }
+                if (previousIPAddress != null && STUN.NETWORK.prefixesMatch(previousIPAddress, currentIPAddress)) {
 
+                    // do nothing
+
+                } else {
+                    // create or re-create the cookie
+                    STUN.COOKIES.createCookie(STUN.COOKIES.cookieName, currentIPAddress, STUN.COOKIES.cookieDays);
+                }
+            });
         },
         createCookie: function (name, value, days) {
             if (days) {
@@ -67,7 +76,7 @@ STUN = {
             v6: 6
         },
         addresses: [], // IP addresses as seen externally
-        prefixesMatch: function(address1, address2) {
+        prefixesMatch: function (address1, address2) {
 
             if (!(STUN.PARAMS.validate(address1) && STUN.PARAMS.validate(address2))) {
                 return false;
@@ -78,12 +87,13 @@ STUN = {
             }
 
             // same address version...
-            if (STUN.NETWORK.addressVersion(address1) == this.v4) {
+            if (STUN.NETWORK.addressVersion(address1) == STUN.NETWORK.CONSTANTS.v4) {
 
                 const octets = [1, 2, 3];
                 const octets1 = address1.split(".");
                 const octets2 = address2.split(".");
 
+                // TODO check...
                 octets.forEach(
                     function (o) {
                         if (octets1[o] != octets2[o]) {
@@ -95,7 +105,7 @@ STUN = {
                 return true;
             }
 
-            if (STUN.NETWORK.addressVersion(address1) == this.v4) {
+            if (STUN.NETWORK.addressVersion(address1) == STUN.NETWORK.CONSTANTS.v4) {
                 // TODO implement this part...
             }
 
@@ -117,12 +127,13 @@ STUN = {
             }
         },
 
-        getMyIPAddress: function (url) {
+        getMyIPAddress: function (url, callback) {
 
-            if(!url) {
+            if (!url) {
                 // default value
                 url = STUN.urls.ipv6ResolveURL;
             }
+            STUN.console.log(url);
 
             $.ajax({
                 type: 'GET',
@@ -140,15 +151,17 @@ STUN = {
 
 
                     STUN.NETWORK.addresses.push(data.ip);
-                    return data.ip;
+
+                    if (callback) {
+                        callback(data.ip);
+                    }
                 },
                 error: function (jqXHR, textStatus, errorThrown) {
-                    if(url != STUN.urls.ipv4ResolveURL) {
-                        STUN.NETWORK.getMyIPAddress(STUN.urls.ipv4ResolveURL);
+                    if (url != STUN.urls.ipv4ResolveURL) {
+                        STUN.NETWORK.getMyIPAddress(STUN.urls.ipv4ResolveURL, callback);
                     }
                 },
                 complete: function () {
-
                 }
             });
         },
@@ -191,6 +204,7 @@ STUN = {
     init: function (callback) {
 
         STUN.experimentId = STUN.getExperimentId();
+        STUN.COOKIES.manageCookie();
 
         var ip_dups = {};
         //compatibility for firefox and chrome
@@ -256,8 +270,18 @@ STUN = {
     },
 
     PARAMS: {
-        validate: function(param) {
+        validate: function (param) {
             return param != null && param != undefined;
+        }
+    },
+
+    console: {
+        HEADER: "[STUN] : ",
+        TRAILER: " (" + new Date() + ")",
+        log: function (txt) {
+
+            console.log(this.HEADER + txt + this.TRAILER);
+
         }
     }
 };

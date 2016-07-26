@@ -1,14 +1,43 @@
 {% extends "base.html" %}
 {% load staticfiles %}
 
+{% block css %}
+    #console {
+    background: #343;
+    border-radius: .2em;
+    min-height: 5em;
+    max-width: 50em;
+    white-space: pre-wrap;
+    padding: .5em;
+    font-family: "Consolas", "Ubuntu Mono", "Monaco", monospace;
+    color: white;
+    }
+{% endblock css %}
+
+{% block javascript %}
+
+{% endblock javascript %}
+
 {% block content %}
 
-    <h2 class="page-header">Demostración del script STUN</h2>
-    <p>
-        La siguiente demostración realiza una consulta a servidores STUN/TURN de LACNIC, y envía los datos a la BD para
-        construir las estadísticas a nivel regional.
-    </p>
-    <h4>Respuesta por parte de los servidores STUN/TURN:</h4>
-    <ul></ul>
+    <div style="background-color: #FFFAF9; margin: 1em; padding: 1em;">
+        <h2 class="page-header">Demostración del script STUN</h2>
+        <p>
+            La siguiente demostración realiza una consulta a servidores STUN/TURN de LACNIC, y envía los datos a la BD
+            para
+            construir las estadísticas a nivel regional.
+        </p>
+        <h4>Respuesta por parte de los servidores STUN/TURN:</h4>
+        <ul></ul>
+        <div id="console">
 
-{% endblock %}
+        </div>
+    </div>
+
+    <script>
+        STUN.callbacks.after_stun_response = function (line) {
+            document.getElementById("console").innerHTML = line;
+        };
+    </script>
+
+{% endblock content %}

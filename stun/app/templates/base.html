@@ -13,7 +13,7 @@
     <meta name="description"
           content="Midiendo la penetración de NAT en América Latina y Caribe a través de servicios ICE / TURN."/>
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <title>{% block title %}Inicio{% endblock %} - Midiendo NAT</title>
+    <title>{% block title %}Inicio{% endblock %} - NAT Meter</title>
 
     <!-- Google Fonts -->
     <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Lato:100">
@@ -34,6 +34,9 @@
     <meta http-equiv="content-type" content="text/html;charset=utf-8">
 
     <link rel="stylesheet" type="text/css" href="{% static "app/css/stun.css" %}">
+    <link rel="stylesheet" type="text/css" href="{% static "app/css/lacniclabs-portales-negro.css" %}">
+    <link rel="stylesheet" type="text/css" href="{% static "app/css/lacniclabs-bootstrap.css" %}">
+
     <link type="image/x-icon" href="{% static "app/imgs/favicon-r.ico" %}" rel="shortcut icon">
     <link rel="apple-touch-icon" href="{% static "app/imgs/favicon-r.ico" %}">
 
@@ -61,8 +64,8 @@
 </head>
 <body style="background-color: #FFECE8">
 
-{#Barra anaranjada#}
-<div class="navbar" style="background-color: #F43333; border-radius: 0; margin: 0">
+{#Barra primaria#}
+<div class="navbar barra-primaria" style="background-color: #F43333; border-radius: 0; margin: 0">
 
     <a href="https://www.labs.lacnic.net" title="LACNIC labs" class="pull-left">
         <img src="{% static "app/imgs/logo_labs.png" %}" border="0" class="hidden-xs"
@@ -71,34 +74,20 @@
              alt="LACNIC Labs"/>
     </a>
 
-    <a class="navbar-brand pull-right" href="{% url 'home' %}">
-        <h2 style="color: #ffffff; font-family: 'HelveticaNeue-Light'">
-                <span class="hidden-xs">
-                    NAT Meter
-                </span>
-                <span class="visible-xs">
-                    NAT
-                </span>
+    <a class="titulo-primario navbar-brand pull-right" href="{% url 'home' %}">
+        <h2>
+            NAT Meter
         </h2>
     </a>
 </div>
 
-{#Segunda barra#}
-<div class="navbar visible-md visible-lg visible-xl"
+{#Barra secundaria#}
+<div class="navbar visible-md visible-lg visible-xl barra-secundaria"
      style="background-color: #F77676; border-radius: 0; margin: 0; text-align: right; padding-right: 1em;">
 
-    <h4 style="color: #ffffff; font-family: 'HelveticaNeue-Light'">
-        Cantidad de mediciones:
-    </h4>
-    <h6 style="color: #ffffff; font-family: 'HelveticaNeue-Light'">
-        Última hora: (hora)
-    </h6>
-    <h6 style="color: #ffffff; font-family: 'HelveticaNeue-Light'">
-        Último día: (dia)
-    </h6>
-    <h6 style="color: #ffffff; font-family: 'HelveticaNeue-Light'">
-        Última semana: (semana)
-    </h6>
+    <p>
+        Resumen de las mediciones: (En breves)
+    </p>
 </div>
 
 <div class="container" style="background-color: #FFF4F2;">
@@ -185,7 +174,8 @@
         c.type = "text/javascript";
         e.parentNode.insertBefore(c, e);
         c.onload = c.onreadystatechange = function () {
-            STUN.init(function() {});
+            STUN.init(function () {
+            });
         }
     }(document, "script"));
 </script>

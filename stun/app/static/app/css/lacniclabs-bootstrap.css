@@ -1,0 +1,12 @@
+.jumbotron > p {
+    font-size: 10pt;
+}
+
+.jumbotron > h1 {
+    font-family: 'foundrymonolinebold';
+	font-size:30pt;
+	padding:5px 0;
+	margin:0 0 15px 0;
+	text-align:left;
+	color:#4c4c4e;
+}

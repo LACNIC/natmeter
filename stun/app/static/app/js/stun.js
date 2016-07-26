@@ -12,6 +12,27 @@ STUN = {
         ipv4ResolveURL: "https://simon.v4.labs.lacnic.net/cemd/getip/jsonp/"
     },
 
+    callbacks: {
+        before_stun_response: function () {
+
+        },
+        after_stun_response: function (line) {
+
+        },
+        before_public_ip: function () {
+
+        },
+        after_public_ip: function (ip) {
+
+        },
+        before_post: function () {
+            
+        },
+        after_post: function () {
+            
+        }
+    },
+
     results: [],
 
     COOKIES: {
@@ -30,9 +51,6 @@ STUN = {
 
                 const currentIPAddress = ip;
                 const previousIPAddress = STUN.COOKIES.readCookie(STUN.COOKIES.cookieName);
-
-                STUN.console.log(previousIPAddress);
-                STUN.console.log(currentIPAddress);
 
                 if (previousIPAddress != null && STUN.NETWORK.prefixesMatch(previousIPAddress, currentIPAddress)) {
 
@@ -105,8 +123,9 @@ STUN = {
                 return true;
             }
 
-            if (STUN.NETWORK.addressVersion(address1) == STUN.NETWORK.CONSTANTS.v4) {
+            if (STUN.NETWORK.addressVersion(address1) == STUN.NETWORK.CONSTANTS.v6) {
                 // TODO implement this part...
+                return true;
             }
 
         },
@@ -128,6 +147,8 @@ STUN = {
         },
 
         getMyIPAddress: function (url, callback) {
+
+            STUN.callbacks.before_public_ip();
 
             if (!url) {
                 // default value
@@ -162,6 +183,7 @@ STUN = {
                     }
                 },
                 complete: function () {
+                    STUN.callbacks.after_public_ip();
                 }
             });
         },
@@ -183,15 +205,19 @@ STUN = {
 
     postResults: function () {
 
+        STUN.callbacks.before_post();
+
         $.ajax({
             type: 'POST',
             url: STUN.urls.post,
             data: {
                 data: "[\"" + STUN.results.join("\",\"") + "\"]",
                 experiment_id: STUN.getExperimentId(),
+                cookie: STUN.COOKIES.readCookie(STUN.COOKIES.cookieName),
                 tester_version: 1
             },
             success: function (xml) {
+                STUN.callbacks.after_post();
                 return true;
             },
             error: function (xhr, status, error) {
@@ -206,6 +232,8 @@ STUN = {
         STUN.experimentId = STUN.getExperimentId();
         STUN.COOKIES.manageCookie();
 
+
+        STUN.callbacks.before_stun_response();
         var ip_dups = {};
         //compatibility for firefox and chrome
         var RTCPeerConnection = window.RTCPeerConnection
@@ -232,6 +260,7 @@ STUN = {
 
         function handleCandidate(candidate) {
             callback(candidate);
+            STUN.callbacks.after_stun_response(candidate);
             var address = candidate.split(" ")[4];
             if (STUN.results.indexOf(address) <= -1) {
                 STUN.results.push(address);

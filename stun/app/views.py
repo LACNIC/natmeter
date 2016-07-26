@@ -32,11 +32,13 @@ def post(request):
     data = ast.literal_eval(request.POST.get("data"))
     experiment_id = request.POST.get("experiment_id")
     tester_version = request.POST.get("tester_version")
+    cookie = request.POST.get("cookie")
 
     stun_measurement = StunMeasurement(
-        client_test_date=date,
+        client_test_date=date, #TODO fix this
         server_test_date=date,
         experiment_id=experiment_id,
+        cookie=cookie,
         tester_version=tester_version
     )
     stun_measurement.save()

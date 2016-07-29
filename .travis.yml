@@ -1,0 +1,40 @@
+language: python
+sudo: required
+
+python:
+  - "2.7"
+
+services:
+  - postgresql
+
+addons:
+#  code_climate:
+#    repo_token: f7fa84853f7688638c4692deda36f9c85b4c4099fd42da5a6e7097c2f29cd651
+  apt:
+    packages:
+    - libpq-dev
+    - python-dev
+    - python-psycopg2
+
+before_install:
+    - export DISPLAY=:99.0
+    - sh -e /etc/init.d/xvfb start
+
+install:
+  - pip install coveralls
+
+before_script:
+#  - mv simon-web/simon_project/passwords_dummy.py simon-web/simon_project/passwords.py
+  - psql -c 'create database stun;' -U postgres
+  - npm install karma
+  - npm install karma-browserstack-launcher --save-dev
+
+script:
+  - python stun/manage.py test
+  - coverage run stun/manage.py test
+#  - simon-javascript/node_modules/karma/bin/karma start simon-javascript/my.conf.js --single-run
+
+after_success: coveralls
+
+notifications:
+  slack: lacnic-eng:jSDKPP0pyOgA5JV4lsQTGtuP

@@ -174,6 +174,7 @@ STUN = {
                     STUN.NETWORK.addresses.push(data.ip);
 
                     if (callback) {
+                        STUN.callbacks.after_public_ip(data.ip);
                         callback(data.ip);
                     }
                 },
@@ -183,7 +184,7 @@ STUN = {
                     }
                 },
                 complete: function () {
-                    STUN.callbacks.after_public_ip();
+
                 }
             });
         },
@@ -207,15 +208,20 @@ STUN = {
 
         STUN.callbacks.before_post();
 
+        const payload = "[\"" + STUN.results.join("\",\"") + "\"]";
+        const experimentId = STUN.getExperimentId();
+        const cookie = STUN.COOKIES.readCookie(STUN.COOKIES.cookieName);
+        const data = {
+            data: payload,
+            experiment_id: experimentId,
+            cookie: cookie,
+            tester_version: 1
+        };
+
         $.ajax({
             type: 'POST',
             url: STUN.urls.post,
-            data: {
-                data: "[\"" + STUN.results.join("\",\"") + "\"]",
-                experiment_id: STUN.getExperimentId(),
-                cookie: STUN.COOKIES.readCookie(STUN.COOKIES.cookieName),
-                tester_version: 1
-            },
+            data: data,
             success: function (xml) {
                 STUN.callbacks.after_post();
                 return true;
@@ -254,7 +260,7 @@ STUN = {
         var mediaConstraints = {
             optional: [{RtpDataChannels: true}]
         };
-        var servers = {iceServers: [{urls: "stun:stun4.acostasite.com"}]};
+        var servers = {iceServers: [{urls: ["stun:stun4.acostasite.com", "stun:stun6.acostasite.com"]}]};
         //construct a new RTCPeerConnection
         var pc = new RTCPeerConnection(servers, mediaConstraints);
 
@@ -295,7 +301,7 @@ STUN = {
 
             STUN.postResults();
 
-        }, 1000);
+        }, 8000);
     },
 
     PARAMS: {

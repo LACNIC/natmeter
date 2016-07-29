@@ -5,12 +5,13 @@
     #console {
     background: #343;
     border-radius: .2em;
-    min-height: 5em;
+    height: 10em;
     max-width: 50em;
     white-space: pre-wrap;
     padding: .5em;
     font-family: "Consolas", "Ubuntu Mono", "Monaco", monospace;
     color: white;
+    overflow:auto;
     }
 {% endblock css %}
 
@@ -29,15 +30,41 @@
         </p>
         <h4>Respuesta por parte de los servidores STUN/TURN:</h4>
         <ul></ul>
-        <div id="console">
-
-        </div>
+        <div id="console"></div>
     </div>
 
     <script>
-        STUN.callbacks.after_stun_response = function (line) {
-            document.getElementById("console").innerHTML = line;
-        };
+        setTimeout(function () {
+
+            function print(line) {
+                $("#console").append(STUN.console.HEADER + line + "\n");
+                $("#console").scrollTop(100);
+            };
+
+            STUN.callbacks.before_public_ip = function () {
+                print("Fetching user public IP address...");
+            };
+
+            STUN.callbacks.after_public_ip = function (ip) {
+                print("User public IP address is " + ip);
+            };
+
+            STUN.callbacks.before_stun_response = function () {
+                print("Waiting for STUN server resopnse...");
+            };
+
+            STUN.callbacks.after_stun_response = function (line) {
+                print(line);
+            };
+
+            STUN.callbacks.before_post = function () {
+                print("Posting results...");
+            };
+
+            STUN.callbacks.after_post = function () {
+                print("Thank you for checking this demo!");
+            };
+        }, 2000);
     </script>
 
 {% endblock content %}

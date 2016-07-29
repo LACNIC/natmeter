@@ -13,7 +13,7 @@ class StunMeasurement(models.Model):
     client_test_date = models.DateTimeField(default=now())
 
     experiment_id = models.TextField(default="")
-    cookie = models.TextField(default="")
+    cookie = models.TextField(default="", null=True)
     tester_version = models.IntegerField(default=0)
 
     def is_behind_nat(self):

@@ -128,13 +128,41 @@ h4 {
     text-align: left;
 }
 
-.barra-primaria > .titulo-primario > h2 {
+#barra-primaria {
+    border-radius: 0;
+    border: none;
+    margin: 0;
+}
+
+#barra-primaria > #titulo-primario > h2 {
     color: #ffffff;
     font-family: 'foundrymonolinelight';
 }
 
-.barra-secundaria > p {
+#barra-secundaria {
+    border-radius: 0;
+    border: none;
+    margin: 0;
+}
+
+#barra-secundaria > p {
     color: #ffffff;
     font-family: 'foundrymonolinelight';
     text-align: right;
+    border-radius: 0;
+    margin: 0;
+    padding-right: 1em;
+}
+
+.jumbotron > p {
+    font-size: 10pt;
+}
+
+.jumbotron > h1 {
+    font-family: 'foundrymonolinebold';
+    font-size: 30pt;
+    padding: 5px 0;
+    margin: 0 0 15px 0;
+    text-align: left;
+    color: #4c4c4e;
 }

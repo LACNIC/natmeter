@@ -1,0 +1,11 @@
+#barra-primaria {
+    background-color: #F43333;
+}
+
+#barra-secundaria {
+    background-color: #F77676;
+}
+
+#barra-secundaria > p {
+    background-color: #F77676;
+}

@@ -130,8 +130,8 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.9/howto/static-files/
-
 STATIC_URL = '/static/'
+
 
 HOSTNAME = socket.gethostname()
 DEBUG = True
@@ -140,3 +140,23 @@ if HOSTNAME == 'simon':
 else:
     # Developer mode
     DEBUG = True
+
+# Logging configurations
+DJANGO_LOG_LEVEL=DEBUG
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['console'],
+            'level': os.getenv('DJANGO_LOG_LEVEL', 'INFO'),
+        },
+    },
+}
+
+

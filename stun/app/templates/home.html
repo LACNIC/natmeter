@@ -14,7 +14,8 @@
 
 {% block header %}
     <div class="jumbotron" style="background-color: #FFFAF9; margin-top: 1em;">
-        <h1 style="font-family: 'HelveticaNeue-Light'">
+{#        <h1 style=" font-family: 'HelveticaNeue-Light'">#}
+        <h1>
             <font color="red">NAT</font> Meter
         </h1>
 
@@ -58,37 +59,31 @@
 
     <div>
         <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4" style="float:left;">
-            <div class="homeBox">
-                <a href=""
-                   alt="Gráficas de la región. Esta sección muestra las mediciones de latencia de la región LAC.">
-                    <h2>Objetivos</h2>
-                </a>
+            <a href=""
+               alt="Gráficas de la región. Esta sección muestra las mediciones de latencia de la región LAC.">
+                <h2>Objetivos</h2>
+            </a>
 
-                <p>Conocer el porcentaje de despliegue NAT 44 y NAT 66 en el mundo.</p>
-            </div>
+            <p>Conocer el porcentaje de despliegue NAT 44 y NAT 66 en el mundo.</p>
         </div>
 
         <div class="col-xs-12 col-sm-8 col-md-8 col-lg-8" style="float: right;">
-            <div class="homeBox">
-                <a href="" alt="API para obtener los resultados.">
-                    <h2>Diagrama del estudio</h2>
-                </a>
+            <a href="" alt="API para obtener los resultados.">
+                <h2>Diagrama del estudio</h2>
+            </a>
 
-                <p>
-                    <img src="{% static "app/imgs/stun.png" %}" style="max-width: 100%">
-                </p>
-            </div>
+            <p>
+                <img src="{% static "app/imgs/stun.png" %}" style="max-width: 100%">
+            </p>
         </div>
 
         <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4" style="float:left;">
-            <div class="homeBox">
-                <a href="{% url "script" %}"
-                   alt="Gráficas de la región. Esta sección muestra las mediciones de latencia de la región LAC.">
-                    <h2>Demostración</h2>
-                </a>
+            <a href="{% url "script" %}"
+               alt="Gráficas de la región. Esta sección muestra las mediciones de latencia de la región LAC.">
+                <h2>Demostración</h2>
+            </a>
 
-                <p>Aquí puedes ver una pequeña demostración de lo que se puede analizar con STUN/TURN.</p>
-            </div>
+            <p>Aquí puedes ver una pequeña demostración de lo que se puede analizar con STUN/TURN.</p>
         </div>
     </div>
 {% endblock %}

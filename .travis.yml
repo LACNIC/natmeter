@@ -25,7 +25,6 @@ install:
   - pip install coveralls
 
 before_script:
-#  - mv simon-web/simon_project/passwords_dummy.py simon-web/simon_project/passwords.py
   - psql -c 'create database stun;' -U postgres
   - python stun/manage.py makemigrations 
   - python stun/manage.py migrate 
@@ -37,7 +36,7 @@ before_script:
 script:
   - python stun/manage.py test
   - coverage run stun/manage.py test
-#  - simon-javascript/node_modules/karma/bin/karma start simon-javascript/my.conf.js --single-run
+  - node_modules/karma/bin/karma start my.conf.js --single-run
 
 after_success: coveralls
 

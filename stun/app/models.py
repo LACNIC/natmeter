@@ -4,17 +4,6 @@ from django.db import models
 from django.utils.timezone import now
 from ipaddr import *
 
-#
-# class StunQuerySet(models.query.QuerySet):
-#     def get_public_v4(self):
-#         return self.filter(state='published')
-#
-#
-# class StunMeasurementManager(models.Manager):
-#     def get_query_set(self):
-#         model = models.get_model('news', 'NewsItem')
-#         return StunQuerySet(model)
-
 
 class StunMeasurement(models.Model):
     """
@@ -45,7 +34,6 @@ class StunMeasurement(models.Model):
         for e in excluded_ranges:
             if IPAddress(cookie) in e:
                 return False
-
 
         return True
 
@@ -110,3 +98,12 @@ class StunIpAddress(models.Model):
 
     def __str__(self):
         return str(self.ip_address)
+
+
+class StunIpAddressChangeEvent(models.Model):
+    """
+        Class that represents a change in the client's public IP address
+    """
+    previous = models.GenericIPAddressField(default="127.0.0.1")
+    current = models.GenericIPAddressField(default="127.0.0.1")
+    stun_measurement = models.ForeignKey(StunMeasurement)

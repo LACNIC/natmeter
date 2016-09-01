@@ -13,29 +13,23 @@ def script(request):
 
 @csrf_exempt
 def post(request):
-    def parse_int(string, default=0):
-        try:
-            return int(string)
-        except ValueError as e:
-            print e
-            return default
-
     if request.method != 'POST':
         return HttpResponse("Invalid method: %s" % request.method, content_type="text", status=400)
 
     import ast
     from libraries.classes import datetime_uy
-    from models import StunIpAddress, StunMeasurement
+    from models import StunIpAddress, StunMeasurement, StunIpAddressChangeEvent
 
     date = datetime_uy()
 
     data = ast.literal_eval(request.POST.get("data"))
+    ip_address_change_event = ast.literal_eval(request.POST.get("ip_address_change_event"))
     experiment_id = request.POST.get("experiment_id")
     tester_version = request.POST.get("tester_version")
     cookie = request.POST.get("cookie")
 
     stun_measurement = StunMeasurement(
-        client_test_date=date, #TODO fix this
+        client_test_date=date,  # TODO fix this
         server_test_date=date,
         experiment_id=experiment_id,
         cookie=cookie,
@@ -49,11 +43,18 @@ def post(request):
             stun_measurement=stun_measurement
         )
         stun_measurement.stunipaddress_set.add(a)
-        # a.save()
 
-    v4 = [a for a in data if ":" not in a]
-    v6 = [a for a in data if ":" in a]
-    print "STUN measurement saved. %.0f v4 addresses, %.0f v6 addresses" % (len(v4), len(v6))
+    current_ = ip_address_change_event["current"]
+    previous_ = ip_address_change_event["previous"]
+    if current_ is not "" and previous_ is not "":
+        change = StunIpAddressChangeEvent(
+            previous=previous_,
+            current=current_,
+            stun_measurement=stun_measurement
+        )
+        stun_measurement.stunipaddresschangeevent_set.add(change)
+
+    print "STUN measurement saved. %s" % (stun_measurement)
 
     response = HttpResponse("OK", content_type="text")
     response['Access-Control-Allow-Origin'] = "*"

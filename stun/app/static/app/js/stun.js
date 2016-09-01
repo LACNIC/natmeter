@@ -58,7 +58,8 @@ STUN = {
 
                 } else {
                     // create or re-create the cookie
-                    STUN.COOKIES.createCookie(STUN.COOKIES.cookieName, currentIPAddress, STUN.COOKIES.cookieDays);
+                    STUN.NETWORK.ip_address_change_event = {previous: previousIPAddress, current: currentIPAddress},
+                        STUN.COOKIES.createCookie(STUN.COOKIES.cookieName, currentIPAddress, STUN.COOKIES.cookieDays);
                 }
             });
         },
@@ -94,6 +95,10 @@ STUN = {
             v6: 6
         },
         addresses: [], // IP addresses as seen externally
+        ip_address_change_event: {
+            previous: "",
+            current: ""
+        },
         prefixesMatch: function (address1, address2) {
 
             if (!(STUN.PARAMS.validate(address1) && STUN.PARAMS.validate(address2))) {
@@ -215,6 +220,7 @@ STUN = {
             data: payload,
             experiment_id: experimentId,
             cookie: cookie,
+            ip_address_change_event: JSON.stringify(STUN.NETWORK.ip_address_change_event),
             tester_version: 1
         };
 
@@ -223,8 +229,11 @@ STUN = {
             url: STUN.urls.post,
             data: data,
             success: function (xml) {
-                STUN.callbacks.after_post();
-                return true;
+                if (xml == "OK") {
+                    STUN.callbacks.after_post();
+                    return true;
+                }
+                return false;
             },
             error: function (xhr, status, error) {
                 return false;

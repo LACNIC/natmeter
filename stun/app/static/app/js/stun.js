@@ -8,7 +8,7 @@ STUN = {
 
     urls: {
         post: STUN.debug && "http://127.0.0.1:8000/post/" || "https://natmeter.labs.lacnic.net/post/",
-        ipv6ResolveURL: "http://simon.v6.labs.lacnic.net/cemd/getip/jsonp/",
+        ipv6ResolveURL: "https://simon.v6.labs.lacnic.net/cemd/getip/jsonp/",
         ipv4ResolveURL: "https://simon.v4.labs.lacnic.net/cemd/getip/jsonp/"
     },
 

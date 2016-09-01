@@ -59,33 +59,35 @@
     </style>
 
 </head>
-<body style="background-color: #FFECE8">
+<body>
 
-{#Barra primaria#}
+{#Barra anaranjada#}
 <div id="barra-primaria" class="navbar">
 
     <a href="https://www.labs.lacnic.net" title="LACNIC labs" class="pull-left">
-        <img src="{% static "app/imgs/logo_labs.png" %}" border="0" class="hidden-xs"
-             alt="LACNIC Labs"/>
-        <img src="{% static "app/imgs/logo_labs_small.png" %}" border="0" class="visible-xs"
-             alt="LACNIC Labs"/>
+        <img src="{% static 'app/imgs/logos/logo_labs.png' %}" border="0" class="hidden-xs hidden-sm"
+             alt="LACNIC Labs" style="max-height: 5em;"/>
+        <img src="{% static 'app/imgs/logos/logo_labs_small.png' %}" border="0" class="visible-xs visible-sm"
+             alt="LACNIC Labs" style="max-height: 3em;"/>
     </a>
 
-    <a id="titulo-primario" class="navbar-brand pull-right" href="{% url 'home' %}">
+    <a id="titulo-primario" class="navbar-brand pull-right" href="{% url 'app.views.home' %}">
         <h2>
             NAT Meter
         </h2>
     </a>
 </div>
 
-{#Barra secundaria#}
-<div id="barra-secundaria" class="navbar visible-md visible-lg visible-xl">
-    <p>
-        Resumen de las mediciones: (En breves)
-    </p>
+{#Segunda barra#}
+<div id="barra-secundaria" class="navbar visible-sm visible-md visible-lg visible-xl">
+
+    <ul class="nav navbar-nav">
+        <li><a href="http://lacnic.net">Home de LACNIC</a></li>
+        <li><a href="http://labs.lacnic.net">Blog LACNIC Labs</a></li>
+    </ul>
 </div>
 
-<div class="container" style="background-color: #FFF4F2;">
+<div class="container">
     <div class="header clearfix">
         {#        Nada#}
     </div>
@@ -94,7 +96,7 @@
     {% block header %}
     {% endblock %}
 
-    <div class="row marketing">
+    <div id="fondo" class="row marketing">
         {% block content %}
         {% endblock %}
     </div>
@@ -104,15 +106,15 @@
 
 <footer class="row" style="background-color: #C4ABA2 ; padding: 1em;">
 
-    <div class="col-lg-3">
+    <div class="col-sm-3 col-md-3 col-lg-3">
         <a href="https://www.labs.lacnic.net/">
-            <img src="{% static "app/imgs/logo_labs_foot.png" %}" class="hidden-xs center-block" title="LACNIC labs"/>
-            <img src="{% static "app/imgs/logo_labs_foot.png" %}" class="visible-xs center-block" title="LACNIC labs"/>
+            <img src="{% static "app/imgs/logos/logo_labs_foot.png" %}" class="hidden-xs center-block" title="LACNIC labs"/>
+            <img src="{% static "app/imgs/logos/logo_labs_foot.png" %}" class="visible-xs center-block" title="LACNIC labs"/>
         </a>
     </div>
 
     {#    Django logo#}
-    <div class="col-lg-3" style="margin-top: 1em;">
+    <div class="col-sm-3 col-md-3 col-lg-3" style="margin-top: 1em;">
         <div>
             <a href="https://www.djangoproject.com/">
                 <img class="center-block" src="https://www.djangoproject.com/m/img/badges/djangomade124x25_grey.gif"
@@ -122,7 +124,7 @@
     </div>
 
     <!-- Begin LetsEncrypt site seal HTML -->
-    <div class="col-lg-3" data-language="en_US">
+    <div class="col-sm-3 col-md-3 col-lg-3" data-language="en_US">
         <a href="https://letsencrypt.org/">
             <img class="center-block" style="max-width:15em;"
                  src="https://cdn.discourse.org/business/uploads/letsencrypt/original/1X/149e86cd7f135095e9c92f4e67a4b6a7b80a60c0.png">
@@ -130,7 +132,7 @@
     </div>
     <!-- End LetsEncrypt site seal HTML -->
 
-    <div class="col-lg-3" style="margin-top: 1em;">
+    <div class="col-sm-3 col-md-3 col-lg-3" style="margin-top: 1em;">
         <p class="center-block" style="text-align: center; font-family: monospace; color: #808080">
             Application Version: ?<br/>
             Last Updated ?<br/>

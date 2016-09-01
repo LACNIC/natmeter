@@ -13,8 +13,13 @@
 {% endblock %}
 
 {% block header %}
-    <div class="jumbotron" style="background-color: #FFFAF9; margin-top: 1em;">
-{#        <h1 style=" font-family: 'HelveticaNeue-Light'">#}
+{% endblock %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+
+    <div class="jumbotron">
         <h1>
             <font color="red">NAT</font> Meter
         </h1>
@@ -34,28 +39,7 @@
             Sin embargo, tanto IETF, el mundo Open Source y empresas de software ya han creado los mecanismos para
             realizar NAT en IPv6 o un mecanismo similar llamado NPT (Network Prefix Translation).
         </p>
-
-        <h3>Acerca de este proyecto</h3>
-        <p>
-            Cuando un cliente en Internet desee abrir una página Web de Lacnic (u otra que contenga los scripts)
-            el
-            navegador va a conectarse silenciosa y transparentemente al servidor STUN/TURN donde el cliente
-            podrá
-            identificar con que dirección IPv6 está navegando en Internet. Esta información quedará guardada en
-            una
-            DB de Lacnic.
-        </p>
-        <p>
-            Con el apoyo de un servidor STUN/TURN en las premisas de Lacnic y utilizando mecanismos WebRTC y
-            mediante scripts JavaScripts se podrá averiguar si los clientes IPv4 e IPv6 se les realiza NAT. Esta
-            tarea no impacta el performance del usuario y ocurre totalmente transparente.
-        </p>
     </div>
-{% endblock %}
-
-{% block title %}Home{% endblock %}
-
-{% block content %}
 
     <div>
         <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4" style="float:left;">
@@ -64,11 +48,11 @@
                 <h2>Objetivos</h2>
             </a>
 
-            <p>Conocer el porcentaje de despliegue NAT 44 y NAT 66 en el mundo.</p>
+            <p>Conocer el porcentaje de despliegue NAT 44 y NAT 66 en la región de LACNIC.</p>
         </div>
 
         <div class="col-xs-12 col-sm-8 col-md-8 col-lg-8" style="float: right;">
-            <a href="" alt="API para obtener los resultados.">
+            <a href="" alt="Diagrama de este estudio">
                 <h2>Diagrama del estudio</h2>
             </a>
 
@@ -78,8 +62,24 @@
         </div>
 
         <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4" style="float:left;">
+            <h2>El mecanismo</h2>
+            <p>
+                Cuando un usuario en Internet desee abrir una página Web que colabore con este proyecto (por ejemplo el
+                home de LACNIC), su
+                navegador web va a conectarse silenciosa y transparentemente a un servidor STUN/TURN donde se podrá
+                identificar con qué direcciones (IPv6 y/o IPv4) se está navegando en Internet. Esta información quedará
+                guardada en una base de datos de LACNIC.
+            </p>
+            <p>
+                Con el apoyo de un servidor STUN/TURN en las premisas de LACNIC y utilizando mecanismos WebRTC y
+                mediante scripts JavaScripts se podrá averiguar si los clientes IPv4 e IPv6 se les realiza NAT. Esta
+                tarea no impacta el performance del usuario y ocurre totalmente transparente.
+            </p>
+        </div>
+
+        <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4" style="float:left;">
             <a href="{% url "script" %}"
-               alt="Gráficas de la región. Esta sección muestra las mediciones de latencia de la región LAC.">
+               alt="Demostración del script.">
                 <h2>Demostración</h2>
             </a>
 

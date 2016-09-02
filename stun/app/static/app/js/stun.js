@@ -26,10 +26,10 @@ STUN = {
 
         },
         before_post: function () {
-            
+
         },
         after_post: function () {
-            
+
         }
     },
 
@@ -44,7 +44,7 @@ STUN = {
             /*
              * gets or sets the cookie
              */
-            STUN.NETWORK.getMyIPAddress(null, function(ip) {
+            STUN.NETWORK.getMyIPAddress(null, function (ip) {
                 /*
                  * (after) async call with callback...
                  */
@@ -52,18 +52,22 @@ STUN = {
                 const currentIPAddress = ip;
                 const previousIPAddress = STUN.COOKIES.readCookie(STUN.COOKIES.cookieName);
 
-                if (previousIPAddress != null && STUN.NETWORK.prefixesMatch(previousIPAddress, currentIPAddress)) {
+                if (previousIPAddress == null) {
+                    // First time
+                    // Keep on to create cookie...
+                }
 
-                    // do nothing
-
+                if (previousIPAddress == currentIPAddress) {
+                    // Keep on to extend cookies expiration time...
                 } else {
-                    // create or re-create the cookie
                     STUN.NETWORK.ip_address_change_event = {
                         previous: previousIPAddress,
                         current: currentIPAddress
                     };
-                    STUN.COOKIES.createCookie(STUN.COOKIES.cookieName, currentIPAddress, STUN.COOKIES.cookieDays);
                 }
+
+                // Re-create the cookie
+                STUN.COOKIES.createCookie(STUN.COOKIES.cookieName, currentIPAddress, STUN.COOKIES.cookieDays);
             });
         },
         createCookie: function (name, value, days) {

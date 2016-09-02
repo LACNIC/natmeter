@@ -11,8 +11,31 @@ class StunGenericAdmin(admin.ModelAdmin):
         return [f.name for f in self.model._meta.fields]
 
 
-class StunMeasurementAdmin(StunGenericAdmin): pass
+class StunMeasurementAdmin(StunGenericAdmin):
+    # fields = ()
+    list_display = ['server_test_date', 'cookie', 'is_natted']
+    ordering = ['-server_test_date']
+    search_fields = ['cookie']
+
+
+class StunIpAddressAdmin(StunGenericAdmin):
+    list_display = ['ip_address', 'stun_measurement__cookie']
+
+    def stun_measurement__cookie(self, obj):
+        return obj.stun_measurement.cookie
+
+    stun_measurement__cookie.short_description = "IP adress as seen from LACNIC's WIMI service"
+
+
+class StunIpAddressChangeEventAdmin(StunGenericAdmin):
+    list_display = ['previous', 'current', 'stun_measurement__server_test_date']
+
+    def stun_measurement__server_test_date(self, obj):
+        return obj.stun_measurement.server_test_date
+
+    stun_measurement__server_test_date.short_description = "Date"
 
 
 admin.site.register(StunMeasurement, StunMeasurementAdmin)
-admin.site.register(StunIpAddress)
+admin.site.register(StunIpAddress, StunIpAddressAdmin)
+admin.site.register(StunIpAddressChangeEvent, StunIpAddressChangeEventAdmin)

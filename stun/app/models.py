@@ -54,39 +54,27 @@ class StunMeasurement(models.Model):
 
         return True
 
-    def is_private(self):
-        address = IPAddress(self.cookie)
-        if address.version == 4:
-            return self.is_private_v4()
-        else:
-            return self.is_private_v6()
+    def nat_free(self):
+        address_wimi = self.cookie
+        stun_address_set = self.stunipaddress_set.all()
+        if address_wimi in stun_address_set:
+            return True
+        return False
 
-    def __str__(self):
-        v4 = []
-        v6 = []
-        data = self.stunipaddress_set.all()
-        for d in data:
-            if ":" not in d.ip_address:
-                v4.append(d)
-            else:
-                v6.append(d)
+    def is_natted(self):
+        return not self.nat_free()
 
-        final_str = ""
-        if len(v4) > 0:
-            v4_str = ""
-            for d in v4:
-                v4_str += str(d) + " "
-            final_str += "%d STUN v4 candidates (%s)" % (len(v4), v4_str)
-        v6_str = ""
-        if len(v6) > 0:
-            for d in v6:
-                v6_str += str(d) + " "
-            final_str += ", %d STUN v6 candidates (%s)" % (len(v6), v6_str)
-
-        if self.cookie is not None:
-            final_str += ", cookie: %s" % self.cookie
-
-        return final_str
+    # def __str__(self):
+    #     v4 = []
+    #     v6 = []
+    #     data = self.stunipaddress_set.all()
+    #     for d in data:
+    #         if ":" not in d.ip_address:
+    #             v4.append(d)
+    #         else:
+    #             v6.append(d)
+    #
+    #     v6_capable = len(v6) > 0
 
 
 class StunIpAddress(models.Model):

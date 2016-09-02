@@ -90,3 +90,5 @@ ENV/
 
 # PyCharm
 .idea/
+
+node_modules/

@@ -276,7 +276,13 @@ STUN = {
         var mediaConstraints = {
             optional: [{RtpDataChannels: true}]
         };
-        var servers = {iceServers: [{urls: ["stun:stun4.acostasite.com", "stun:stun6.acostasite.com"]}]};
+        var servers = {
+            iceServers: [
+                {
+                    urls: ["stun:stun4.acostasite.com", "stun:stun6.acostasite.com"]
+                },
+            ]
+        };
         //construct a new RTCPeerConnection
         var pc = new RTCPeerConnection(servers, mediaConstraints);
 

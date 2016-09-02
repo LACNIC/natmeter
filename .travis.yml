@@ -30,15 +30,12 @@ before_script:
   - python stun/manage.py migrate 
   - python stun/manage.py makemigrations app 
   - python stun/manage.py migrate app
-  - npm install karma --save-dev
-  - npm install karma-jasmine --save-dev
-  - npm install jasmine-core --save-dev
-  - npm install karma-browserstack-launcher --save-dev
+  - npm install
 
 script:
   - python stun/manage.py test
   - coverage run stun/manage.py test
-  - node_modules/karma/bin/karma start my.conf.js --single-run
+  - node_modules/karma/bin/karma start karma.conf.js --single-run
 
 after_success: coveralls
 

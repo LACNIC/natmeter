@@ -58,8 +58,11 @@ STUN = {
 
                 } else {
                     // create or re-create the cookie
-                    STUN.NETWORK.ip_address_change_event = {previous: previousIPAddress, current: currentIPAddress},
-                        STUN.COOKIES.createCookie(STUN.COOKIES.cookieName, currentIPAddress, STUN.COOKIES.cookieDays);
+                    STUN.NETWORK.ip_address_change_event = {
+                        previous: previousIPAddress,
+                        current: currentIPAddress
+                    };
+                    STUN.COOKIES.createCookie(STUN.COOKIES.cookieName, currentIPAddress, STUN.COOKIES.cookieDays);
                 }
             });
         },

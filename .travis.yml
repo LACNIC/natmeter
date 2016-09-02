@@ -31,6 +31,8 @@ before_script:
   - python stun/manage.py makemigrations app 
   - python stun/manage.py migrate app
   - npm install karma --save-dev
+  - npm install karma-jasmine --save-dev
+  - npm install jasmine-core --save-dev
   - npm install karma-browserstack-launcher --save-dev
 
 script:

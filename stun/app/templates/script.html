@@ -41,16 +41,20 @@
                 $("#console").scrollTop(100);
             };
 
-            STUN.callbacks.before_public_ip = function () {
-                print("Fetching user public IP address...");
+            STUN.callbacks.before_private_request = function () {
+                print("Looking for client's local address(es)...");
             };
 
-            STUN.callbacks.after_public_ip = function (ip) {
-                print("User public IP address is " + ip);
+            STUN.callbacks.after_private_request = function () {
+                print("Public addresses found: " + STUN.NETWORK.addresses.getPrivateAddresses());
             };
 
-            STUN.callbacks.before_stun_response = function () {
-                print("Waiting for STUN server resopnse...");
+            STUN.callbacks.before_public_request = function () {
+                print("Looking for client's public address(es)...");
+            };
+
+            STUN.callbacks.after_public_request = function () {
+                print("Public addresses found: " + STUN.NETWORK.addresses.getPublicAddresses());
             };
 
             STUN.callbacks.after_stun_response = function (line) {
@@ -58,12 +62,16 @@
             };
 
             STUN.callbacks.before_post = function () {
-                print("Posting results...");
+                print("Posting results to central database...");
             };
 
             STUN.callbacks.after_post = function () {
                 print("Thank you for checking out this demo!");
             };
+
+            STUN.callbacks.error_post = function () {
+                print("Something happened when posting to the central database :|");
+            }
         }, 2000);
     </script>
 

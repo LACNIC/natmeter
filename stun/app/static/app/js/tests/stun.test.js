@@ -8,32 +8,30 @@ describe("Load suite", function () {
         expect(STUN).toBeDefined();
     });
 
-    it("STUN has loaded correctly", function () {
+    it("jQuery has loaded correctly", function () {
         expect($).toBeDefined();
     });
 
     it("Public IP address", function () {
 
-        iframe = document.createElement("iframe");
-        iframe.setAttribute("id", "iframe");
-
-        STUN.after_public_ip = function () {
-            expect(STUN.NETWORK.addresses).not.toEqual([]);
+        STUN.after_public_request = function () {
+            expect(STUN.NETWORK.addresses.public).not.toEqual([]);
         }
-        expect(STUN.NETWORK.addresses).toEqual([]);
 
+        expect(STUN.NETWORK.addresses.public).toEqual([]);
         STUN.init();
     });
-    it("STUN response frome STUN servers", function () {
+
+    it("Private IP address", function () {
 
         iframe = document.createElement("iframe");
         iframe.setAttribute("id", "iframe");
 
         STUN.after_stun_response = function () {
-            expect(STUN.results).not.toEqual([]);
+            expect(STUN.NETWORK.addresses.private).not.toEqual([]);
         }
 
-        expect(STUN.results).toEqual([]);
+        expect(STUN.NETWORK.addresses.private).toEqual([]);
         STUN.init();
     });
 

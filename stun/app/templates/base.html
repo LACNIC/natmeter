@@ -16,7 +16,7 @@
     <title>{% block title %}Inicio{% endblock %} - NAT Meter</title>
 
     <!-- Google Fonts -->
-    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Lato:100">
+    {#    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Lato:100">#}
 
     <!-- Bootstrap -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
@@ -160,7 +160,6 @@
     ga('send', 'pageview');
 </script>
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 <iframe id="iframe" sandbox="allow-same-origin" style="display: none"></iframe>
 
 <!-- STUN script async loading -->
@@ -171,8 +170,9 @@
         c.type = "text/javascript";
         e.parentNode.insertBefore(c, e);
         c.onload = c.onreadystatechange = function () {
-            STUN.init(function () {
-            });
+
+            // On ready...
+            STUN.init();
         }
     }(document, "script"));
 </script>

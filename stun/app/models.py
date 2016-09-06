@@ -10,8 +10,8 @@ class StunMeasurement(models.Model):
         Stun measurement class. Stores the results provided
         by the JavaScript STUN/TURN software probe.
     """
-    server_test_date = models.DateTimeField(default=now())
-    client_test_date = models.DateTimeField(default=now())
+    server_test_date = models.DateTimeField(default=now)
+    client_test_date = models.DateTimeField(default=now)
 
     experiment_id = models.TextField(default="")
     cookie = models.TextField(default="", null=True)
@@ -64,24 +64,33 @@ class StunMeasurement(models.Model):
     def is_natted(self):
         return not self.nat_free()
 
-    # def __str__(self):
-    #     v4 = []
-    #     v6 = []
-    #     data = self.stunipaddress_set.all()
-    #     for d in data:
-    #         if ":" not in d.ip_address:
-    #             v4.append(d)
-    #         else:
-    #             v6.append(d)
-    #
-    #     v6_capable = len(v6) > 0
+        # def __str__(self):
+        #     v4 = []
+        #     v6 = []
+        #     data = self.stunipaddress_set.all()
+        #     for d in data:
+        #         if ":" not in d.ip_address:
+        #             v4.append(d)
+        #         else:
+        #             v6.append(d)
+        #
+        #     v6_capable = len(v6) > 0
+
+
+def enum(**enums):
+    return type(str("Enum"), (), enums)
 
 
 class StunIpAddress(models.Model):
     """
         Place to store each IP address for that client for that measurement
     """
+
+    Kinds = enum(PRIVATE=1, PUBLIC=2, NA=0)
+
     ip_address = models.GenericIPAddressField(default="127.0.0.1")
+    ip_address_kind = models.IntegerField(default=0)
+
     stun_measurement = models.ForeignKey(StunMeasurement)
 
     def __str__(self):

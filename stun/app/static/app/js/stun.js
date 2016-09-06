@@ -3,7 +3,7 @@
  */
 
 STUN = {};
-STUN.debug = false;
+STUN.debug = true;
 STUN = {
 
     urls: {
@@ -13,16 +13,23 @@ STUN = {
     },
 
     callbacks: {
+
+        before_private_request: function () {
+
+        },
+        after_private_request: function () {
+
+        },
+        before_public_request: function () {
+
+        },
+        after_public_request: function () {
+
+        },
         before_stun_response: function () {
 
         },
         after_stun_response: function (line) {
-
-        },
-        before_public_ip: function () {
-
-        },
-        after_public_ip: function (ip) {
 
         },
         before_post: function () {
@@ -30,46 +37,22 @@ STUN = {
         },
         after_post: function () {
 
+        },
+        error_post: function () {
+
+        },
+        after_experiment: function () {
+
         }
     },
 
-    results: [],
+    iceServers: [],
 
     COOKIES: {
 
         cookieName: "lacnic-stun-cookie",
         cookieDays: 14,
 
-        manageCookie: function () {
-            /*
-             * gets or sets the cookie
-             */
-            STUN.NETWORK.getMyIPAddress(null, function (ip) {
-                /*
-                 * (after) async call with callback...
-                 */
-
-                const currentIPAddress = ip;
-                const previousIPAddress = STUN.COOKIES.readCookie(STUN.COOKIES.cookieName);
-
-                if (previousIPAddress == null) {
-                    // First time
-                    // Keep on to create cookie...
-                }
-
-                if (previousIPAddress == currentIPAddress) {
-                    // Keep on to extend cookies expiration time...
-                } else {
-                    STUN.NETWORK.ip_address_change_event = {
-                        previous: previousIPAddress,
-                        current: currentIPAddress
-                    };
-                }
-
-                // Re-create the cookie
-                STUN.COOKIES.createCookie(STUN.COOKIES.cookieName, currentIPAddress, STUN.COOKIES.cookieDays);
-            });
-        },
         createCookie: function (name, value, days) {
             if (days) {
                 var date = new Date();
@@ -92,7 +75,7 @@ STUN = {
         },
 
         eraseCookie: function (name) {
-            createCookie(name, "", -1);
+            STUN.COOKIES.createCookie(name, "", -1);
         }
     },
 
@@ -101,105 +84,20 @@ STUN = {
             v4: 4,
             v6: 6
         },
-        addresses: [], // IP addresses as seen externally
+        addresses: { // IP addresses as seen externally
+            private: [],
+            public: [],
+            getPrivateAddresses: function () {
+                return this.private;
+            },
+            getPublicAddresses: function () {
+                return this.public;
+            }
+        },
         ip_address_change_event: {
             previous: "",
             current: ""
-        },
-        prefixesMatch: function (address1, address2) {
-
-            if (!(STUN.PARAMS.validate(address1) && STUN.PARAMS.validate(address2))) {
-                return false;
-            }
-
-            if (STUN.NETWORK.addressVersion(address1) != STUN.NETWORK.addressVersion(address2)) {
-                return false;
-            }
-
-            // same address version...
-            if (STUN.NETWORK.addressVersion(address1) == STUN.NETWORK.CONSTANTS.v4) {
-
-                const octets = [1, 2, 3];
-                const octets1 = address1.split(".");
-                const octets2 = address2.split(".");
-
-                // TODO check...
-                octets.forEach(
-                    function (o) {
-                        if (octets1[o] != octets2[o]) {
-                            return false;
-                        }
-                    }
-                );
-
-                return true;
-            }
-
-            if (STUN.NETWORK.addressVersion(address1) == STUN.NETWORK.CONSTANTS.v6) {
-                // TODO implement this part...
-                return true;
-            }
-
-        },
-        addressVersion: function (address) {
-
-            var _error = 0;
-
-            if (!address) {
-                return _error;
-            }
-
-            if (address.indexOf(":") > -1) {
-                return STUN.NETWORK.CONSTANTS.v6;
-            } else if (address.indexOf(".") > -1) {
-                return STUN.NETWORK.CONSTANTS.v4;
-            } else {
-                return _error;
-            }
-        },
-
-        getMyIPAddress: function (url, callback) {
-
-            STUN.callbacks.before_public_ip();
-
-            if (!url) {
-                // default value
-                url = STUN.urls.ipv6ResolveURL;
-            }
-            STUN.console.log(url);
-
-            $.ajax({
-                type: 'GET',
-                url: url,
-                dataType: 'jsonp',
-                timeout: 5000,
-                crossDomain: true,
-                context: this,
-                success: function (data) {
-
-                    if (!data.ip || data.ip === null || data.ip == undefined) {
-                        // error
-                        this.error(null, "Error getting one of the IP addresses", "Error: IP address not gotten");
-                    }
-
-
-                    STUN.NETWORK.addresses.push(data.ip);
-
-                    if (callback) {
-                        STUN.callbacks.after_public_ip(data.ip);
-                        callback(data.ip);
-                    }
-                },
-                error: function (jqXHR, textStatus, errorThrown) {
-                    if (url != STUN.urls.ipv4ResolveURL) {
-                        STUN.NETWORK.getMyIPAddress(STUN.urls.ipv4ResolveURL, callback);
-                    }
-                },
-                complete: function () {
-
-                }
-            });
-        },
+        }
     },
 
     getExperimentId: function () {
@@ -220,14 +118,14 @@ STUN = {
 
         STUN.callbacks.before_post();
 
-        const payload = "[\"" + STUN.results.join("\",\"") + "\"]";
         const experimentId = STUN.getExperimentId();
         const cookie = STUN.COOKIES.readCookie(STUN.COOKIES.cookieName);
         const data = {
-            data: payload,
             experiment_id: experimentId,
             cookie: cookie,
+            addresses: JSON.stringify(STUN.NETWORK.addresses),
             ip_address_change_event: JSON.stringify(STUN.NETWORK.ip_address_change_event),
+            date: new Date(),
             tester_version: 1
         };
 
@@ -243,20 +141,19 @@ STUN = {
                 return false;
             },
             error: function (xhr, status, error) {
+                STUN.callbacks.error_post();
                 return false;
             }
         });
     },
 
     //get the IP addresses associated with an account
-    init: function (callback) {
+    _init: function () {
 
         STUN.experimentId = STUN.getExperimentId();
-        STUN.COOKIES.manageCookie();
-
 
         STUN.callbacks.before_stun_response();
-        var ip_dups = {};
+
         //compatibility for firefox and chrome
         var RTCPeerConnection = window.RTCPeerConnection
             || window.mozRTCPeerConnection
@@ -276,23 +173,12 @@ STUN = {
         var mediaConstraints = {
             optional: [{RtpDataChannels: true}]
         };
-        var servers = {
-            iceServers: [
-                {
-                    urls: ["stun:stun4.acostasite.com", "stun:stun6.acostasite.com"]
-                },
-            ]
-        };
+
         //construct a new RTCPeerConnection
-        var pc = new RTCPeerConnection(servers, mediaConstraints);
+        var pc = new RTCPeerConnection({iceServers: STUN.iceServers}, mediaConstraints);
 
         function handleCandidate(candidate) {
-            callback(candidate);
             STUN.callbacks.after_stun_response(candidate);
-            var address = candidate.split(" ")[4];
-            if (STUN.results.indexOf(address) <= -1) {
-                STUN.results.push(address);
-            }
         }
 
         //listen for candidate events
@@ -321,9 +207,57 @@ STUN = {
                     handleCandidate(line);
             });
 
-            STUN.postResults();
+            STUN.callbacks.after_experiment();
 
         }, 8000);
+    },
+
+    init: function () {
+        /*
+         * First run trying the local connection
+         */
+        STUN.callbacks.after_stun_response = function (response) {
+            var address = response.split(" ")[4];
+            if (STUN.NETWORK.addresses.private.indexOf(address) <= -1) {
+                STUN.NETWORK.addresses.private.push(address);
+            }
+        }
+
+        STUN.callbacks.after_experiment = function () {
+            setTimeout(function () {
+
+                /*
+                 * Second run trying the remote connection (after 5 seconds...)
+                 */
+                STUN.callbacks.after_stun_response = function (response) {
+                    var address = response.split(" ")[4];
+                    if (STUN.NETWORK.addresses.public.indexOf(address) <= -1 && STUN.NETWORK.addresses.private.indexOf(address) <= -1) {
+                        STUN.NETWORK.addresses.public.push(address);
+                    }
+
+                    return true;
+                }
+
+                STUN.callbacks.after_experiment = function () {
+                    STUN.postResults();
+                }
+
+                STUN.callbacks.before_public_request();
+                STUN.iceServers = [
+                    {
+                        urls: ["stun:stun4.acostasite.com", "stun:stun6.acostasite.com"]
+                    }
+                ];
+                STUN._init();
+                STUN.callbacks.after_public_request();
+
+            }, 2000);
+        }
+
+        STUN.callbacks.before_private_request();
+        STUN.iceServers = [];
+        STUN._init();
+        STUN.callbacks.after_private_request();
     },
 
     PARAMS: {

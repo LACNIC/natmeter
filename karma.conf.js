@@ -7,7 +7,7 @@ module.exports = function (config) {
     config.customLaunchers = {
         bs_safari_mac: {
             base: 'BrowserStack',
-            browser: 'chrome',
+            browser: 'Chrome',
             browser_version: '52',
             os: 'OS X',
             os_version: 'El Capitan',

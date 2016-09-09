@@ -5,6 +5,20 @@ from django.utils.timezone import now
 from ipaddr import *
 
 
+class StunMeasurementManager(models.Manager):
+
+    @staticmethod
+    def is_npt(ip1, ip2):
+
+        try:
+            v6_1 = IPv6Address(ip1)
+            v6_2 = IPv6Address(ip2)
+        except AddressValueError:
+            return False
+
+        return v6_1.exploded.split(":")[4:] == v6_2.exploded.split(":")[4:]
+
+
 class StunMeasurement(models.Model):
     """
         Stun measurement class. Stores the results provided
@@ -16,6 +30,19 @@ class StunMeasurement(models.Model):
     experiment_id = models.TextField(default="")
     cookie = models.TextField(default="", null=True)
     tester_version = models.IntegerField(default=0)
+
+    objects = StunMeasurementManager()
+
+    def is_v6_only(self):
+        """
+        :return: True if this host had v6-only interfaces during this STUN measurement. False otherwise.
+        """
+        ips = self.stunipaddress_set.all()
+        for ip in ips:
+            if "." in ip.ip_address:
+                return False
+        return True
+
 
     def is_private_v4(self):
 
@@ -63,19 +90,6 @@ class StunMeasurement(models.Model):
 
     def is_natted(self):
         return not self.nat_free()
-
-        # def __str__(self):
-        #     v4 = []
-        #     v6 = []
-        #     data = self.stunipaddress_set.all()
-        #     for d in data:
-        #         if ":" not in d.ip_address:
-        #             v4.append(d)
-        #         else:
-        #             v6.append(d)
-        #
-        #     v6_capable = len(v6) > 0
-
 
 def enum(**enums):
     return type(str("Enum"), (), enums)

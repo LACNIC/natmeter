@@ -6,7 +6,6 @@ from ipaddr import *
 
 
 class StunMeasurementManager(models.Manager):
-
     @staticmethod
     def is_npt(ip1, ip2):
 
@@ -42,7 +41,6 @@ class StunMeasurement(models.Model):
             if "." in ip.ip_address:
                 return False
         return True
-
 
     def is_private_v4(self):
 
@@ -81,15 +79,19 @@ class StunMeasurement(models.Model):
 
         return True
 
-    def nat_free(self):
-        address_wimi = self.cookie
-        stun_address_set = self.stunipaddress_set.all()
-        if address_wimi in stun_address_set:
-            return True
-        return False
-
     def is_natted(self):
-        return not self.nat_free()
+
+        public_addresses = self.stunipaddress_set.filter(ip_address_kind=StunIpAddress.Kinds.PUBLIC)
+        private_addresses = self.stunipaddress_set.filter(ip_address_kind=StunIpAddress.Kinds.PRIVATE)
+
+        if len(public_addresses) <= len(private_addresses):
+            return False
+
+        return True
+
+    def nat_free(self):
+        return not self.is_natted()
+
 
 def enum(**enums):
     return type(str("Enum"), (), enums)

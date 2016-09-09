@@ -41,6 +41,14 @@
                 $("#console").scrollTop(100);
             };
 
+            STUN.callbacks.before_cookie = function () {
+                print("Looking for cookies...");
+            };
+
+            STUN.callbacks.before_after_cookie = function () {
+
+            };
+
             STUN.callbacks.before_private_request = function () {
                 print("Looking for client's local address(es)...");
             };
@@ -54,7 +62,7 @@
             };
 
             STUN.callbacks.after_public_request = function () {
-{#                print("Public addresses found: " + STUN.NETWORK.addresses.getPublicAddresses());#}
+                {#                print("Public addresses found: " + STUN.NETWORK.addresses.getPublicAddresses());#}
             };
 
             STUN.callbacks.after_stun_response = function (line) {

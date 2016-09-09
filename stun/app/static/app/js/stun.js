@@ -7,13 +7,17 @@ STUN.debug = false;
 STUN = {
 
     urls: {
-        post: STUN.debug && "http://127.0.0.1:8000/post/" || "https://natmeter.labs.lacnic.net/post/",
-        ipv6ResolveURL: "https://simon.v6.labs.lacnic.net/cemd/getip/jsonp/",
-        ipv4ResolveURL: "https://simon.v4.labs.lacnic.net/cemd/getip/jsonp/"
+        post: STUN.debug && "http://127.0.0.1:8000/post/" || "https://natmeter.labs.lacnic.net/post/"
     },
 
     callbacks: {
 
+        before_cookie: function () {
+
+        },
+        before_after_cookie: function () {
+
+        },
         before_private_request: function () {
 
         },
@@ -76,6 +80,14 @@ STUN = {
 
         eraseCookie: function (name) {
             STUN.COOKIES.createCookie(name, "", -1);
+        },
+
+        createSTUNCookie: function (cookieValue) {
+            return this.createCookie(this.cookieName, cookieValue, this.cookieDays);
+        },
+
+        readSTUNCookie: function () {
+            return this.readCookie(this.cookieName);
         }
     },
 
@@ -150,7 +162,13 @@ STUN = {
     //get the IP addresses associated with an account
     _init: function () {
 
-        STUN.experimentId = STUN.getExperimentId();
+        const experimentId = STUN.getExperimentId();
+        STUN.experimentId = experimentId;
+        STUN.callbacks.before_cookie();
+        if (STUN.COOKIES.readSTUNCookie() == null) {
+            STUN.COOKIES.createSTUNCookie(experimentId);
+        }
+        STUN.callbacks.before_after_cookie();
 
         STUN.callbacks.before_stun_response();
 
@@ -270,9 +288,7 @@ STUN = {
         HEADER: "[STUN] : ",
         TRAILER: " (" + new Date() + ")",
         log: function (txt) {
-
             console.log(this.HEADER + txt + this.TRAILER);
-
         }
     }
 };

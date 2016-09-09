@@ -46,7 +46,7 @@
             };
 
             STUN.callbacks.after_private_request = function () {
-                print("Public addresses found: " + STUN.NETWORK.addresses.getPrivateAddresses());
+                print("Private addresses found: " + STUN.NETWORK.addresses.getPrivateAddresses());
             };
 
             STUN.callbacks.before_public_request = function () {
@@ -54,7 +54,7 @@
             };
 
             STUN.callbacks.after_public_request = function () {
-                print("Public addresses found: " + STUN.NETWORK.addresses.getPublicAddresses());
+{#                print("Public addresses found: " + STUN.NETWORK.addresses.getPublicAddresses());#}
             };
 
             STUN.callbacks.after_stun_response = function (line) {

@@ -36,11 +36,25 @@ class StunMeasurement(models.Model):
         """
         :return: True if this host had v6-only interfaces during this STUN measurement. False otherwise.
         """
-        ips = self.stunipaddress_set.all()
+        ips = self.stunipaddress_set.filter(ip_address_kind=StunIpAddress.Kinds.PRIVATE)
         for ip in ips:
             if "." in ip.ip_address:
                 return False
         return True
+
+    def is_v6_with_v4_capabilities(self):
+        """
+        :return: True if this host had v6-only interfaces during this STUN measurement. False otherwise.
+        """
+
+        ips = self.stunipaddress_set.filter(ip_address_kind=StunIpAddress.Kinds.PUBLIC)
+
+        seen_through_v4 = False
+        for ip in ips:
+            if "." in ip.ip_address:
+                seen_through_v4 = True
+
+        return seen_through_v4 and self.is_v6_only()
 
     def is_private_v4(self):
 

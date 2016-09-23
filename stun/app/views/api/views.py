@@ -8,8 +8,8 @@ def post(request):
         return HttpResponse("Invalid method: %s" % request.method, content_type="text", status=400)
 
     import ast
-    from libraries.classes import datetime_uy
-    from models import StunIpAddress, StunMeasurement, StunIpAddressChangeEvent
+    from app.libraries.classes import datetime_uy
+    from app.models import StunIpAddress, StunMeasurement, StunIpAddressChangeEvent
     from datetime import datetime
 
     server_date = datetime_uy()

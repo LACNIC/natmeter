@@ -1,14 +1,5 @@
-from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse
-
-
-def home(request):
-    return render(request, "home.html")
-
-
-def script(request):
-    return render(request, "script.html")
 
 
 @csrf_exempt
@@ -28,6 +19,8 @@ def post(request):
         client_date = datetime.strptime(client_date.split(" GMT")[0], "%a %b %d %Y %H:%M:%S")
     except:  # broad..
         client_date = server_date
+    finally:
+        print client_date
 
     experiment_id = request.POST.get("experiment_id")
     cookie = request.POST.get("cookie")
@@ -48,7 +41,7 @@ def post(request):
         a = StunIpAddress(
             ip_address=ip_address,
             stun_measurement=stun_measurement,
-            ip_address_kind=StunIpAddress.Kinds.PUBLIC
+            ip_address_kind=StunIpAddress.Kinds.REMOTE
         )
         stun_measurement.stunipaddress_set.add(a)
 
@@ -56,7 +49,7 @@ def post(request):
         a = StunIpAddress(
             ip_address=ip_address,
             stun_measurement=stun_measurement,
-            ip_address_kind=StunIpAddress.Kinds.PRIVATE
+            ip_address_kind=StunIpAddress.Kinds.LOCAL
         )
         stun_measurement.stunipaddress_set.add(a)
 

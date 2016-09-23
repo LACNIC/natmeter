@@ -1,5 +1,5 @@
 import geoip2.database
-import settings
+import stun.settings as settings
 
 
 def get_cc_from_ip_address(ip_address):

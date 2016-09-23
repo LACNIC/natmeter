@@ -43,22 +43,30 @@
 
     <div>
         <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4" style="float:left;">
-            <a href=""
-               alt="Gráficas de la región. Esta sección muestra las mediciones de latencia de la región LAC.">
-                <h2>Objetivos</h2>
-            </a>
-
+            <h2>Objetivos</h2>
             <p>Conocer el porcentaje de despliegue NAT 44 y NAT 66 en la región de LACNIC.</p>
         </div>
 
         <div class="col-xs-12 col-sm-8 col-md-8 col-lg-8" style="float: right;">
-            <a href="" alt="Diagrama de este estudio">
-                <h2>Diagrama del estudio</h2>
-            </a>
+            <h2>Diagrama del estudio</h2>
 
             <p>
                 <img src="{% static "app/imgs/stun.png" %}" style="max-width: 100%">
             </p>
+        </div>
+
+        <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4" style="float:left;">
+            <a href="{% url "charts" %}"><h2>Gráficas</h2></a>
+            <p>Algunas gráficas en base a estadísticas recolectadas de las mediciones.</p>
+        </div>
+
+        <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4" style="float:left;">
+            <a href="{% url "script" %}"
+               alt="Demostración del script.">
+                <h2>Demostración</h2>
+            </a>
+
+            <p>Aquí puedes ver una pequeña demostración de lo que se puede analizar con STUN/TURN.</p>
         </div>
 
         <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4" style="float:left;">
@@ -77,13 +85,5 @@
             </p>
         </div>
 
-        <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4" style="float:left;">
-            <a href="{% url "script" %}"
-               alt="Demostración del script.">
-                <h2>Demostración</h2>
-            </a>
-
-            <p>Aquí puedes ver una pequeña demostración de lo que se puede analizar con STUN/TURN.</p>
-        </div>
     </div>
 {% endblock %}

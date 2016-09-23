@@ -1,5 +1,4 @@
 from django.test import TestCase
-from ipaddr import *
 from app.models import *
 
 
@@ -25,54 +24,54 @@ class NatTest(TestCase):
         # STUN server addresses
         StunIpAddress(
             ip_address="2001:db8::3",
-            ip_address_kind=StunIpAddress.Kinds.PUBLIC,
+            ip_address_kind=StunIpAddress.Kinds.REMOTE,
             stun_measurement=msm
         ).save()
         StunIpAddress(
             ip_address="2001:db8::1",
-            ip_address_kind=StunIpAddress.Kinds.PUBLIC,
+            ip_address_kind=StunIpAddress.Kinds.REMOTE,
             stun_measurement=msm
         ).save()
         StunIpAddress(
             ip_address="2001:db8::1",
-            ip_address_kind=StunIpAddress.Kinds.PUBLIC,
+            ip_address_kind=StunIpAddress.Kinds.REMOTE,
             stun_measurement=msm
         ).save()
         StunIpAddress(
             ip_address="192.168.5.30",
-            ip_address_kind=StunIpAddress.Kinds.PUBLIC,
+            ip_address_kind=StunIpAddress.Kinds.REMOTE,
             stun_measurement=msm
         ).save()
         StunIpAddress(
             ip_address="200.47.79.5",
-            ip_address_kind=StunIpAddress.Kinds.PUBLIC,
+            ip_address_kind=StunIpAddress.Kinds.REMOTE,
             stun_measurement=msm
         ).save()
         StunIpAddress(
             ip_address="2800:26:32::abcd:ad12",
-            ip_address_kind=StunIpAddress.Kinds.PUBLIC,
+            ip_address_kind=StunIpAddress.Kinds.REMOTE,
             stun_measurement=msm
         ).save()
 
         # Host-only known discovered addresses
         StunIpAddress(
             ip_address="2001:db8::3",
-            ip_address_kind=StunIpAddress.Kinds.PRIVATE,
+            ip_address_kind=StunIpAddress.Kinds.LOCAL,
             stun_measurement=msm
         ).save()
         StunIpAddress(
             ip_address="2001:db8::1",
-            ip_address_kind=StunIpAddress.Kinds.PRIVATE,
+            ip_address_kind=StunIpAddress.Kinds.LOCAL,
             stun_measurement=msm
         ).save()
         StunIpAddress(
             ip_address="2001:db8::1",
-            ip_address_kind=StunIpAddress.Kinds.PRIVATE,
+            ip_address_kind=StunIpAddress.Kinds.LOCAL,
             stun_measurement=msm
         ).save()
         StunIpAddress(
             ip_address="192.168.5.30",
-            ip_address_kind=StunIpAddress.Kinds.PRIVATE,
+            ip_address_kind=StunIpAddress.Kinds.LOCAL,
             stun_measurement=msm
         ).save()
 

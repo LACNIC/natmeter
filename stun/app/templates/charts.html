@@ -1,0 +1,122 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block headers %}
+    <!-- Google Charts -->
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.4.3/jquery.min.js"></script>
+    <script src="https://www.google.com/jsapi" type="text/javascript"></script>
+{% endblock %}
+
+{% block css %}
+{% endblock css %}
+
+{% block javascript %}
+    {{ nat_pressure_chart | safe }}
+    {{ country_participation_chart | safe }}
+{% endblock javascript %}
+
+
+{% block content %}
+    <h1 class="page-header">
+        Gráficas y estadísticas en la región LAC
+    </h1>
+
+    <div class="col-xs-12 col-sm-8 col-md-8 col-lg-8" style="float:left;">
+        <h2>Casos de NAT</h2>
+        <p>La siguiente tabla muestra los registros más reciente de las mediciones NAT que estamos realizando. En el
+            marco de estas mediciones, un cliente es equivalente a un navegador web.</p>
+        <table class="table">
+            <tbody>
+            <tr>
+                <th>Clientes detrás de NAT</th>
+                <td>{{ all_nat | floatformat }}%</td>
+            </tr>
+            <tr>
+                <th>Clientes detrás de NAT 44</th>
+                <td>{{ v4_nat | floatformat }}%</td>
+            </tr>
+            <tr>
+                <th>Clientes detrás de NAT 66</th>
+                <td>{{ v6_nat | floatformat }}%</td>
+            </tr>
+            <tr>
+                <th>Clientes Natteados con NPT (v6)</th>
+                <td>{{ npt | floatformat }}%</td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4" style="float: right">
+        <h2>Participación por país</h2>
+        <p>Las mediciones realizadas en este experimento se realizan desde un navegador a medida que los usuarios
+            navegan por sitios que colaboran con el proyecto NAT Meter. Los usuarios pertenecen mayoritariamente a los
+            siguientes países (geolocalización con Maxmind):</p>
+        <div id="country-participation"></div>
+    </div>
+
+    <div class="col-xs-12 col-sm-8 col-md-8 col-lg-8" style="float:left;">
+        <h2>Otras estadísticas derivadas</h2>
+        <p>Además de las estadísticas de uso de NAT, las mediciones nos ayudan a observar otras componentes de la
+            operativa de Internet.</p>
+        <table class="table">
+            <tbody>
+            <tr>
+                <th>Hosts v6-only con capacidad v4 <span data-toggle="tooltip" class="glyphicon glyphicon-info-sign"
+                                                         title="Son aquellos hosts que han sido vistos con capacidad *local* sobre v6 y de forma remota sobre v4"></span>
+                </th>
+                <td>{{ v6_with_v4_capacity | floatformat }}%</td>
+            </tr>
+            <tr>
+                <th>Hosts Dualstack <span data-toggle="tooltip" class="glyphicon glyphicon-info-sign"
+                                          title="Son aquellos hosts que han sido vistos con capacidad *local* sobre v6 y v4"></span>
+                </th>
+                <td>{{ dualstack | floatformat }}%</td>
+            </tr>
+            <tr>
+                <th>Horas hasta cambiar de prefijo <span data-toggle="tooltip" class="glyphicon glyphicon-info-sign"
+                                                         title="Son las horas que transcurren hasta que los clientes son vistos con otras direcciones públicas"></span>
+                </th>
+                <td>{{ hours }} hs</td>
+            </tr>
+        </table>
+
+        <h4>Horas hasta cambiar de prefijo</h4>
+        <p>A continuación se muestra un histograma con las horas que transcurren hasta que los clientes son vistos con
+            otras direcciones públicas. Esta medición se encuentra fuertemente afectada por la frecuencia con el un host
+            realice las mediciones; aquellos hosts que realicen mediciones muy espaciadas aportarán al extremo alto del
+            espectro, sin embargo aquellos hosst que realicen mediciones frecuentemente, nos darán una idea del tiempo
+            que transcurrió hasta que ese host es visto con una dirección diferente.</p>
+        <div id="div-id"></div>
+    </div>
+
+    <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4" style="float: right">
+        <h2>Cantidad de direcciones por host</h2>
+        <p>Otra estadística interesante es la cantidad de direcciones que cada host utiliza. Naturalmente, el valor
+            mínimo que puede tomar es 1. Un dato curioso es que hay hosts que han demostrado tener hasta más de 10
+            direcciones IP!</p>
+
+        <table class="table">
+            <thead>
+            <tr>
+                <td></td>
+                <th>IPv6</th>
+                <th>IPv4</th>
+            </tr>
+            </thead>
+
+            <tbody>
+            <tr>
+                <th>Promedio</th>
+                <td>{{ v6_avg | floatformat }}</td>
+                <td>{{ v4_avg | floatformat }}</td>
+            </tr>
+            <tr>
+                <th>Máximo</th>
+                <td>{{ v6_max | floatformat }}</td>
+                <td>{{ v4_max | floatformat }}</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+{% endblock content %}

@@ -137,9 +137,16 @@ HOSTNAME = socket.gethostname()
 DEBUG = True
 if HOSTNAME == 'simon':
     DEBUG = False
+    # Default chaching stratrgy for production environment
 else:
     # Developer mode
     DEBUG = True
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
+        'LOCATION': '/var/tmp/django_cache',
+    }
+}
 
 # Logging configurations
 DJANGO_LOG_LEVEL=DEBUG

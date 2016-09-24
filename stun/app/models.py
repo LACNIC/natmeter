@@ -77,7 +77,7 @@ class StunMeasurementManager(models.Manager):
         :return: NAT % (percentage) for NAT 66
         """
         v6 = self.get_v6_results()
-        natted = [s for s in v6 if s.is_natted()]
+        natted = [s for s in v6 if s.is_natted(protocol=6)]
         return 100.0 * len(natted) / len(v6)
 
     def get_v4_nat_percentage(self):
@@ -85,7 +85,7 @@ class StunMeasurementManager(models.Manager):
         :return: NAT % (percentage) for NAT 44
         """
         v4 = self.get_v4_results()
-        natted = [s for s in v4 if s.is_natted()]
+        natted = [s for s in v4 if s.is_natted(protocol=4)]
         return 100.0 * len(natted) / len(v4)
 
     def nat_stats(self):
@@ -320,14 +320,26 @@ class StunMeasurement(models.Model):
                     return True
         return False
 
-    def is_natted(self):
-        return not self.nat_free()
+    def is_natted(self, protocol=0):
+        return not self.nat_free(protocol)
 
-    def nat_free(self):
-        stun_addresses = self.get_remote_stunipaddresses()
-        return len(stun_addresses) == 0
+    def nat_free(self, protocol=0):
+        """
+        :param protocol: 0 | 4 | 6
+        :return:
+        """
+
+        if protocol == 0:
+            return len(self.get_remote_stunipaddresses()) == 0
+        elif protocol == 4:
+            return len(self.get_remote_v4_addresses()) == 0
+        elif protocol == 6:
+            return len(self.get_remote_v6_addresses()) == 0
+        else:
+            return False
 
     def is_npt(self):
+
         if self.nat_free() == 0:
             return False
 

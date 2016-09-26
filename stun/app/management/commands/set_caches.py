@@ -17,3 +17,28 @@ class Command(BaseCommand):
         cache.set(cache.keys.npt, StunMeasurement.objects.get_npt_percentage())
         cache.set(cache.keys.nat_pressure, StunMeasurement.objects.get_nat_time_pressure())
         cache.set(cache.keys.country_participation, StunMeasurement.objects.get_country_participation())
+        cache.set(cache.keys.announcements, get_announcements())
+
+
+def get_announcements():
+    import csv
+    import requests
+    import StringIO
+    from collections import defaultdict
+
+    CC = 1
+    ALLOC = 2
+    ADV = 7
+    data = requests.get('http://labs.apnic.net/dists/v4.csv').text
+
+    announcements = defaultdict(int)
+    csvreader = csv.reader(StringIO.StringIO(data))
+    for i in range(16):
+        csvreader.next()
+    for line in csvreader:
+        #     line[CC], line[ALLOC], line[ADV]
+        try:
+            announcements[line[CC]] = line[ADV]
+        except IndexError as e:
+            continue
+    return announcements

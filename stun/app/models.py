@@ -84,9 +84,39 @@ class StunMeasurementManager(models.Manager):
         """
         :return: NAT % (percentage) for NAT 44
         """
+
+        from app.caching.caching import cache as custom_cache
+        from management.commands.set_caches import get_announcements
+        announcements = custom_cache.get_or_set(
+            custom_cache.keys.announcements,
+            call=get_announcements
+        )
+
         v4 = self.get_v4_results()
-        natted = [s for s in v4 if s.is_natted(protocol=4)]
-        return 100.0 * len(natted) / len(v4)
+
+        # weigh by country
+        total_region_ips = 0
+        total_region_natted_ips = 0
+        ccs = ['BB', 'KY', 'CU', 'DM', 'DO', 'GD', 'GP', 'HT', 'JM', 'BZ', 'AW', 'BS', 'SV', 'GT', 'HN', 'AR', 'BO',
+               'BR', 'CL', 'GY', 'GF', 'EC', 'CO', 'LC', 'VC', 'TT', 'TC', 'VG', 'VI', 'MX', 'MS', 'PR', 'NI', 'PA',
+               'PE', 'VE', 'UY', 'SR', 'PY', 'AI', 'AG', 'MQ', 'KN', 'CR',
+               'FK']  # list(set([s.get_country() for s in v4]))  # unique countries only
+        for cc in ccs:  # TODO only lac announcements
+            if cc not in ccs:
+                continue
+
+            cc_msms = [s for s in v4 if s.get_country() == cc]
+            cc_msms_natted = [s for s in cc_msms if s.is_natted(protocol=4)]
+            if len(cc_msms_natted) == 0:
+                continue
+
+            adv = int(announcements[cc])  # announced prefixes
+            cc_natted_ratio = 1.0 * len(cc_msms_natted) / len(cc_msms)
+            adv_natted_ips = adv * cc_natted_ratio
+            total_region_ips += adv
+            total_region_natted_ips += adv_natted_ips
+
+        return 100.0 * total_region_natted_ips / total_region_ips
 
     def nat_stats(self):
         """
@@ -142,7 +172,9 @@ class StunMeasurementManager(models.Manager):
         return dts
 
     def get_country_participation(self):
-
+        """
+        :return: collections.Counter containing country-code keys, and participation values.
+        """
         results = self.get_results()
         ccs = []
         for r in results:

@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block css %}
+    #console {
+    background: #343;
+    border-radius: .2em;
+    height: 10em;
+    max-width: 50em;
+    white-space: pre-wrap;
+    padding: .5em;
+    font-family: "Consolas", "Ubuntu Mono", "Monaco", monospace;
+    color: white;
+    overflow:auto;
+    }
+{% endblock css %}
+
+{% block javascript %}
+
+{% endblock javascript %}
+
+{% block content %}
+
+    <h2 class="page-header">STUN script demo</h2>
+{#    <h2 class="page-header">Demostración del script STUN</h2>#}
+    <p>
+        The following demo makes a STUN/TURN request to LACNIC servers, and posts the results to a central database in
+        order to build regional stats.
+{#        La siguiente demostración realiza una consulta a servidores STUN/TURN de LACNIC, y envía los datos a la BD#}
+{#        para#}
+{#        construir las estadísticas a nivel regional.#}
+    </p>
+    <h4>STUN/TURN server response:</h4>
+{#    <h4>Respuesta por parte de los servidores STUN/TURN:</h4>#}
+    <ul></ul>
+    <div id="console"></div>
+
+    <script>
+        setTimeout(function () {
+
+            function print(line) {
+                $("#console").append(STUN.console.HEADER + line + "\n");
+                $("#console").scrollTop(100);
+            };
+
+            STUN.callbacks.before_cookie = function () {
+                print("Looking for cookies...");
+            };
+
+            STUN.callbacks.before_after_cookie = function () {
+
+            };
+
+            STUN.callbacks.before_private_request = function () {
+                print("Looking for client's local address(es)...");
+            };
+
+            STUN.callbacks.after_private_request = function () {
+                print("Private addresses found: " + STUN.NETWORK.addresses.getPrivateAddresses());
+            };
+
+            STUN.callbacks.before_public_request = function () {
+                print("Looking for client's public address(es)...");
+            };
+
+            STUN.callbacks.after_public_request = function () {
+                {#                print("Public addresses found: " + STUN.NETWORK.addresses.getPublicAddresses());#}
+            };
+
+            STUN.callbacks.after_stun_response = function (line) {
+                print(line);
+            };
+
+            STUN.callbacks.before_post = function () {
+                print("Posting results to central database...");
+            };
+
+            STUN.callbacks.after_post = function () {
+                print("Thank you for checking out this demo!");
+            };
+
+            STUN.callbacks.error_post = function () {
+                print("Something happened when posting to the central database :|");
+            }
+        }, 2000);
+    </script>
+
+{% endblock content %}

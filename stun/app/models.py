@@ -5,6 +5,7 @@ from django.utils.timezone import now
 from ipaddr import *
 from collections import Counter
 from app.libraries.geolocation import get_cc_from_ip_address
+from static_defs import NOISY_PREFIXES
 
 
 class StunMeasurementManager(models.Manager):
@@ -205,6 +206,32 @@ class StunMeasurementManager(models.Manager):
 
         return True
 
+    @classmethod
+    def show_addresses_to_the_world(cls, addresses):
+        return [StunMeasurement.objects.show_address_to_the_world(a).encode('utf-8') for a in addresses]
+
+    @classmethod
+    def show_address_to_the_world(cls, address):
+        """
+            Strips part of the address to make it public to anyone (for sharing data for example)
+        :return: Stripped address
+        """
+
+        res = ""
+        if ':' in address:
+            add = IPv6Address(address=address).exploded.split(':')[:4]
+            for a in add:
+                res += "%s:" % a
+            res += 3 * '0000:'
+            res += '0000'
+        else:
+            add = IPv4Address(address=address).exploded.split('.')[:3]
+            for a in add:
+                res += "%s." % a
+            res += '0'
+
+        return res
+
 
 class StunMeasurement(models.Model):
     """
@@ -337,13 +364,7 @@ class StunMeasurement(models.Model):
          (prefixes not helping in the measurements)
         """
 
-        casa_de_internet_prefixes = [
-            "168.121.184.0/22", "179.0.156.0/22", "190.112.52.0/22", "200.0.86.0/23",
-            "200.0.88.0/24", "200.3.12.0/22",
-            "200.7.84.0/23", "200.7.86.0/23", "200.10.60.0/23", "200.10.62.0/23",
-            "2001:13c7:7001::/48", "2001:13c7:7002::/48",
-            "2001:13c7:7003::/48", "2001:13c7:7010::/46", "2801::/48", "2801:1b8::/44"
-        ]
+        casa_de_internet_prefixes = NOISY_PREFIXES
         nosiy_prefixes = [IPNetwork(p) for p in casa_de_internet_prefixes]
 
         for nosiy_prefix in nosiy_prefixes:

@@ -24,10 +24,16 @@ STUN = {
         after_private_request: function () {
 
         },
+        after_private_stun_response: function(candidate) {
+
+        },
         before_public_request: function () {
 
         },
         after_public_request: function () {
+
+        },
+        after_public_stun_response: function(candidate) {
 
         },
         before_stun_response: function () {
@@ -100,10 +106,10 @@ STUN = {
             private: [],
             public: [],
             getPrivateAddresses: function () {
-                return this.private;
+                return STUN.NETWORK.addresses.private;
             },
             getPublicAddresses: function () {
-                return this.public;
+                return STUN.NETWORK.addresses.public;
             }
         },
         ip_address_change_event: {
@@ -235,6 +241,9 @@ STUN = {
          * First run trying the local connection
          */
         STUN.callbacks.after_stun_response = function (response) {
+
+            STUN.callbacks.after_private_stun_response(response);
+
             var address = response.split(" ")[4];
             if (STUN.NETWORK.addresses.private.indexOf(address) <= -1) {
                 STUN.NETWORK.addresses.private.push(address);
@@ -245,9 +254,12 @@ STUN = {
             setTimeout(function () {
 
                 /*
-                 * Second run trying the remote connection (after 5 seconds...)
+                 * Second run trying the remote connection (after 2 seconds...)
                  */
                 STUN.callbacks.after_stun_response = function (response) {
+
+                    STUN.callbacks.after_public_stun_response(response);
+
                     var address = response.split(" ")[4];
                     if (STUN.NETWORK.addresses.public.indexOf(address) <= -1 && STUN.NETWORK.addresses.private.indexOf(address) <= -1) {
                         STUN.NETWORK.addresses.public.push(address);

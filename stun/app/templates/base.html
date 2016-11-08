@@ -179,6 +179,7 @@
         e.parentNode.insertBefore(c, e);
         c.onload = c.onreadystatechange = function () {
             // On ready...
+            load();
             STUN.init();
         }
     }(document, "script"));

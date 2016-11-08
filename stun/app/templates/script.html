@@ -1,11 +1,12 @@
 {% extends "base.html" %}
 {% load staticfiles %}
+{% load i18n %}
 
 {% block css %}
     #console {
     background: #343;
     border-radius: .2em;
-    height: 10em;
+    height: 20em;
     max-width: 50em;
     white-space: pre-wrap;
     padding: .5em;
@@ -24,6 +25,10 @@
 {% block content %}
 
     <h2 class="page-header">Demostración del script STUN</h2>
+
+    <h2>{% trans "This is a title in your language." %}</h2>
+    <h2>{% trans "Un título en tu idioma." %}</h2>
+
     <p>
         La siguiente demostración realiza una consulta a servidores STUN/TURN de LACNIC, y envía los datos a la BD
         para
@@ -31,56 +36,73 @@
     </p>
     <h4>Respuesta por parte de los servidores STUN/TURN:</h4>
     <ul></ul>
+
+    <div class="progress progress-striped active" style="height: 5px;">
+        <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"
+             style="width:0%">
+        </div>
+    </div>
+
     <div id="console"></div>
 
     <script>
-        setTimeout(function () {
+        var load = function () {
 
-            function print(line) {
+            function output(line) {
                 $("#console").append(STUN.console.HEADER + line + "\n");
-                $("#console").scrollTop(100);
+                $("#console").scrollTop(500);
             };
 
             STUN.callbacks.before_cookie = function () {
-                print("Looking for cookies...");
+                output("Looking for information stored in your browser's cookies...");
             };
 
             STUN.callbacks.before_after_cookie = function () {
-
             };
 
             STUN.callbacks.before_private_request = function () {
-                print("Looking for client's local address(es)...");
+                output("Looking for client's local address(es)...");
+                $(".progress-bar").css('width', 10+'%').attr('aria-valuenow', 10);
             };
 
             STUN.callbacks.after_private_request = function () {
-                print("Private addresses found: " + STUN.NETWORK.addresses.getPrivateAddresses());
+            };
+
+            STUN.callbacks.after_private_stun_response = function (response) {
+                output("Local response: " + response);
+                $(".progress-bar").css('width', 20+'%').attr('aria-valuenow', 20);
             };
 
             STUN.callbacks.before_public_request = function () {
-                print("Looking for client's public address(es)...");
+                output("Local addresses found: " + STUN.NETWORK.addresses.getPrivateAddresses());
+                $(".progress-bar").css('width', 30+'%').attr('aria-valuenow', 30);
+
+                output("Looking for client's remote address(es)...");
+                $(".progress-bar").css('width', 40+'%').attr('aria-valuenow', 40);
             };
 
-            STUN.callbacks.after_public_request = function () {
-                {#                print("Public addresses found: " + STUN.NETWORK.addresses.getPublicAddresses());#}
-            };
-
-            STUN.callbacks.after_stun_response = function (line) {
-                print(line);
+            STUN.callbacks.after_public_stun_response = function (response) {
+                output("Remote STUN server response: " + response);
+                $(".progress-bar").css('width', 60+'%').attr('aria-valuenow', 60);
             };
 
             STUN.callbacks.before_post = function () {
-                print("Posting results to central database...");
+                output("Remote addresses found: " + STUN.NETWORK.addresses.getPublicAddresses());
+                output("Posting results to central database...");
+                $(".progress-bar").css('width', 80+'%').attr('aria-valuenow', 80);
             };
 
             STUN.callbacks.after_post = function () {
-                print("Thank you for checking out this demo!");
+                output("Thank you for checking out this demo!");
+                const bar = $(".progress-bar");
+                bar.css('width', 100+'%').attr('aria-valuenow', 100);
+                bar.attr("class", "progress progress-bar-success");
             };
 
             STUN.callbacks.error_post = function () {
-                print("Something happened when posting to the central database :|");
+                output("Something happened when posting to the central database :|");
             }
-        }, 2000);
+        };
     </script>
 
 {% endblock content %}

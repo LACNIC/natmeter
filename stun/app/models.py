@@ -184,6 +184,19 @@ class StunMeasurementManager(models.Manager):
         counter.pop("XX")
         return counter
 
+    def get_private_pfx_counter(self):
+
+        import operator
+
+        results = self.get_results()
+        pvt_pfxs = []
+        for r in results:
+            addresses = r.get_local_addresses()
+            world = StunMeasurement.objects.show_addresses_to_the_world(addresses)
+            pvt_pfxs += world
+        counter = Counter(pvt_pfxs).items()
+        return sorted(counter, key=operator.itemgetter(1), reverse=True)
+
     @staticmethod
     def is_npt(ip1, ip2):
 

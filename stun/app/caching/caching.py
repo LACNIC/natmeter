@@ -17,6 +17,7 @@ class CacheKeys():
     npt = "npt"
     nat_pressure = "nat_pressure"
     country_participation = "country_participation"
+    private_prefixes = "private_prefixes"
     announcements = "announcements"
 
 

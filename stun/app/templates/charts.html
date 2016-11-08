@@ -13,6 +13,7 @@
 {% block javascript %}
     {{ nat_pressure_chart | safe }}
     {{ country_participation_chart | safe }}
+    {{ private_prefix_chart | safe }}
 {% endblock javascript %}
 
 {% block title %}Charts{% endblock title %}
@@ -81,6 +82,12 @@
                 <td>{{ hours }} hs</td>
             </tr>
         </table>
+
+        <h4>Prefijos privados más vistos (top 10)</h4>
+        <p>
+            La gráfica de abajo muestra un ranking con los prefijos más utilizados detrás de una caja NAT.
+        </p>
+        <div id="prefix-counter" style="min-height: 300px;"></div>
 
         <h4>Horas hasta cambiar de prefijo</h4>
         <p>A continuación se muestra un histograma con las horas que transcurren hasta que los clientes son vistos con

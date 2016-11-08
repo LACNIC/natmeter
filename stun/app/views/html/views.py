@@ -38,6 +38,7 @@ def charts(request):
     is_npt_cached = custom_cache.get_or_set(custom_cache.keys.npt, call=StunMeasurement.objects.get_npt_percentage)
     nat_pressure_cached = custom_cache.get_or_set(custom_cache.keys.nat_pressure, call=StunMeasurement.objects.get_nat_time_pressure)
     country_participation_counter_cached = custom_cache.get_or_set(custom_cache.keys.country_participation, call=StunMeasurement.objects.get_country_participation)
+    private_prefix_counter_cached = custom_cache.get_or_set(custom_cache.keys.private_prefixes, call=StunMeasurement.objects.get_private_pfx_counter)
 
     # Country participation chart
 
@@ -50,7 +51,7 @@ def charts(request):
     data = dict(
         data=json.dumps([[p[0] for p in country_participation_top], [p[1] for p in country_participation_top]]),
         divId="country-participation",
-        labels=json.dumps(["Horas hasta ver un nuevo prefijo"]),
+        labels=json.dumps(["Participacion por pais"]),
         kind='PieChart',
         colors=json.dumps(['#C53425', '#B21100', '#990F00', '#7F0C00', '#660A00', '#4C0700']),
         xAxis='string'
@@ -68,6 +69,22 @@ def charts(request):
     )
     nat_pressure_chart = requests.post("https://charts.dev.lacnic.net/hist/code/", data=data).text
 
+    import operator
+    lim = 10
+    private_prefix_counter_cached_top = [
+        ("%02d) %s" % (i+1, ppc[0]), ppc[1]) for i, ppc in enumerate(sorted(private_prefix_counter_cached, key=operator.itemgetter(1), reverse=True)[:lim])
+        ]
+    # private_prefix_counter_cached_top.append(('11) Others', sum([p[1] for p in sorted(private_prefix_counter_cached, key=operator.itemgetter(1), reverse=True)][lim:])))
+    data = dict(
+        data=json.dumps([[p[0] for p in private_prefix_counter_cached_top], [p[1] for p in private_prefix_counter_cached_top]]),
+        divId="prefix-counter",
+        labels=json.dumps(["Cantidad de mediciones por prefijo"]),
+        kind='BarChart',
+        colors=json.dumps(['#C53425']),
+        xAxis='string'
+    )
+    private_prefix_chart = requests.post("https://charts.dev.lacnic.net/code/", data=data).text
+
     ctx = RequestContext(
         request,
         {
@@ -83,7 +100,8 @@ def charts(request):
             "npt": is_npt_cached,
             "hours": Counter(hours).most_common(n=1)[0][0],
             "nat_pressure_chart": nat_pressure_chart,
-            "country_participation_chart": country_participation_chart
+            "country_participation_chart": country_participation_chart,
+            "private_prefix_chart": private_prefix_chart
         }
     )
 

@@ -100,7 +100,7 @@
         <div style="Margin: 1em; padding: 1em;">
             {% block content %}
 
-{#                Every child will get rendered in here.#}
+                {#                Every child will get rendered in here.#}
 
 
             {% endblock %}
@@ -171,16 +171,25 @@
 <iframe id="iframe" sandbox="allow-same-origin" style="display: none"></iframe>
 
 <!-- STUN script async loading -->
-<script async type="application/javascript">
+<script type="application/javascript">
     (function (f, b) {
-        var c = f.createElement(b), e = f.getElementsByTagName(b)[0];
-        c.src = "https://natmeter.labs.lacnic.net/static/app/js/stun.js";
+        var c = f.createElement(b),
+                e = f.getElementsByTagName(b)[0];
+        c.src = "https://cdn.rawgit.com/LACNIC/static/master/require.js"; //"http://requirejs.org/docs/release/2.3.2/minified/require.js";
         c.type = "text/javascript";
         e.parentNode.insertBefore(c, e);
         c.onload = c.onreadystatechange = function () {
-            // On ready...
-            load();
-            STUN.init();
+            // Require libraries loaded
+            requirejs.config({
+                "paths": {
+                    "stun": "https://cdn.rawgit.com/LACNIC/natmeter/master/stun/app/static/app/js/stun"
+                }
+            });
+
+            require(["stun"], function () {
+                load();
+                STUN.init();
+            });
         }
     }(document, "script"));
 </script>

@@ -42,7 +42,19 @@
     <div id="console"></div>
 
     <script>
-        var load = function () {
+
+        function updateBarTo(value) {
+
+            const bar = $(".progress-bar");
+
+            if (value == 100) {
+                bar.attr("class", "progress progress-bar-success");
+            }
+
+            bar.css('width', value + '%').attr('aria-valuenow', value);
+        }
+
+        function load() {
 
             function output(line) {
                 $("#console").append(STUN.console.HEADER + line + "\n");
@@ -53,39 +65,40 @@
                 output("Looking for information stored in your browser's cookies...");
             };
 
-            STUN.callbacks.before_after_cookie = function () {
+            STUN.callbacks.after_cookie = function () {
             };
 
             STUN.callbacks.before_private_request = function () {
                 output("Looking for client's local address(es)...");
-                $(".progress-bar").css('width', 10 + '%').attr('aria-valuenow', 10);
+                updateBarTo(10);
             };
 
             STUN.callbacks.after_private_request = function () {
+                updateBarTo(10);
             };
 
             STUN.callbacks.after_private_stun_response = function (response) {
                 output("Local response: " + response);
-                $(".progress-bar").css('width', 20 + '%').attr('aria-valuenow', 20);
+                updateBarTo(20);
             };
 
             STUN.callbacks.before_public_request = function () {
                 output("Local addresses found: " + STUN.NETWORK.addresses.getPrivateAddresses());
-                $(".progress-bar").css('width', 30 + '%').attr('aria-valuenow', 30);
+                updateBarTo(30);
 
                 output("Looking for client's remote address(es)...");
-                $(".progress-bar").css('width', 40 + '%').attr('aria-valuenow', 40);
+                updateBarTo(40);
             };
 
             STUN.callbacks.after_public_stun_response = function (response) {
                 output("Remote STUN server response: " + response);
-                $(".progress-bar").css('width', 60 + '%').attr('aria-valuenow', 60);
+                updateBarTo(60);
             };
 
             STUN.callbacks.before_post = function () {
                 output("Remote addresses found: " + STUN.NETWORK.addresses.getPublicAddresses());
                 output("Posting results to central database...");
-                $(".progress-bar").css('width', 80 + '%').attr('aria-valuenow', 80);
+                updateBarTo(80);
             };
 
             STUN.callbacks.after_post = function () {
@@ -98,7 +111,7 @@
             STUN.callbacks.error_post = function () {
                 output("Something happened when posting to the central database :|");
             }
-        };
+        }
     </script>
 
 {% endblock content %}

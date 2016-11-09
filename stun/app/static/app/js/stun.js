@@ -15,7 +15,7 @@ STUN = {
         before_cookie: function () {
 
         },
-        before_after_cookie: function () {
+        after_cookie: function () {
 
         },
         before_private_request: function () {
@@ -174,7 +174,7 @@ STUN = {
         if (STUN.COOKIES.readSTUNCookie() == null) {
             STUN.COOKIES.createSTUNCookie(experimentId);
         }
-        STUN.callbacks.before_after_cookie();
+        STUN.callbacks.after_cookie();
 
         STUN.callbacks.before_stun_response();
 

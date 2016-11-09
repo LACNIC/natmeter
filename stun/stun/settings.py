@@ -43,8 +43,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'corsheaders',
     'django_extensions',
+    # 'autotranslate',
     'app',
-    'autotranslate',
 ]
 
 MIDDLEWARE_CLASSES = (
@@ -138,7 +138,7 @@ LANGUAGES = (
     ('en', 'English'),
     ('es', 'Spanish'),
 )
-LANGUAGE_CODE = 'en-us' #default language
+LANGUAGE_CODE = 'en-us'  # default language
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.9/howto/static-files/

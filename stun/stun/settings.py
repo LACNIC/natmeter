@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/1.9/ref/settings/
 """
 
 import os, socket
+from django.utils.translation import ugettext_lazy as _
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -21,7 +22,10 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 PROJECT_ROOT = os.path.abspath(os.path.pardir)
 PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 
-# URL_PFX = '/stun'
+# Locale directory for translations
+LOCALE_PATHS = (
+    os.path.join(BASE_DIR, 'locale'),
+)
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'sp^ubdme0xfp_tl0)+8v=sb7%7fe@qwo9bq_(4dt)#i(6%8rmj'
@@ -40,16 +44,8 @@ INSTALLED_APPS = [
     'corsheaders',
     'django_extensions',
     'app',
+    'autotranslate',
 ]
-
-USE_I18N = True
-LANGUAGES = (
-    ('en-US', 'English'),
-    ('es-ES', 'Spanish'),
-)
-# TEMPLATE_CONTEXT_PROCESSORS = (
-#
-# )
 
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -128,8 +124,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.9/topics/i18n/
-
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'en-US'
 
 TIME_ZONE = 'UTC'
 
@@ -138,6 +133,12 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
+
+LANGUAGES = (
+    ('en', 'English'),
+    ('es', 'Spanish'),
+)
+LANGUAGE_CODE = 'en-us' #default language
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.9/howto/static-files/

@@ -24,17 +24,13 @@
 
 {% block content %}
 
-    <h2 class="page-header">Demostración del script STUN</h2>
-
-    <h2>{% trans "This is a title in your language." %}</h2>
-    <h2>{% trans "Un título en tu idioma." %}</h2>
+    <h2 class="page-header">{% trans "title.demo" %}</h2>
 
     <p>
-        La siguiente demostración realiza una consulta a servidores STUN/TURN de LACNIC, y envía los datos a la BD
-        para
-        construir las estadísticas a nivel regional.
+        {% trans "intro.demo" %}
     </p>
-    <h4>Respuesta por parte de los servidores STUN/TURN:</h4>
+
+    <h4>{% trans "sub1.demo" %}</h4>
     <ul></ul>
 
     <div class="progress progress-striped active" style="height: 5px;">
@@ -62,7 +58,7 @@
 
             STUN.callbacks.before_private_request = function () {
                 output("Looking for client's local address(es)...");
-                $(".progress-bar").css('width', 10+'%').attr('aria-valuenow', 10);
+                $(".progress-bar").css('width', 10 + '%').attr('aria-valuenow', 10);
             };
 
             STUN.callbacks.after_private_request = function () {
@@ -70,32 +66,32 @@
 
             STUN.callbacks.after_private_stun_response = function (response) {
                 output("Local response: " + response);
-                $(".progress-bar").css('width', 20+'%').attr('aria-valuenow', 20);
+                $(".progress-bar").css('width', 20 + '%').attr('aria-valuenow', 20);
             };
 
             STUN.callbacks.before_public_request = function () {
                 output("Local addresses found: " + STUN.NETWORK.addresses.getPrivateAddresses());
-                $(".progress-bar").css('width', 30+'%').attr('aria-valuenow', 30);
+                $(".progress-bar").css('width', 30 + '%').attr('aria-valuenow', 30);
 
                 output("Looking for client's remote address(es)...");
-                $(".progress-bar").css('width', 40+'%').attr('aria-valuenow', 40);
+                $(".progress-bar").css('width', 40 + '%').attr('aria-valuenow', 40);
             };
 
             STUN.callbacks.after_public_stun_response = function (response) {
                 output("Remote STUN server response: " + response);
-                $(".progress-bar").css('width', 60+'%').attr('aria-valuenow', 60);
+                $(".progress-bar").css('width', 60 + '%').attr('aria-valuenow', 60);
             };
 
             STUN.callbacks.before_post = function () {
                 output("Remote addresses found: " + STUN.NETWORK.addresses.getPublicAddresses());
                 output("Posting results to central database...");
-                $(".progress-bar").css('width', 80+'%').attr('aria-valuenow', 80);
+                $(".progress-bar").css('width', 80 + '%').attr('aria-valuenow', 80);
             };
 
             STUN.callbacks.after_post = function () {
                 output("Thank you for checking out this demo!");
                 const bar = $(".progress-bar");
-                bar.css('width', 100+'%').attr('aria-valuenow', 100);
+                bar.css('width', 100 + '%').attr('aria-valuenow', 100);
                 bar.attr("class", "progress progress-bar-success");
             };
 

@@ -349,11 +349,11 @@ class StunMeasurement(models.Model):
             excluded_ranges.append(IPNetwork("%d.0.0.0/8" % i))
 
         for e in excluded_ranges:
-            for local in self.get_local_v4_stunipaddresses():
+            for local in self.get_local_v4_ipaddresses():
                 if IPAddress(local) in e:
-                    return False
+                    return True
 
-        return True
+        return False
 
     def is_private_v6(self):
 
@@ -367,9 +367,9 @@ class StunMeasurement(models.Model):
         for e in excluded_ranges:
             for local in self.get_local_v6_stunipaddresses():
                 if IPAddress(local) in e:
-                    return False
+                    return True
 
-        return True
+        return False
 
     def has_noisy_prefix(self):
         """

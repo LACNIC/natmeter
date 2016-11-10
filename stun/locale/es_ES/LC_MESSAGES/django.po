@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-11-09 15:04+0200\n"
+"POT-Creation-Date: 2016-11-10 11:59+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,6 +16,89 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+
+#: app/templates/home.html:28
+msgid "home.intro"
+msgstr "Centro de estadísticas de NAT 44 y NAT 66."
+
+#: app/templates/home.html:31
+msgid "home.intro.p1"
+msgstr ""
+"<code>NAT</code> (Network Address Translation) es un mecanismo ampliamente "
+"utilizado en Internet donde tradicionalmente es modificada la dirección IP "
+"fuente de un datagrama de tal manera que dicho paquete puede ser enrutada en "
+"Internet y recibir respuesta. Este mecanismo en el mundo de <code>IPv4</"
+"code> permite un ahorro significativo de direcciones IP."
+
+#: app/templates/home.html:34
+msgid "home.intro.p2"
+msgstr ""
+"Por otro lado, <code>IPv6</code> es un protocolo que se caracteriza por su "
+"vasta cantidad de direcciones IP lo que ha traído como consecuencia que "
+"existe la hipótesis de que NAT ya no es necesario y va a desaparecer. Sin "
+"embargo, tanto IETF, el mundo Open Source y empresas de software ya han "
+"creado los mecanismos para realizar NAT en IPv6 o un mecanismo similar "
+"llamado NPT (Network Prefix Translation). "
+
+#: app/templates/home.html:40
+msgid "home.objectives"
+msgstr "Objetivos del proyecto"
+
+#: app/templates/home.html:41
+msgid "home.objectives.p1"
+msgstr ""
+"Conocer el porcentaje de despliegue NAT 44 y NAT 66 en la región de LACNIC."
+
+#: app/templates/home.html:45
+msgid "home.diagram"
+msgstr "Diagrama del experimento"
+
+#: app/templates/home.html:53
+msgid "home.charts"
+msgstr "Gráficas"
+
+#: app/templates/home.html:54
+msgid "home.charts.p1"
+msgstr ""
+"Algunas gráficas en base a estadísticas recolectadas de las mediciones."
+
+#: app/templates/home.html:59
+msgid "home.demo"
+msgstr "Demostración"
+
+#: app/templates/home.html:62
+msgid "home.demo.p1"
+msgstr ""
+"Aquí puedes ver una pequeña demostración del script en acción"
+
+#: app/templates/home.html:66
+msgid "home.data"
+msgstr "Datos"
+
+#: app/templates/home.html:68
+msgid "home.data.body"
+msgstr "Los datos del experimento se encuentran en varias formas:"
+
+#: app/templates/home.html:78
+msgid "home.mechanism"
+msgstr "El mecanismo destrás del experimento"
+
+#: app/templates/home.html:80
+msgid "home.mechanism.p1"
+msgstr ""
+"Cuando un usuario en Internet desee abrir una página Web que colabore con "
+"este proyecto (por ejemplo el home de LACNIC), su navegador web va a "
+"conectarse silenciosa y transparentemente a un servidor STUN/TURN donde se "
+"podrá identificar con qué direcciones (IPv6 y/o IPv4) se está navegando en "
+"Internet. Esta información quedará guardada en una base de datos de LACNIC."
+
+#: app/templates/home.html:83
+msgid "home.mechanism.p2"
+msgstr ""
+"Con el apoyo de un servidor STUN/TURN en las premisas de LACNIC y utilizando "
+"mecanismos WebRTC y mediante scripts JavaScripts se podrá averiguar si los "
+"clientes IPv4 e IPv6 se les realiza NAT. Esta tarea no impacta el "
+"performance del usuario y ocurre totalmente transparente."
 
 #: app/templates/script.html:27
 msgid "title.demo"

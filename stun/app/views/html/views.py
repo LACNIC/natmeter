@@ -13,11 +13,7 @@ def home(request):
 
 def script(request):
 
-    lang = request.GET.get("lang")
-    if lang is not None and lang == 'en':
-        return render(request, "script_en.html")
-    else:
-        return render(request, "script.html")
+    return render(request, "script.html")
 
 
 def charts(request):

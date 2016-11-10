@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-11-09 15:04+0200\n"
+"POT-Creation-Date: 2016-11-10 11:59+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,6 +17,89 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#: app/templates/home.html:28
+msgid "home.intro"
+msgstr "NAT 44 and NAT 66 stats center."
+
+#: app/templates/home.html:31
+msgid "home.intro.p1"
+msgstr ""
+"<code>NAT</code> (Network Address Translation) is a widely "
+"Used on the Internet where the IP address has traditionally been modified "
+"Source of a datagram in such a way that said packet can be routed in "
+"This mechanism in the world of <code> IPv4 </code> "
+"allows significant savings of IP addresses. "
+
+#: app/templates/home.html:34
+msgid "home.intro.p2"
+msgstr ""
+"On the other hand, <code>IPv6</code> is a protocol that is characterized by its "
+"Vast amount of IP addresses which has resulted in "
+"There is a hypothesis that NAT is no longer necessary and will disappear without "
+"However, both IETF, the Open Source world and software companies have already "
+"Created the mechanisms to perform NAT in IPv6 or a similar mechanism "
+"Called NPT (Network Prefix Translation)."
+
+#: app/templates/home.html:40
+msgid "home.objectives"
+msgstr "Project objectives"
+
+#: app/templates/home.html:41
+msgid "home.objectives.p1"
+msgstr ""
+"Get to know NAT 44 and NAT 66 deployment in the LACNIC region."
+
+#: app/templates/home.html:45
+msgid "home.diagram"
+msgstr "Experiment diagram"
+
+#: app/templates/home.html:53
+msgid "home.charts"
+msgstr "Charts"
+
+#: app/templates/home.html:54
+msgid "home.charts.p1"
+msgstr ""
+"Some charts based on the data collected."
+
+#: app/templates/home.html:59
+msgid "home.demo"
+msgstr "Demo"
+
+#: app/templates/home.html:62
+msgid "home.demo.p1"
+msgstr ""
+"In this section you can see a small demo showing the script in action."
+
+#: app/templates/home.html:66
+msgid "home.data"
+msgstr "Data"
+
+#: app/templates/home.html:68
+msgid "home.data.body"
+msgstr "Experiment data in different ways:"
+
+#: app/templates/home.html:78
+msgid "home.mechanism"
+msgstr "The mechanism behind the experiment"
+
+#: app/templates/home.html:80
+msgid "home.mechanism.p1"
+msgstr ""
+"When an Internet user wants to open a Web page that collaborates with This "
+"project (for example the home of LACNIC), your web browser will Silently and "
+"transparently connect to a STUN / TURN server where You can identify with "
+"which addresses (IPv6 and / or IPv4) you are navigating in This information "
+"will be stored in a LACNIC database."
+
+#: app/templates/home.html:83
+msgid "home.mechanism.p2"
+msgstr ""
+"With the support of a STUN / TURN server in the premises of LACNIC and using "
+"mechanisms WebRTC and Using JavaScripts scripts will be able to find out if "
+"the IPv4 and IPv6 clients are NAT. Task does not impact the performance of "
+"the user and occurs totally transparent."
 
 #: app/templates/script.html:27
 msgid "title.demo"

@@ -1,5 +1,7 @@
 {% extends 'base.html' %}
 {% load staticfiles %}
+{% load i18n %}
+{% get_current_language as LANGUAGE_CODE %}
 
 {% block css %}
     #logo {
@@ -24,55 +26,47 @@
             <font color="red">NAT</font> Meter
         </h1>
 
-        <h3>Centro de estadísticas de NAT 44 y NAT 66.</h3>
+        <h3>{% trans "home.intro" %}</h3>
 
-        <p><code>NAT</code> (Network Address Translation) es un mecanismo ampliamente utilizado en Internet donde
-            tradicionalmente es modificada la dirección IP fuente de un datagrama de tal manera que dicho paquete puede
-            ser enrutada en Internet y recibir respuesta. Este mecanismo en el mundo de <code>IPv4</code> permite un
-            ahorro
-            significativo de direcciones IP.
+        <p>
+            {% trans "home.intro.p1" %}
         </p>
         <p>
-            Por otro lado, <code>IPv6</code> es un protocolo que se caracteriza por su vasta cantidad de direcciones IP
-            lo que ha
-            traído como consecuencia que existe la hipótesis de que NAT ya no es necesario y va a desaparecer.
-            Sin embargo, tanto IETF, el mundo Open Source y empresas de software ya han creado los mecanismos para
-            realizar NAT en IPv6 o un mecanismo similar llamado NPT (Network Prefix Translation).
+            {% trans "home.intro.p2" %}
         </p>
     </div>
 
     <div>
         <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4" style="float:left;">
-            <h2>Objetivos</h2>
-            <p>Conocer el porcentaje de despliegue NAT 44 y NAT 66 en la región de LACNIC.</p>
+            <h2>{% trans "home.objectives" %}</h2>
+            <p>{% trans "home.objectives.p1" %}</p>
         </div>
 
         <div class="col-xs-12 col-sm-8 col-md-8 col-lg-8" style="float: right;">
-            <h2>Diagrama del estudio</h2>
+            <h2>{% trans "home.diagram" %}</h2>
 
             <p>
-                <img src="{% static "app/imgs/stun.png" %}" style="max-width: 100%">
+                <img src="{% static "app/imgs/" %}{{ LANGUAGE_CODE }}/stun.png" style="max-width: 100%">
             </p>
         </div>
 
         <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4" style="float:left;">
-            <a href="{% url "charts" %}"><h2>Gráficas</h2></a>
-            <p>Algunas gráficas en base a estadísticas recolectadas de las mediciones.</p>
+            <a href="{% url "charts" %}"><h2>{% trans "home.charts" %}</h2></a>
+            <p>{% trans "home.charts.p1" %}</p>
         </div>
 
         <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4" style="float:left;">
-            <a href="{% url "script" %}"
-               alt="Demostración del script.">
-                <h2>Demostración</h2>
+            <a href="{% url "script" %}" alt="Demostración del script.">
+                <h2>{% trans "home.demo" %}</h2>
             </a>
 
-            <p>Aquí puedes ver una pequeña demostración de lo que se puede analizar con STUN/TURN.</p>
+            <p>{% trans "home.demo.p1" %}</p>
         </div>
 
         <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4" style="float:left;">
-            <h2>Datos</h2>
+            <h2>{% trans "home.data" %}</h2>
             <p>
-                Los datos del experimento se encuentran en varias formas:
+                {% trans "home.data.body" %}
             </p>
 
             <ul>
@@ -82,18 +76,12 @@
         </div>
 
         <div class="col-xs-12 col-sm-8 col-md-8 col-lg-8">
-            <h2>El mecanismo</h2>
+            <h2>{% trans "home.mechanism" %}</h2>
             <p>
-                Cuando un usuario en Internet desee abrir una página Web que colabore con este proyecto (por ejemplo el
-                home de LACNIC), su
-                navegador web va a conectarse silenciosa y transparentemente a un servidor STUN/TURN donde se podrá
-                identificar con qué direcciones (IPv6 y/o IPv4) se está navegando en Internet. Esta información quedará
-                guardada en una base de datos de LACNIC.
+                {% trans "home.mechanism.p1" %}
             </p>
             <p>
-                Con el apoyo de un servidor STUN/TURN en las premisas de LACNIC y utilizando mecanismos WebRTC y
-                mediante scripts JavaScripts se podrá averiguar si los clientes IPv4 e IPv6 se les realiza NAT. Esta
-                tarea no impacta el performance del usuario y ocurre totalmente transparente.
+                {% trans "home.mechanism.p2" %}
             </p>
         </div>
 

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-11-10 11:59+0200\n"
+"POT-Creation-Date: 2017-02-02 20:38+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,73 +18,69 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: app/templates/home.html:28
+#: app/templates/home.html:29
 msgid "home.intro"
 msgstr "NAT 44 and NAT 66 stats center."
 
-#: app/templates/home.html:31
+#: app/templates/home.html:32
 msgid "home.intro.p1"
 msgstr ""
-"<code>NAT</code> (Network Address Translation) is a widely "
-"Used on the Internet where the IP address has traditionally been modified "
-"Source of a datagram in such a way that said packet can be routed in "
-"This mechanism in the world of <code> IPv4 </code> "
-"allows significant savings of IP addresses. "
+"<code>NAT</code> (Network Address Translation) is a widely Used on the "
+"Internet where the IP address has traditionally been modified Source of a "
+"datagram in such a way that said packet can be routed in This mechanism in "
+"the world of <code> IPv4 </code> allows significant savings of IP addresses. "
 
-#: app/templates/home.html:34
+#: app/templates/home.html:35
 msgid "home.intro.p2"
 msgstr ""
-"On the other hand, <code>IPv6</code> is a protocol that is characterized by its "
-"Vast amount of IP addresses which has resulted in "
-"There is a hypothesis that NAT is no longer necessary and will disappear without "
-"However, both IETF, the Open Source world and software companies have already "
-"Created the mechanisms to perform NAT in IPv6 or a similar mechanism "
-"Called NPT (Network Prefix Translation)."
+"On the other hand, <code>IPv6</code> is a protocol that is characterized by "
+"its Vast amount of IP addresses which has resulted in There is a hypothesis "
+"that NAT is no longer necessary and will disappear without However, both "
+"IETF, the Open Source world and software companies have already Created the "
+"mechanisms to perform NAT in IPv6 or a similar mechanism Called NPT (Network "
+"Prefix Translation)."
 
-#: app/templates/home.html:40
+#: app/templates/home.html:41
 msgid "home.objectives"
 msgstr "Project objectives"
 
-#: app/templates/home.html:41
+#: app/templates/home.html:42
 msgid "home.objectives.p1"
-msgstr ""
-"Get to know NAT 44 and NAT 66 deployment in the LACNIC region."
+msgstr "Get to know NAT 44 and NAT 66 deployment in the LACNIC region."
 
-#: app/templates/home.html:45
+#: app/templates/home.html:46
 msgid "home.diagram"
 msgstr "Experiment diagram"
 
-#: app/templates/home.html:53
+#: app/templates/home.html:54
 msgid "home.charts"
 msgstr "Charts"
 
-#: app/templates/home.html:54
+#: app/templates/home.html:55
 msgid "home.charts.p1"
-msgstr ""
-"Some charts based on the data collected."
+msgstr "Some charts based on the data collected."
 
-#: app/templates/home.html:59
+#: app/templates/home.html:60
 msgid "home.demo"
 msgstr "Demo"
 
-#: app/templates/home.html:62
+#: app/templates/home.html:63
 msgid "home.demo.p1"
-msgstr ""
-"In this section you can see a small demo showing the script in action."
+msgstr "In this section you can see a small demo showing the script in action."
 
-#: app/templates/home.html:66
+#: app/templates/home.html:67
 msgid "home.data"
 msgstr "Data"
 
-#: app/templates/home.html:68
+#: app/templates/home.html:69
 msgid "home.data.body"
 msgstr "Experiment data in different ways:"
 
-#: app/templates/home.html:78
+#: app/templates/home.html:79
 msgid "home.mechanism"
 msgstr "The mechanism behind the experiment"
 
-#: app/templates/home.html:80
+#: app/templates/home.html:81
 msgid "home.mechanism.p1"
 msgstr ""
 "When an Internet user wants to open a Web page that collaborates with This "
@@ -93,7 +89,7 @@ msgstr ""
 "which addresses (IPv6 and / or IPv4) you are navigating in This information "
 "will be stored in a LACNIC database."
 
-#: app/templates/home.html:83
+#: app/templates/home.html:84
 msgid "home.mechanism.p2"
 msgstr ""
 "With the support of a STUN / TURN server in the premises of LACNIC and using "
@@ -112,6 +108,10 @@ msgstr ""
 "to a central database in order to make some regional stats. We have set a "
 "verbose output for you to see what's going on behind the scenes!"
 
-#: app/templates/script.html:33
+#: app/templates/script.html:42
 msgid "sub1.demo"
-msgstr "Answer from the STUN servers:"
+msgstr "Raw answer from the STUN servers:"
+
+#: app/templates/script.html:47
+msgid "sub2.demo"
+msgstr "Easy output"

@@ -3,7 +3,7 @@
 {% load i18n %}
 
 {% block css %}
-    #console {
+    #advanced-console {
     background: #343;
     border-radius: .2em;
     height: 20em;
@@ -12,6 +12,17 @@
     padding: .5em;
     font-family: "Consolas", "Ubuntu Mono", "Monaco", monospace;
     color: white;
+    overflow:auto;
+    }
+
+    #easy-console {
+    background: #FCFCFC;
+    border-radius: .2em;
+    height: 20em;
+    max-width: 50em;
+    white-space: pre-wrap;
+    padding: .5em;
+    color: black;
     overflow:auto;
     }
 {% endblock css %}
@@ -30,8 +41,7 @@
         {% trans "intro.demo" %}
     </p>
 
-    <h4>{% trans "sub1.demo" %}</h4>
-    <ul></ul>
+    {#    <ul></ul>#}
 
     <div class="progress progress-striped active" style="height: 5px;">
         <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"
@@ -39,7 +49,15 @@
         </div>
     </div>
 
-    <div id="console"></div>
+    <div class="col-md-6 col-lg-6 col-xl-6">
+        <h4>{% trans "sub1.demo" %}</h4>
+        <div id="advanced-console"></div>
+    </div>
+
+    <div class="col-md-6 col-lg-6 col-xl-6">
+        <h4>{% trans "sub2.demo" %}</h4>
+        <div id="easy-console"></div>
+    </div>
 
     <script>
 
@@ -57,19 +75,28 @@
         function load() {
 
             function output(line) {
-                $("#console").append(STUN.console.HEADER + line + "\n");
-                $("#console").scrollTop(500);
+                $("#advanced-console").append(STUN.console.HEADER + line + "\n");
+                $("#advanced-console").scrollTop(500);
+            };
+
+            function output_easy(line) {
+                $("#easy-console").append(line + "\n");
+                {#                $("#easy-console").scrollTop(500);#}
             };
 
             STUN.callbacks.before_cookie = function () {
-                output("Looking for information stored in your browser's cookies...");
+                const line = "Looking for information stored in your browser's cookies...";
+                {#                output_easy(line);#}
+                output(line);
             };
 
             STUN.callbacks.after_cookie = function () {
             };
 
             STUN.callbacks.before_private_request = function () {
-                output("Looking for client's local address(es)...");
+                const line = "Looking for client's local address(es)...";
+                output_easy(line);
+                output(line);
                 updateBarTo(10);
             };
 
@@ -79,24 +106,52 @@
 
             STUN.callbacks.after_private_stun_response = function (response) {
                 output("Local response: " + response);
+                console.log("private = " + STUN.NETWORK.addresses.getPrivateAddresses());
                 updateBarTo(20);
             };
 
             STUN.callbacks.before_public_request = function () {
+
+                if (STUN.NETWORK.addresses.getPrivateAddresses().length > 0) {
+                    output_easy("Local addresses found: ");
+                    for (ip of STUN.NETWORK.addresses.getPrivateAddresses()) {
+                        output_easy("  &bull;  " + ip);
+                    }
+                }
+
                 output("Local addresses found: " + STUN.NETWORK.addresses.getPrivateAddresses());
                 updateBarTo(30);
 
+                output_easy("Looking for client's remote address(es)...");
                 output("Looking for client's remote address(es)...");
                 updateBarTo(40);
             };
 
             STUN.callbacks.after_public_stun_response = function (response) {
+
                 output("Remote STUN server response: " + response);
+                console.log("public = " + STUN.NETWORK.addresses.getPublicAddresses());
                 updateBarTo(60);
             };
 
             STUN.callbacks.before_post = function () {
-                output("Remote addresses found: " + STUN.NETWORK.addresses.getPublicAddresses());
+
+                if ( STUN.NETWORK.addresses.getPublicAddresses().length > 0 ) {
+                    output_easy("Address(es) seen from our STUN servers: ");
+                    for ( ip of STUN.NETWORK.addresses.getPublicAddresses() ) {
+                        output_easy("  &bull;  " + ip);
+                    }
+
+                    output_easy("<b>NAT detected!</b>");
+
+                } else {
+                    output_easy("<b>No NAT detected!</b>");
+                }
+
+                if (STUN.NETWORK.addresses.getPublicAddresses().length > 0) {
+                    output("Remote addresses found: " + STUN.NETWORK.addresses.getPublicAddresses());
+                }
+
                 output("Posting results to central database...");
                 updateBarTo(80);
             };

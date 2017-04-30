@@ -5,13 +5,21 @@ module.exports = function (config) {
 
     // define browsers
     config.customLaunchers = {
-        bs_safari_mac: {
+        chrome_osx: {
             base: 'BrowserStack',
             browser: 'Chrome',
             browser_version: '52',
             os: 'OS X',
             os_version: 'El Capitan',
-            displayName: "Chrome OSX Desktop"
+            displayName: "Chrome OSX"
+        },
+        chrome_windows10: {
+            base: 'BrowserStack',
+            browser: 'Chrome',
+            browser_version: '52',
+            os: 'Windows',
+            os_version: '10',
+            displayName: "Chrome Windows 10"
         }
     }
 
@@ -24,6 +32,15 @@ module.exports = function (config) {
         // frameworks to use
         // available frameworks: https://npmjs.org/browse/keyword/karma-adapter
         frameworks: ['jasmine'],
+
+        plugins: [
+            "karma-browserstack-launcher",
+            "karma-chrome-launcher",
+            "karma-firefox-launcher",
+            "karma-ie-launcher",
+            "karma-jasmine",
+            "karma-safari-launcher"
+        ],
 
 
         // list of files / patterns to load in the browser

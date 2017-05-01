@@ -14,6 +14,9 @@ describe("Load suite", function () {
 
     it("Public IP address", function () {
 
+        iframe = document.createElement("iframe");
+        iframe.setAttribute("id", "iframe");
+
         STUN.after_public_request = function () {
             expect(STUN.NETWORK.addresses.public).not.toEqual([]);
         }

@@ -5,22 +5,99 @@ module.exports = function (config) {
 
     // define browsers
     config.customLaunchers = {
-        chrome_osx: {
+        ff_windows10: {
             base: 'BrowserStack',
-            browser: 'Chrome',
-            browser_version: '52',
-            os: 'OS X',
-            os_version: 'El Capitan',
-            displayName: "Chrome OSX"
+            browser: 'Firefox',
+            os: 'Windows',
+            os_version: '10',
+            displayName: "Firefox Windows 10"
         },
         chrome_windows10: {
             base: 'BrowserStack',
             browser: 'Chrome',
-            browser_version: '52',
             os: 'Windows',
             os_version: '10',
             displayName: "Chrome Windows 10"
-        }
+        },
+        ie_windows10: {
+            base: 'BrowserStack',
+            browser: 'IE',
+            os: 'Windows',
+            os_version: '10',
+            displayName: "IE Windows 10"
+        },
+        edge_windows10: {
+            base: 'BrowserStack',
+            browser: 'Edge',
+            os: 'Windows',
+            os_version: '10',
+            displayName: "Edge Windows 10"
+        },
+        opera_windows10: {
+            base: 'BrowserStack',
+            browser: 'Opera',
+            os: 'Windows',
+            os_version: '10',
+            displayName: "Opera Windows 10"
+        },
+
+        ff_windows7: {
+            base: 'BrowserStack',
+            browser: 'Firefox',
+            os: 'Windows',
+            os_version: '7',
+            displayName: "Firefox Windows 7"
+        },
+        chrome_windows7: {
+            base: 'BrowserStack',
+            browser: 'Chrome',
+            os: 'Windows',
+            os_version: '7',
+            displayName: "Chrome Windows 7"
+        },
+        ie_windows7: {
+            base: 'BrowserStack',
+            browser: 'IE',
+            os: 'Windows',
+            os_version: '7',
+            displayName: "IE Windows 7"
+        },
+        opera_windows7: {
+            base: 'BrowserStack',
+            browser: 'Opera',
+            os: 'Windows',
+            os_version: '7',
+            displayName: "Opera Windows 7"
+        },
+
+        ff_osx: {
+            base: 'BrowserStack',
+            browser: 'Firefox',
+            os: 'OS X',
+            os_version: 'Sierra',
+            displayName: "Firefox OSX"
+        },
+        chrome_osx: {
+            base: 'BrowserStack',
+            browser: 'Chrome',
+            os: 'OS X',
+            os_version: 'Sierra',
+            displayName: "Chrome OSX"
+        },
+        opera_osx: {
+            base: 'BrowserStack',
+            browser: 'Opera',
+            os: 'OS X',
+            os_version: 'Sierra',
+            displayName: "Opera OSX"
+        },
+        // safari_osx: {
+        //     base: 'BrowserStack',
+        //     browser: 'Safari',
+        //     os: 'OS X',
+        //     os_version: 'Sierra',
+        //     displayName: "OSX Windows 10"
+        // }
     }
 
     config.set({
@@ -76,7 +153,7 @@ module.exports = function (config) {
 
         // level of logging
         // possible values: config.LOG_DISABLE || config.LOG_ERROR || config.LOG_WARN || config.LOG_INFO || config.LOG_DEBUG
-        logLevel: config.LOG_INFO,
+        logLevel: config.LOG_WARN,
 
 
         // enable / disable watching file and executing tests whenever any file changes
@@ -89,7 +166,7 @@ module.exports = function (config) {
 
         // start these browsers
         // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
-        browsers: [Object.keys(config.customLaunchers)],
+        browsers: Object.keys(config.customLaunchers),
 
 
         // Continuous Integration mode

@@ -46,6 +46,10 @@
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
 
+    <!-- Progress bar -->
+    <link rel='stylesheet' href='//cdn.dev.lacnic.net/mprogress.css'/>
+    <script src='//cdn.dev.lacnic.net/mprogress.js'></script>
+
     {% block headers %}
     {% endblock %}
 
@@ -67,18 +71,16 @@
         }
     </script>
     <script>
-        $.ajaxSetup({
-            beforeSend: function (xhr, settings) {
-                {#                if (!csrfSafeMethod(settings.type) && !this.crossDomain) {#}
-                xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
-                {#                }#}
-            }
-        });
 
         function langRedirect(lang) {
             $.ajax({
                 type: "POST",
                 url: 'i18n/setlang/',
+                beforeSend: function (xhr, settings) {
+                    xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
+                    mprogress3.start();
+{#                    $('#setlang-progress').addClass('mdl-progress--indeterminate');#}
+                },
                 data: {
                     'language': lang
                 },
@@ -138,9 +140,16 @@
         <li>
             <span
                     class="glyphicon glyphicon-info-sign"
-                    data-toggle="tooltip" title="We need to store a security cookie on your browser to perform language translations."
+                    data-toggle="tooltip"
+                    title="We need to store a security cookie on your browser to perform language translations."
             ></span>
         </li>
+        <!-- Material Design loading component -->
+        <div
+                id="setlang-progress"
+                {#                class="mdl-progress mdl-js-progress"#}
+                style="height:1px; width:5em; top:-15px; left:1em;"
+        ></div>
     </ul>
 
 </div>
@@ -192,8 +201,8 @@
     <!-- Begin LetsEncrypt site seal HTML -->
     <div class="col-sm-3 col-md-3 col-lg-3" data-language="en_US">
         <a href="https://letsencrypt.org/">
-            <img class="center-block" style="max-width:15em;"
-                 src="https://cdn.discourse.org/business/uploads/letsencrypt/original/1X/149e86cd7f135095e9c92f4e67a4b6a7b80a60c0.png">
+            {#            <img class="center-block" style="max-width:15em;"#}
+            {#                 src="https://cdn.discourse.org/business/uploads/letsencrypt/original/1X/149e86cd7f135095e9c92f4e67a4b6a7b80a60c0.png">#}
         </a>
     </div>
     <!-- End LetsEncrypt site seal HTML -->
@@ -230,6 +239,12 @@
 
 <iframe id="iframe" sandbox="allow-same-origin" style="display: none"></iframe>
 
+<script>
+    var mprogress3 = new Mprogress({
+        template: 3,
+        parent: '#setlang-progress'
+    });
+</script>
 <!-- STUN script async loading -->
 <script type="application/javascript">
     (function (f, b) {

@@ -59,6 +59,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.locale.LocaleMiddleware'
 )
 
+CSRF_COOKIE_NAME = 'natmeter_csrftoken'
 ALLOWED_HOSTS = ['localhost', '127.0.0.1', '.lacnic.net', '*']
 CORS_ORIGIN_ALLOW_ALL = True
 

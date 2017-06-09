@@ -69,6 +69,8 @@
             }
             return "";
         }
+
+        document.cookie = "natmeter_csrftoken={{ csrf_token }}";
     </script>
     <script>
 
@@ -77,7 +79,8 @@
                 type: "POST",
                 url: 'i18n/setlang/',
                 beforeSend: function (xhr, settings) {
-                    xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
+{#                    xhr.setRequestHeader("X-CSRFToken", getCookie('natmeter_csrftoken'));#}
+                    xhr.setRequestHeader("X-CSRFToken", getCookie('natmeter_csrftoken'));
                     mprogress3.start();
 {#                    $('#setlang-progress').addClass('mdl-progress--indeterminate');#}
                 },
@@ -130,8 +133,8 @@
 <div id="barra-secundaria" class="navbar">
 
     <ul class="nav navbar-nav">
-        <li><a href="http://lacnic.net">Home de LACNIC</a></li>
-        <li><a href="http://labs.lacnic.net">Blog LACNIC Labs</a></li>
+        <li><a href="http://lacnic.net">{% trans "bar.secondary.home" %}</a></li>
+        <li><a href="http://labs.lacnic.net">{% trans "bar.secondary.blog" %}</a></li>
     </ul>
 
     <ul id="setlang" class="nav navbar-nav navbar-right" style="margin-right: 1em;">
@@ -141,7 +144,7 @@
             <span
                     class="glyphicon glyphicon-info-sign"
                     data-toggle="tooltip"
-                    title="We need to store a security cookie on your browser to perform language translations."
+                    title="We need to store a security cookie on your browser to perform language translations and remember your language preferences (cookie name: natmeter_csrftoken)."
             ></span>
         </li>
         <!-- Material Design loading component -->

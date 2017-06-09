@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-02-02 20:38+0000\n"
+"POT-Creation-Date: 2017-06-09 18:02+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,6 +17,14 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#: app/templates/base.html:133
+msgid "bar.secondary.home"
+msgstr "LACNIC Home page"
+
+#: app/templates/base.html:134
+msgid "bar.secondary.blog"
+msgstr "LACNIC Labs blog"
 
 #: app/templates/home.html:29
 msgid "home.intro"
@@ -76,11 +84,20 @@ msgstr "Data"
 msgid "home.data.body"
 msgstr "Experiment data in different ways:"
 
+#: app/templates/home.html:75
+#, python-format
+msgid "Experiment's <a href=\"%(results_url)s\">raw data</a>"
+msgstr ""
+
 #: app/templates/home.html:79
+msgid "home.data.ul.l2"
+msgstr "Derived data (Demo)."
+
+#: app/templates/home.html:84
 msgid "home.mechanism"
 msgstr "The mechanism behind the experiment"
 
-#: app/templates/home.html:81
+#: app/templates/home.html:86
 msgid "home.mechanism.p1"
 msgstr ""
 "When an Internet user wants to open a Web page that collaborates with This "
@@ -89,7 +106,7 @@ msgstr ""
 "which addresses (IPv6 and / or IPv4) you are navigating in This information "
 "will be stored in a LACNIC database."
 
-#: app/templates/home.html:84
+#: app/templates/home.html:89
 msgid "home.mechanism.p2"
 msgstr ""
 "With the support of a STUN / TURN server in the premises of LACNIC and using "
@@ -97,21 +114,21 @@ msgstr ""
 "the IPv4 and IPv6 clients are NAT. Task does not impact the performance of "
 "the user and occurs totally transparent."
 
-#: app/templates/script.html:27
+#: app/templates/script.html:38
 msgid "title.demo"
 msgstr "STUN script Demo"
 
-#: app/templates/script.html:30
+#: app/templates/script.html:41
 msgid "intro.demo"
 msgstr ""
 "The following demo queries LACNIC STUN servers, and sends the data collected "
 "to a central database in order to make some regional stats. We have set a "
 "verbose output for you to see what's going on behind the scenes!"
 
-#: app/templates/script.html:42
+#: app/templates/script.html:53
 msgid "sub1.demo"
 msgstr "Raw answer from the STUN servers:"
 
-#: app/templates/script.html:47
+#: app/templates/script.html:58
 msgid "sub2.demo"
 msgstr "Easy output"

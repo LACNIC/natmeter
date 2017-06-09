@@ -70,8 +70,13 @@
             </p>
 
             <ul>
-                <li><a href="{% static 'results.csv' %}">Datos crudos</a> del experimento</li>
-                <li>Estadísticas derivadas (en breves)</li>
+                {% static 'results.csv' as results_url %}
+                <li>
+                {% blocktrans trimmed %}
+                    Experiment's <a href="{{ results_url }}">raw data</a>
+                {% endblocktrans %}
+                </li>
+                <li>{% trans "home.data.ul.l2" %}</li>
             </ul>
         </div>
 

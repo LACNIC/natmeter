@@ -1,20 +1,18 @@
-from django.shortcuts import render, render_to_response
 from app.caching.caching import cache as custom_cache
+from collections import Counter
+from django.shortcuts import render, render_to_response
 from django.template import RequestContext
+from django.views.decorators.csrf import requires_csrf_token
 from app.models import StunMeasurement, StunMeasurementManager
 import json
 import requests
-from collections import Counter
-
 
 def home(request):
     return render(request, "home.html")
 
-
 def script(request):
 
     return render(request, "script.html")
-
 
 def charts(request):
     """

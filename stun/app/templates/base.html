@@ -132,12 +132,12 @@
 {#Segunda barra#}
 <div id="barra-secundaria" class="navbar">
 
-    <ul class="nav navbar-nav">
+    <ul class="nav navbar-nav hidden-xs">
         <li><a href="http://lacnic.net">{% trans "bar.secondary.home" %}</a></li>
         <li><a href="http://labs.lacnic.net">{% trans "bar.secondary.blog" %}</a></li>
     </ul>
 
-    <ul id="setlang" class="nav navbar-nav navbar-right" style="margin-right: 1em;">
+    <ul id="setlang" class="nav navbar-nav navbar-right" style="margin-right: 1em; margin-left: 1em;">
         <li><a href="#" onclick="langRedirect('en');">EN</a></li>
         <li><a href="#" onclick="langRedirect('es');">ES</a></li>
         <li>
@@ -167,14 +167,14 @@
     {% endblock %}
 
     <div id="fondo" class="row marketing">
-        <div style="Margin: 1em; padding: 1em;">
+{#        <div style="Margin: 1em; padding: 1em;">#}
             {% block content %}
 
                 {#                Every child will get rendered in here.#}
 
 
             {% endblock %}
-        </div>
+{#        </div>#}
     </div>
 
 

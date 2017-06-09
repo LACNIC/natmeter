@@ -3,12 +3,15 @@ from django.contrib import admin
 
 admin.autodiscover()
 
-urls = patterns('',
-                # Common urls
-                url(r'', include('app.urls'))
-                )
+urls = patterns(
+    '',
+    # Common urls
+    url(r'', include('app.urls')),
+    url(r'^i18n/', include('django.conf.urls.i18n')),
+)
 
-urlpatterns = patterns('',
-                       url(r'', include(urls)),
-                       url(r'admin/', include(admin.site.urls)),
-                       )
+urlpatterns = patterns(
+    '',
+    url(r'', include(urls)),
+    url(r'admin/', include(admin.site.urls)),
+)

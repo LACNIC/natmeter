@@ -140,7 +140,7 @@ h4{
     padding-right: 1em;
 }
 
-#barra-secundaria > ul > li > a, #barra-secundaria > ul > li > a:visited {
+#barra-secundaria > ul > li > a, #barra-secundaria > ul > li > a:visited, #barra-secundaria > div > a {
     color: #EFEFEF;
     text-shadow: 0 0;
     font-family: 'foundrymonolinebold';
@@ -182,10 +182,10 @@ footer * {
     color: #4c4c4e;
 }
 
-.navbar-nav {
-    width: 100%;
-    text-align: center;
-}
+/*.navbar-nav {*/
+    /*width: 100%;*/
+    /*text-align: center;*/
+/*}*/
 
 .navbar-nav > li {
     float: none;

@@ -1,4 +1,5 @@
 {% load staticfiles %}
+{% load i18n %}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -48,6 +49,51 @@
     {% block headers %}
     {% endblock %}
 
+    <script type="application/javascript">
+        function getCookie(cname) {
+            var name = cname + "=";
+            var decodedCookie = decodeURIComponent(document.cookie);
+            var ca = decodedCookie.split(';');
+            for (var i = 0; i < ca.length; i++) {
+                var c = ca[i];
+                while (c.charAt(0) == ' ') {
+                    c = c.substring(1);
+                }
+                if (c.indexOf(name) == 0) {
+                    return c.substring(name.length, c.length);
+                }
+            }
+            return "";
+        }
+    </script>
+    <script>
+        $.ajaxSetup({
+            beforeSend: function (xhr, settings) {
+                {#                if (!csrfSafeMethod(settings.type) && !this.crossDomain) {#}
+                xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
+                {#                }#}
+            }
+        });
+
+        function langRedirect(lang) {
+            $.ajax({
+                type: "POST",
+                url: 'i18n/setlang/',
+                data: {
+                    'language': lang
+                },
+                success: function (d, s, xhr) {
+                    window.location.href = '/';
+                },
+                error: function (a, b, c) {
+
+                }
+            })
+            ;
+        };
+
+    </script>
+
     <script type="text/javascript">
         {% block javascript %}
         {% endblock %}
@@ -79,12 +125,18 @@
 </div>
 
 {#Segunda barra#}
-<div id="barra-secundaria" class="navbar visible-sm visible-md visible-lg visible-xl">
+<div id="barra-secundaria" class="navbar">
 
     <ul class="nav navbar-nav">
         <li><a href="http://lacnic.net">Home de LACNIC</a></li>
         <li><a href="http://labs.lacnic.net">Blog LACNIC Labs</a></li>
     </ul>
+
+    <ul class="nav navbar-nav navbar-right" style="margin-right: 1em;">
+        <li><a href="#" onclick="langRedirect('en');">EN</a></li>
+        <li><a href="#" onclick="langRedirect('es');">ES</a></li>
+    </ul>
+
 </div>
 
 <div class="container">
@@ -157,14 +209,14 @@
     (function (i, s, o, g, r, a, m) {
         i['GoogleAnalyticsObject'] = r;
         i[r] = i[r] || function () {
-                    (i[r].q = i[r].q || []).push(arguments)
-                }, i[r].l = 1 * new Date();
+                (i[r].q = i[r].q || []).push(arguments)
+            }, i[r].l = 1 * new Date();
         a = s.createElement(o), m = s.getElementsByTagName(o)[0];
         a.async = 1;
         a.src = g;
         m.parentNode.insertBefore(a, m)
     })(window, document, 'script',
-            '//www.google-analytics.com/analytics.js', 'ga');
+        '//www.google-analytics.com/analytics.js', 'ga');
 
     ga('create', 'UA-33695965-2', 'lacnic.net');
     ga('send', 'pageview');
@@ -176,15 +228,18 @@
 <script type="application/javascript">
     (function (f, b) {
         var c = f.createElement(b),
-                e = f.getElementsByTagName(b)[0];
+            e = f.getElementsByTagName(b)[0];
         c.src = "https://cdn.rawgit.com/LACNIC/static/master/require.js"; //"http://requirejs.org/docs/release/2.3.2/minified/require.js";
         c.type = "text/javascript";
         e.parentNode.insertBefore(c, e);
         c.onload = c.onreadystatechange = function () {
+
+            const debug = false;
+
             // Require libraries loaded
             requirejs.config({
                 "paths": {
-                    "stun": "https://cdn.rawgit.com/LACNIC/natmeter/fa912b35a0534ce1b0dc7bd3a5a8df59fc9d08da/stun/app/static/app/js/stun"
+                    "stun": debug && "http://127.0.0.1:8000/static/app/js/stun" || "https://cdn.rawgit.com/LACNIC/natmeter/master/stun/app/static/app/js/stun"
                 }
             });
 

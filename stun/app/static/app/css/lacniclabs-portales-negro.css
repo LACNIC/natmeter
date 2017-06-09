@@ -140,10 +140,14 @@ h4{
     padding-right: 1em;
 }
 
-#barra-secundaria > ul > li > a, #barra-secundaria > ul > li > a:visited, #barra-secundaria > div > a {
+#barra-secundaria > ul > li > a, #barra-secundaria > ul > li > a:visited {
     color: #EFEFEF;
     text-shadow: 0 0;
     font-family: 'foundrymonolinebold';
+}
+
+#setlang > li > span {
+	color: #EFEFEF;
 }
 
 #barra-secundaria > ul > li > a:hover {
@@ -154,6 +158,10 @@ h4{
 #barra-secundaria {
     border-radius: 0;
 }
+
+/*#setlang > li > span {*/
+	/*font-size: .6em;*/
+/*}*/
 
 #fondo {
     margin-top: 0pt;

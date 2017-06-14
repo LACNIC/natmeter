@@ -19,20 +19,20 @@ module.exports = function (config) {
             os_version: '10',
             displayName: "Chrome Windows 10"
         },
-        ie_windows10: {
-            base: 'BrowserStack',
-            browser: 'IE',
-            os: 'Windows',
-            os_version: '10',
-            displayName: "IE Windows 10"
-        },
-        edge_windows10: {
-            base: 'BrowserStack',
-            browser: 'Edge',
-            os: 'Windows',
-            os_version: '10',
-            displayName: "Edge Windows 10"
-        },
+        // ie_windows10: {
+        //     base: 'BrowserStack',
+        //     browser: 'IE',
+        //     os: 'Windows',
+        //     os_version: '10',
+        //     displayName: "IE Windows 10"
+        // },
+        // edge_windows10: {
+        //     base: 'BrowserStack',
+        //     browser: 'Edge',
+        //     os: 'Windows',
+        //     os_version: '10',
+        //     displayName: "Edge Windows 10"
+        // },
         opera_windows10: {
             base: 'BrowserStack',
             browser: 'Opera',
@@ -55,13 +55,13 @@ module.exports = function (config) {
             os_version: '7',
             displayName: "Chrome Windows 7"
         },
-        ie_windows7: {
-            base: 'BrowserStack',
-            browser: 'IE',
-            os: 'Windows',
-            os_version: '7',
-            displayName: "IE Windows 7"
-        },
+        // ie_windows7: {
+        //     base: 'BrowserStack',
+        //     browser: 'IE',
+        //     os: 'Windows',
+        //     os_version: '7',
+        //     displayName: "IE Windows 7"
+        // },
         opera_windows7: {
             base: 'BrowserStack',
             browser: 'Opera',

@@ -31,9 +31,13 @@
 
     <meta http-equiv="content-type" content="text/html;charset=utf-8">
 
+    <!-- Progress bar -->
+    <link rel='stylesheet' href='//cdn.dev.lacnic.net/mprogress.css'/>
+    <script src='//cdn.dev.lacnic.net/mprogress.js'></script>
+
     <link rel="stylesheet" type="text/css" href="{% static "app/css/stun.css" %}">
-    <link rel="stylesheet" type="text/css" href="{% static "app/css/lacniclabs-portales-negro.css" %}">
-    <link rel="stylesheet" type="text/css" href="{% static "app/css/lacniclabs-override.css" %}">
+    <link rel="stylesheet" type="text/css" href="{% static "app/css/lacniclabs-generico.css" %}">
+    <link rel="stylesheet" type="text/css" href="{% static "app/css/lacniclabs-especifico.css" %}">
 
     <link type="image/x-icon" href="{% static "app/imgs/favicon-r.ico" %}" rel="shortcut icon">
     <link rel="apple-touch-icon" href="{% static "app/imgs/favicon-r.ico" %}">
@@ -45,10 +49,6 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
-
-    <!-- Progress bar -->
-    <link rel='stylesheet' href='//cdn.dev.lacnic.net/mprogress.css'/>
-    <script src='//cdn.dev.lacnic.net/mprogress.js'></script>
 
     {% block headers %}
     {% endblock %}
@@ -79,19 +79,22 @@
                 type: "POST",
                 url: 'i18n/setlang/',
                 beforeSend: function (xhr, settings) {
-{#                    xhr.setRequestHeader("X-CSRFToken", getCookie('natmeter_csrftoken'));#}
                     xhr.setRequestHeader("X-CSRFToken", getCookie('natmeter_csrftoken'));
-                    mprogress3.start();
-{#                    $('#setlang-progress').addClass('mdl-progress--indeterminate');#}
+
+{#                    mprogress3.start();#}
+
                 },
                 data: {
                     'language': lang
                 },
                 success: function (d, s, xhr) {
-                    window.location.href = '/';
+                   window.location.reload();
                 },
                 error: function (a, b, c) {
 
+                },
+                after: function () {
+{#                    mprogress3.stop();#}
                 }
             })
             ;
@@ -119,7 +122,7 @@
         <img src="{% static 'app/imgs/logos/logo_labs.png' %}" border="0" class="hidden-xs"
              alt="LACNIC Labs" style="max-height: 5em;"/>
         <img src="{% static 'app/imgs/logos/logo_labs_small.png' %}" border="0" class="visible-xs"
-             alt="LACNIC Labs" style="max-height: 3em;"/>
+             alt="LACNIC Labs" style="max-width: 5em;"/>
     </a>
 
     <a id="titulo-primario" class="navbar-brand pull-right" href="{% url 'home' %}">
@@ -135,6 +138,7 @@
     <ul class="nav navbar-nav hidden-xs">
         <li><a href="http://lacnic.net">{% trans "bar.secondary.home" %}</a></li>
         <li><a href="http://labs.lacnic.net">{% trans "bar.secondary.blog" %}</a></li>
+        <li><a href="https://simon.lacnic.net">{% trans "bar.secondary.simon" %}</a></li>
     </ul>
 
     <ul id="setlang" class="nav navbar-nav navbar-right" style="margin-right: 1em; margin-left: 1em;">
@@ -144,7 +148,7 @@
             <span
                     class="glyphicon glyphicon-info-sign"
                     data-toggle="tooltip"
-                    title="We need to store a security cookie on your browser to perform language translations and remember your language preferences (cookie name: natmeter_csrftoken)."
+                    title="{% trans "bar.secondary.cookie" %}"
             ></span>
         </li>
         <!-- Material Design loading component -->
@@ -167,59 +171,25 @@
     {% endblock %}
 
     <div id="fondo" class="row marketing">
-{#        <div style="Margin: 1em; padding: 1em;">#}
-            {% block content %}
+        {#        <div style="Margin: 1em; padding: 1em;">#}
+        {% block content %}
 
-                {#                Every child will get rendered in here.#}
+            {#                Every child will get rendered in here.#}
 
 
-            {% endblock %}
-{#        </div>#}
+        {% endblock %}
+        {#        </div>#}
     </div>
 
 
 </div>
 
-<footer class="row" style="background-color: #C4ABA2 ; padding: 1em;">
+<footer>
 
-    <div class="col-sm-3 col-md-3 col-lg-3">
-        <a href="https://www.labs.lacnic.net/">
-            <img src="{% static "app/imgs/logos/logo_labs_foot.png" %}" class="hidden-xs center-block"
-                 title="LACNIC labs"/>
-            <img src="{% static "app/imgs/logos/logo_labs_foot.png" %}" class="visible-xs center-block"
-                 title="LACNIC labs"/>
-        </a>
-    </div>
-
-    {#    Django logo#}
-    <div class="col-sm-3 col-md-3 col-lg-3" style="margin-top: 1em;">
-        <div>
-            <a href="https://www.djangoproject.com/">
-                <img class="center-block" src="https://www.djangoproject.com/m/img/badges/djangomade124x25_grey.gif"
-                     border="0" alt="Made with Django." title="Made with Django."/>
-            </a>
-        </div>
-    </div>
-
-    <!-- Begin LetsEncrypt site seal HTML -->
-    <div class="col-sm-3 col-md-3 col-lg-3" data-language="en_US">
-        <a href="https://letsencrypt.org/">
-            {#            <img class="center-block" style="max-width:15em;"#}
-            {#                 src="https://cdn.discourse.org/business/uploads/letsencrypt/original/1X/149e86cd7f135095e9c92f4e67a4b6a7b80a60c0.png">#}
-        </a>
-    </div>
-    <!-- End LetsEncrypt site seal HTML -->
-
-    <div class="col-sm-3 col-md-3 col-lg-3" style="margin-top: 1em;">
-        <p class="center-block" style="text-align: center; font-family: monospace; color: #808080">
-            Application Version: 1.0<br/>
-            Last Updated: Nov. 10th<br/>
-            <a href="https://github.com/LACNIC/natmeter/">GitHub source</a><br/>
-            Latest Commit (<a href="https://github.com/LACNIC/natmeter/commit/">GitHub</a>)<br/>
-            Los datos están disponibles en <a href="{% static 'results.csv' %}">este archivo CSV</a>.<br/>
-        </p>
-    </div>
-
+    <a href="https://www.labs.lacnic.net/">
+        <img src="{% static "app/imgs/logos/logo_labs_foot.png" %}" class="hidden-xs center-block"
+             title="LACNIC labs"/>
+    </a>
 </footer>
 
 <!-- 		Analytics -->
@@ -268,7 +238,7 @@
             });
 
             require(["stun"], function () {
-                load();
+{#                load();#}
                 STUN.init();
             });
         }

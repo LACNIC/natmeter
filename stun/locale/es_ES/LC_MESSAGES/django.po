@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-06-09 18:02+0000\n"
+"POT-Creation-Date: 2017-06-26 19:26+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,13 +17,24 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: app/templates/base.html:133
+#: app/templates/base.html:139
 msgid "bar.secondary.home"
 msgstr "Home de LACNIC"
 
-#: app/templates/base.html:134
+#: app/templates/base.html:140
 msgid "bar.secondary.blog"
 msgstr "Blog de LACNIC Labs"
+
+#: app/templates/base.html:141
+msgid "bar.secondary.simon"
+msgstr "Proyecto Simón"
+
+#: app/templates/base.html:151
+msgid "bar.secondary.cookie"
+msgstr ""
+"Necesitamos almacenar una cookie de seguridad en tu navegador, para poder "
+"realizar las traducciones y recordar tu preferencia de idioma (nombre de la "
+"cookie: natmeter_csrftoken)."
 
 #: app/templates/home.html:29
 msgid "home.intro"
@@ -135,3 +146,48 @@ msgstr "Respuesta por parte de los servidores STUN:"
 #| msgid "sub1.demo"
 msgid "sub2.demo"
 msgstr "Respuesta sencilla"
+
+#: app/templates/script.html:88
+msgid "Looking for information stored in your browser's cookies..."
+msgstr ""
+"Buscando información almacenada previamente en cookies del navegador..."
+
+#: app/templates/script.html:97
+msgid "Looking for client's local address(es)..."
+msgstr "Buscando la(s) dirección IP local"
+
+#: app/templates/script.html:108
+msgid "Local response: "
+msgstr "Respuesta local:"
+
+#: app/templates/script.html:116
+msgid "Local addresses found: "
+msgstr "Direcciones IP locales encontradas:"
+
+#: app/templates/script.html:125 app/templates/script.html.py:126
+msgid "Looking for client's remote address(es)..."
+msgstr "Buscando la(s) dirección IP remotas..."
+
+#: app/templates/script.html:132
+msgid "Remote STUN server response: "
+msgstr "Respuesta por parte del servidor STUN remoto:"
+
+#: app/templates/script.html:140
+msgid "Address(es) seen from our STUN servers: "
+msgstr "Direcciones percibidas desde nuestros servicores STUN:"
+
+#: app/templates/script.html:152
+msgid "Remote addresses found: "
+msgstr "Direcciones IP remotas encontradas:"
+
+#: app/templates/script.html:155
+msgid "Posting results to central database..."
+msgstr "Enviando resultados a la base central..."
+
+#: app/templates/script.html:160
+msgid "Thank you for checking out this demo!"
+msgstr "Gracias por correr esta demo!"
+
+#: app/templates/script.html:167
+msgid "Something happened when posting to the central database :|"
+msgstr "Algo ha ocurrido mientras se enviaban los datos al servidor central :|"

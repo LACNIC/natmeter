@@ -1,0 +1,10 @@
+h1 { /* cambia en base a #barra-secundaria */
+    color: #70C1B3;
+}
+#barra-secundaria {
+    background-color: #C53425;
+}
+
+#highlight {
+	color: #FF1654;
+}

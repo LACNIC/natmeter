@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-06-09 18:02+0000\n"
+"POT-Creation-Date: 2017-06-26 19:26+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,12 +17,20 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: app/templates/base.html:133
+#: app/templates/base.html:139
 msgid "bar.secondary.home"
 msgstr ""
 
-#: app/templates/base.html:134
+#: app/templates/base.html:140
 msgid "bar.secondary.blog"
+msgstr ""
+
+#: app/templates/base.html:141
+msgid "bar.secondary.simon"
+msgstr ""
+
+#: app/templates/base.html:151
+msgid "bar.secondary.cookie"
 msgstr ""
 
 #: app/templates/home.html:29
@@ -108,4 +116,48 @@ msgstr ""
 
 #: app/templates/script.html:58
 msgid "sub2.demo"
+msgstr ""
+
+#: app/templates/script.html:88
+msgid "Looking for information stored in your browser's cookies..."
+msgstr ""
+
+#: app/templates/script.html:97
+msgid "Looking for client's local address(es)..."
+msgstr ""
+
+#: app/templates/script.html:108
+msgid "Local response: "
+msgstr ""
+
+#: app/templates/script.html:116
+msgid "Local addresses found: "
+msgstr ""
+
+#: app/templates/script.html:125 app/templates/script.html.py:126
+msgid "Looking for client's remote address(es)..."
+msgstr ""
+
+#: app/templates/script.html:132
+msgid "Remote STUN server response: "
+msgstr ""
+
+#: app/templates/script.html:140
+msgid "Address(es) seen from our STUN servers: "
+msgstr ""
+
+#: app/templates/script.html:152
+msgid "Remote addresses found: "
+msgstr ""
+
+#: app/templates/script.html:155
+msgid "Posting results to central database..."
+msgstr ""
+
+#: app/templates/script.html:160
+msgid "Thank you for checking out this demo!"
+msgstr ""
+
+#: app/templates/script.html:167
+msgid "Something happened when posting to the central database :|"
 msgstr ""

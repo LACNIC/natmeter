@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-06-09 18:02+0000\n"
+"POT-Creation-Date: 2017-06-26 19:26+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,13 +18,24 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: app/templates/base.html:133
+#: app/templates/base.html:139
 msgid "bar.secondary.home"
 msgstr "LACNIC Home page"
 
-#: app/templates/base.html:134
+#: app/templates/base.html:140
 msgid "bar.secondary.blog"
 msgstr "LACNIC Labs blog"
+
+#: app/templates/base.html:141
+msgid "bar.secondary.simon"
+msgstr "Simon Project"
+
+#: app/templates/base.html:151
+msgid "bar.secondary.cookie"
+msgstr ""
+"We need to store a security cookie on your browser to perform language "
+"translations and remember your language preferences (cookie name: "
+"natmeter_csrftoken)."
 
 #: app/templates/home.html:29
 msgid "home.intro"
@@ -66,7 +77,7 @@ msgstr "Charts"
 
 #: app/templates/home.html:55
 msgid "home.charts.p1"
-msgstr "Some charts based on the data collected."
+msgstr "Some charts based on the collected data."
 
 #: app/templates/home.html:60
 msgid "home.demo"
@@ -132,3 +143,47 @@ msgstr "Raw answer from the STUN servers:"
 #: app/templates/script.html:58
 msgid "sub2.demo"
 msgstr "Easy output"
+
+#: app/templates/script.html:88
+msgid "Looking for information stored in your browser's cookies..."
+msgstr ""
+
+#: app/templates/script.html:97
+msgid "Looking for client's local address(es)..."
+msgstr ""
+
+#: app/templates/script.html:108
+msgid "Local response: "
+msgstr ""
+
+#: app/templates/script.html:116
+msgid "Local addresses found: "
+msgstr ""
+
+#: app/templates/script.html:125 app/templates/script.html.py:126
+msgid "Looking for client's remote address(es)..."
+msgstr ""
+
+#: app/templates/script.html:132
+msgid "Remote STUN server response: "
+msgstr ""
+
+#: app/templates/script.html:140
+msgid "Address(es) seen from our STUN servers: "
+msgstr ""
+
+#: app/templates/script.html:152
+msgid "Remote addresses found: "
+msgstr ""
+
+#: app/templates/script.html:155
+msgid "Posting results to central database..."
+msgstr ""
+
+#: app/templates/script.html:160
+msgid "Thank you for checking out this demo!"
+msgstr ""
+
+#: app/templates/script.html:167
+msgid "Something happened when posting to the central database :|"
+msgstr ""

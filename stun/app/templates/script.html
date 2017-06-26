@@ -85,7 +85,7 @@
             };
 
             STUN.callbacks.before_cookie = function () {
-                const line = "Looking for information stored in your browser's cookies...";
+                const line = "{% trans "Looking for information stored in your browser's cookies..." %}";
                 {#                output_easy(line);#}
                 output(line);
             };
@@ -94,7 +94,7 @@
             };
 
             STUN.callbacks.before_private_request = function () {
-                const line = "Looking for client's local address(es)...";
+                const line = "{% trans "Looking for client's local address(es)..." %}";
                 output_easy(line);
                 output(line);
                 updateBarTo(10);
@@ -105,7 +105,7 @@
             };
 
             STUN.callbacks.after_private_stun_response = function (response) {
-                output("Local response: " + response);
+                output("{% trans "Local response: " %}" + response);
                 console.log("private = " + STUN.NETWORK.addresses.getPrivateAddresses());
                 updateBarTo(20);
             };
@@ -113,7 +113,7 @@
             STUN.callbacks.before_public_request = function () {
 
                 if (STUN.NETWORK.addresses.getPrivateAddresses().length > 0) {
-                    output_easy("Local addresses found: ");
+                    output_easy("{% trans "Local addresses found: " %}");
                     for (ip of STUN.NETWORK.addresses.getPrivateAddresses()) {
                         output_easy("  &bull;  " + ip);
                     }
@@ -122,14 +122,14 @@
                 output("Local addresses found: " + STUN.NETWORK.addresses.getPrivateAddresses());
                 updateBarTo(30);
 
-                output_easy("Looking for client's remote address(es)...");
-                output("Looking for client's remote address(es)...");
+                output_easy("{% trans "Looking for client's remote address(es)..." %}");
+                output("{% trans "Looking for client's remote address(es)..." %}");
                 updateBarTo(40);
             };
 
             STUN.callbacks.after_public_stun_response = function (response) {
 
-                output("Remote STUN server response: " + response);
+                output("{% trans "Remote STUN server response: " %}" + response);
                 console.log("public = " + STUN.NETWORK.addresses.getPublicAddresses());
                 updateBarTo(60);
             };
@@ -137,7 +137,7 @@
             STUN.callbacks.before_post = function () {
 
                 if ( STUN.NETWORK.addresses.getPublicAddresses().length > 0 ) {
-                    output_easy("Address(es) seen from our STUN servers: ");
+                    output_easy("{% trans "Address(es) seen from our STUN servers: " %}");
                     for ( ip of STUN.NETWORK.addresses.getPublicAddresses() ) {
                         output_easy("  &bull;  " + ip);
                     }
@@ -149,22 +149,22 @@
                 }
 
                 if (STUN.NETWORK.addresses.getPublicAddresses().length > 0) {
-                    output("Remote addresses found: " + STUN.NETWORK.addresses.getPublicAddresses());
+                    output("{% trans "Remote addresses found: " %}" + STUN.NETWORK.addresses.getPublicAddresses());
                 }
 
-                output("Posting results to central database...");
+                output("{% trans "Posting results to central database..." %}");
                 updateBarTo(80);
             };
 
             STUN.callbacks.after_post = function () {
-                output("Thank you for checking out this demo!");
+                output("{% trans "Thank you for checking out this demo!" %}");
                 const bar = $(".progress-bar");
                 bar.css('width', 100 + '%').attr('aria-valuenow', 100);
                 bar.attr("class", "progress progress-bar-success");
             };
 
             STUN.callbacks.error_post = function () {
-                output("Something happened when posting to the central database :|");
+                output("{% trans "Something happened when posting to the central database :|" %}");
             }
         }
     </script>

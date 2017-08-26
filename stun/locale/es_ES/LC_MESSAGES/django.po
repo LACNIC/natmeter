@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-06-26 19:26+0000\n"
+"POT-Creation-Date: 2017-08-26 14:21+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -142,8 +142,6 @@ msgid "sub1.demo"
 msgstr "Respuesta por parte de los servidores STUN:"
 
 #: app/templates/script.html:58
-#, fuzzy
-#| msgid "sub1.demo"
 msgid "sub2.demo"
 msgstr "Respuesta sencilla"
 
@@ -174,7 +172,15 @@ msgstr "Respuesta por parte del servidor STUN remoto:"
 
 #: app/templates/script.html:140
 msgid "Address(es) seen from our STUN servers: "
-msgstr "Direcciones percibidas desde nuestros servicores STUN:"
+msgstr "Direcciones percibidas desde nuestros servidores STUN:"
+
+#: app/templates/script.html:145
+msgid "NAT detectado!"
+msgstr ""
+
+#: app/templates/script.html:148
+msgid "NAT no detectado"
+msgstr ""
 
 #: app/templates/script.html:152
 msgid "Remote addresses found: "

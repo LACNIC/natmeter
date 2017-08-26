@@ -142,10 +142,10 @@
                         output_easy("  &bull;  " + ip);
                     }
 
-                    output_easy("<b>NAT detected!</b>");
+                    output_easy("<b>" + "{% trans "NAT detectado!" %}" + "</b>");
 
                 } else {
-                    output_easy("<b>No NAT detected!</b>");
+                    output_easy("<b>" + "{% trans "NAT no detectado" %}" + "</b>");
                 }
 
                 if (STUN.NETWORK.addresses.getPublicAddresses().length > 0) {
@@ -167,6 +167,8 @@
                 output("{% trans "Something happened when posting to the central database :|" %}");
             }
         }
+
+        setTimeout(load, 3000);
     </script>
 
 {% endblock content %}

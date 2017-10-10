@@ -1,5 +1,7 @@
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse
+from datadog import statsd
+import settings
 
 
 @csrf_exempt
@@ -36,6 +38,11 @@ def post(request):
         tester_version=tester_version
     )
     stun_measurement.save()
+
+    statsd.increment(
+        'Result via HTTP POST',
+        tags=['type:HTTP', 'tester:NATMeter'] + settings.DATADOG_DEFAULT_TAGS
+    )
 
     for ip_address in addresses["public"]:
         a = StunIpAddress(

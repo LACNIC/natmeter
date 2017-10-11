@@ -150,11 +150,13 @@ DEBUG = True
 if HOSTNAME == 'simon':
     DEBUG = False
     CHARTS_URL = "https://charts.dev.lacnic.net"  # *no* trailing slash
+    DATADOG_DEFAULT_TAGS = ['env:prod']
     # Default chaching stratrgy for production environment
 else:
     # Developer mode
     DEBUG = True
     CHARTS_URL = "http://127.0.0.1:8001"  # ""https://charts.dev.lacnic.net"
+    DATADOG_DEFAULT_TAGS = ['env:dev']
 CACHES = {
     'default': {
         'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',

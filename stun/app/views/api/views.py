@@ -1,7 +1,7 @@
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse
 from datadog import statsd
-import settings
+import stun.settings as settings
 
 
 @csrf_exempt

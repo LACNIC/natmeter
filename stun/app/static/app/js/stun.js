@@ -2,9 +2,7 @@
  * Created by agustin on 5/31/16.
  */
 
-define(['jquery'], function() {
-
-  _$ = require('jquery');
+define(['jquery'], function(_$) {
 
   var stun = {};
   stun.debug = false;

@@ -56,7 +56,7 @@ def charts(request):
         x=json.dumps(
             [p[1] for p in country_participation_top]
         ),
-        divId="country-participation",
+        divId="country_participation",
         labels=json.dumps([p[0] for p in country_participation_top]),
         kind='PieChart',
         colors=json.dumps(['#C53425', '#B21100', '#990F00', '#7F0C00', '#660A00', '#4C0700']),
@@ -71,7 +71,7 @@ def charts(request):
         x=json.dumps(
             list(hours)
         ),
-        divId='div-id',
+        divId='div_id',
         labels=json.dumps(['Horas hasta ver un nuevo prefijo']),
         colors=json.dumps(['#c53526'])
     )
@@ -91,7 +91,7 @@ def charts(request):
         y=json.dumps(
             [p[1] for p in private_prefix_counter_cached_top]
         ),
-        divId="prefix-counter",
+        divId="prefix_counter",
         labels=json.dumps(["Cantidad de mediciones por prefijo"]),
         kind='BarChart',
         colors=json.dumps(['#C53425']),

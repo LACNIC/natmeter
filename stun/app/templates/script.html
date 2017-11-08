@@ -75,9 +75,12 @@
         function load() {
 
             function output(line) {
+
                 $("#advanced-console").append(STUN.console.HEADER + line + "\n");
                 $("#advanced-console").scrollTop(500);
             };
+
+            output('Loading...')
 
             function output_easy(line) {
                 $("#easy-console").append(line + "\n");
@@ -166,9 +169,11 @@
             STUN.callbacks.error_post = function () {
                 output("{% trans "Something happened when posting to the central database :|" %}");
             }
+
+            STUN.init();
         }
 
-        setTimeout(load, 3000);
+        setTimeout(load, 5000);
     </script>
 
 {% endblock content %}

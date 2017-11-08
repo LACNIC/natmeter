@@ -220,6 +220,9 @@
 </script>
 <!-- STUN script async loading -->
 <script type="application/javascript">
+
+    var STUN;
+
     (function (f, b) {
         var c = f.createElement(b),
             e = f.getElementsByTagName(b)[0];
@@ -233,13 +236,16 @@
             // Require libraries loaded
             requirejs.config({
                 "paths": {
+                    "jquery": "https://cdn.dev.lacnic.net/jquery-1.11.1.min",
                     "stun": debug && "http://127.0.0.1:8000/static/app/js/stun" || "https://cdn.rawgit.com/LACNIC/natmeter/master/stun/app/static/app/js/stun"
                 }
             });
 
-            require(["stun"], function () {
+            require(["stun"], function (_STUN) {
 {#                load();#}
-                STUN.init();
+
+                STUN = _STUN;  // load STUN as a global variable
+{#                STUN.init();#}
             });
         }
     }(document, "script"));

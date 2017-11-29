@@ -1,0 +1,12 @@
+config:
+  target: 'http://127.0.0.1:8001'
+  plugins:
+    - statsd
+  phases:
+    - duration: 20
+      arrivalRate: 20
+
+scenarios:
+  - flow:
+    - get:
+        url: "/hist/?data=[[0,1,2,3,4,5,5,5,5,5,4,3,4,5,4,5,4,4,4,5,4]]&divId=chart&kind=AreaChart&labels=[%22Hola%22]&colors=[%22blue%22]"

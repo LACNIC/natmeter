@@ -10,7 +10,7 @@ https://docs.djangoproject.com/en/1.9/howto/deployment/wsgi/
 import os
 import sys
 
-sys.path.append('/opt/django/stun/stun')
+sys.path.append('/opt/django/natmeter/stun')
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "stun.settings")
 
 from django.core.wsgi import get_wsgi_application

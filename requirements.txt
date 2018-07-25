@@ -4,11 +4,9 @@ decorator==4.0.10
 datadog
 Django==1.7
 django-admin-bootstrapped==2.3.5
-# django-autotranslate==1.0.0
 django-cors-headers==1.0.0
 django-dowser==0.1.4
 django-extensions==1.6.1
-# django-sslserver==0.19
 django-tastypie==0.13.1
 entrypoints==0.2.2
 enum34==1.1.6

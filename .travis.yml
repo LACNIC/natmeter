@@ -13,6 +13,8 @@ addons:
     packages:
     - libpq5=9.5.13-0ubuntu0.16.04
     - libpq-dev=9.5.13-0ubuntu0.16.04
+    - apache2
+    - apache2-dev
     - python-dev
 
 before_install:

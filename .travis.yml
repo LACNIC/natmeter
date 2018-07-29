@@ -36,6 +36,9 @@ before_script:
   - npm install -g jasmine-core karma-jasmine
   - npm install -g karma-requirejs
   - npm install -g karma-chrome-launcher
+  - npm install -g karma-safari-launcher
+  - npm install -g karma-ie-launcher
+  - npm install -g karma-firefox-launcher
   - npm install -g karma-browserstack-launcher
 
 script:

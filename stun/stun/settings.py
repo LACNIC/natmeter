@@ -147,7 +147,7 @@ STATIC_URL = '/static/'
 
 HOSTNAME = socket.gethostname()
 DEBUG = True
-if HOSTNAME == 'simon':
+if 'simon' in HOSTNAME:
     DEBUG = False
     CHARTS_URL = "https://charts.dev.lacnic.net"  # *no* trailing slash
     DATADOG_DEFAULT_TAGS = ['env:prod']

@@ -13,7 +13,6 @@
 
 {% block javascript %}
     {{ nat_pressure_chart | safe }}
-    {{ country_participation_chart | safe }}
     {{ private_prefix_chart | safe }}
 {% endblock javascript %}
 
@@ -130,3 +129,19 @@
     </div>
 
 {% endblock content %}
+
+{% block footer %}
+
+{#    var countries = {{ country_participation | safe }}#}
+    <script>
+    CHARTS.draw({
+            x: [{% for cc, val in country_participation %} {{ val | floatformat }}, {% endfor %}],
+            xType: 'string',
+            labels: [{% for cc, val in country_participation %} '{{ cc }}', {% endfor %}],
+            kind: 'PieChart',
+            divId: 'country_participation',
+            colors: ['FF4B38', 'F2230C', 'CC1D0A', '991607', '871306']
+        });
+    </script>
+
+{% endblock %}

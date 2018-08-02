@@ -200,12 +200,9 @@ class StunMeasurementManager(models.Manager):
         """
         :return: collections.Counter containing country-code keys, and participation values.
         """
-        results = self.get_results(days_ago=0)
-        ccs = []
-        for r in results:
-            ccs.append(r.get_country())
-        counter = Counter(ccs)
-        counter.pop("XX")
+        counter = Counter(StunIpAddress.objects.values_list('country', flat=True))
+        counter.pop('DEF')
+        counter.pop('XX')
         return counter
 
     def get_private_pfx_counter(self):

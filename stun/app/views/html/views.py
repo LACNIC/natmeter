@@ -6,6 +6,7 @@ from django.views.decorators.csrf import requires_csrf_token
 from app.models import StunMeasurement, StunMeasurementManager
 import json
 import requests
+import operator
 import stun.settings as settings
 
 
@@ -45,45 +46,21 @@ def charts(request):
                                                             call=StunMeasurement.objects.get_private_pfx_counter)
 
     # Country participation chart
-
     total = sum(country_participation_counter_cached.values())
-    most_common = country_participation_counter_cached.most_common(n=5)
+    most_common = country_participation_counter_cached.most_common(n=3)
     country_participation_top = [(p[0], 1.0 * p[1]) for p in most_common]
     country_participation_top.append(
         ("Others", 1.0 * (total - sum(p[1] for p in most_common)))
     )  # Others
-    data = dict(
-        x=json.dumps(
-            [p[1] for p in country_participation_top]
-        ),
-        divId="country_participation",
-        labels=json.dumps([p[0] for p in country_participation_top]),
-        kind='PieChart',
-        colors=json.dumps(['#C53425', '#B21100', '#990F00', '#7F0C00', '#660A00', '#4C0700']),
-        xType='string'
-    )
-    country_participation_chart = requests.post(settings.CHARTS_URL + "/code/", data=data).text
+    country_participation_top = sorted(dict(country_participation_top).items(), key=operator.itemgetter(1))
+    print(country_participation_top)
 
-    # NAT pressure chart
-
-    # hours = [int(1.0 * dt.seconds / (60 * 60)) for dt in nat_pressure_cached]
-    # data = dict(
-    #     x=json.dumps(
-    #         list(hours)
-    #     ),
-    #     divId='div_id',
-    #     labels=json.dumps(['Horas hasta ver un nuevo prefijo']),
-    #     colors=json.dumps(['#c53526'])
-    # )
-    # nat_pressure_chart = requests.post(settings.CHARTS_URL + "/hist/code/", data=data).text
-
-    import operator
     lim = 10
     private_prefix_counter_cached_top = [
         ("%02d) %s" % (i + 1, ppc[0]), ppc[1]) for i, ppc in
         enumerate(sorted(private_prefix_counter_cached, key=operator.itemgetter(1), reverse=True)[:lim])
     ]
-    # private_prefix_counter_cached_top.append(('11) Others', sum([p[1] for p in sorted(private_prefix_counter_cached, key=operator.itemgetter(1), reverse=True)][lim:])))
+
     data = dict(
         x=json.dumps(
             [p[0] for p in private_prefix_counter_cached_top]
@@ -114,7 +91,7 @@ def charts(request):
             "npt": is_npt_cached,
             # "hours": Counter(hours).most_common(n=1)[0][0],
             # "nat_pressure_chart": nat_pressure_chart,
-            "country_participation_chart": country_participation_chart,
+            "country_participation": country_participation_top,
             "private_prefix_chart": private_prefix_chart
         }
     )

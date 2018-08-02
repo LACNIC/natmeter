@@ -6,6 +6,7 @@ from ipaddr import *
 from collections import Counter
 from app.libraries.geolocation import get_cc_from_ip_address
 from static_defs import NOISY_PREFIXES
+from datetime import timedelta
 
 
 class StunMeasurementManager(models.Manager):
@@ -15,12 +16,35 @@ class StunMeasurementManager(models.Manager):
     def get_max(self, _list=[]):
         return max(_list)
 
-    def get_results(self):
+    def get_results(self, days_ago=60):  # everythin in the last 60 days
         """
+        @days_ago: time window going backwards. 0 means infinity (all data)
         :return: Get clean results ready for doing stats
         """
-        _all = StunMeasurement.objects.order_by('cookie', '-server_test_date').distinct('cookie')
-        return [a for a in _all if not a.has_noisy_prefix()]
+        now = datetime.now()
+        _all = StunMeasurement.objects.order_by(
+            'cookie', '-server_test_date'
+        )
+
+        _all_cookie_not_empty = _all.exclude(
+            cookie__exact=''
+        )#.distinct(
+        #     'cookie'
+        # )
+
+        _all_empty_cookie = _all.filter(
+            cookie__exact=''
+        )
+
+        if days_ago != 0:
+            since = now - timedelta(days=days_ago)
+        else:
+            since = datetime(year=2010) # start of measurements
+        _all_combined = (_all_cookie_not_empty | _all_empty_cookie).filter(
+            server_test_date__gte=since
+        )
+
+        return [a for a in _all_combined if not a.has_noisy_prefix()]
 
     def get_v6_results(self):
         """
@@ -117,7 +141,7 @@ class StunMeasurementManager(models.Manager):
             total_region_ips += adv
             total_region_natted_ips += adv_natted_ips
 
-        return 100.0 * total_region_natted_ips / total_region_ips
+        return 100.0 * total_region_natted_ips / total_region_ips if total_region_ips > 0 else 0
 
     def nat_stats(self):
         """
@@ -176,7 +200,7 @@ class StunMeasurementManager(models.Manager):
         """
         :return: collections.Counter containing country-code keys, and participation values.
         """
-        results = self.get_results()
+        results = self.get_results(days_ago=0)
         ccs = []
         for r in results:
             ccs.append(r.get_country())

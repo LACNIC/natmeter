@@ -39,7 +39,7 @@ class StunMeasurementManager(models.Manager):
         if days_ago != 0:
             since = now - timedelta(days=days_ago)
         else:
-            since = datetime(year=2010) # start of measurements
+            since = datetime(day=1, month=1, year=2010) # start of measurements
         _all_combined = (_all_cookie_not_empty | _all_empty_cookie).filter(
             server_test_date__gte=since
         )

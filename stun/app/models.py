@@ -467,8 +467,18 @@ class StunIpAddress(models.Model):
 
     ip_address = models.GenericIPAddressField(default="127.0.0.1")
     ip_address_kind = models.IntegerField(default=0)
+    country = models.CharField(
+        max_length=3, default='DEF', help_text="Country after IP-->Country resolution"
+    )
 
     stun_measurement = models.ForeignKey(StunMeasurement)
+
+    def resolve_country(self, persist=True):
+        cc = get_cc_from_ip_address(self.ip_address)
+        if persist:
+            self.country = cc
+            self.save()
+        return cc
 
     def __str__(self):
         return str(self.ip_address)

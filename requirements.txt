@@ -42,6 +42,7 @@ pyzmq==15.4.0
 qtconsole==4.2.1
 requests==2.11.1
 rsa==3.4.2
+schedule==0.5.0
 simplegeneric==0.8.1
 singledispatch==3.4.0.3
 six==1.10.0

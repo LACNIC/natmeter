@@ -37,8 +37,8 @@ def charts(request):
     dualstack_cached = custom_cache.get_or_set(custom_cache.keys.dualstack,
                                                call=StunMeasurement.objects.get_dualstack_percentage)
     is_npt_cached = custom_cache.get_or_set(custom_cache.keys.npt, call=StunMeasurement.objects.get_npt_percentage)
-    nat_pressure_cached = custom_cache.get_or_set(custom_cache.keys.nat_pressure,
-                                                  call=StunMeasurement.objects.get_nat_time_pressure)
+    # nat_pressure_cached = custom_cache.get_or_set(custom_cache.keys.nat_pressure,
+    #                                               call=StunMeasurement.objects.get_nat_time_pressure)
     country_participation_counter_cached = custom_cache.get_or_set(custom_cache.keys.country_participation,
                                                                    call=StunMeasurement.objects.get_country_participation)
     private_prefix_counter_cached = custom_cache.get_or_set(custom_cache.keys.private_prefixes,
@@ -66,16 +66,16 @@ def charts(request):
 
     # NAT pressure chart
 
-    hours = [int(1.0 * dt.seconds / (60 * 60)) for dt in nat_pressure_cached]
-    data = dict(
-        x=json.dumps(
-            list(hours)
-        ),
-        divId='div_id',
-        labels=json.dumps(['Horas hasta ver un nuevo prefijo']),
-        colors=json.dumps(['#c53526'])
-    )
-    nat_pressure_chart = requests.post(settings.CHARTS_URL + "/hist/code/", data=data).text
+    # hours = [int(1.0 * dt.seconds / (60 * 60)) for dt in nat_pressure_cached]
+    # data = dict(
+    #     x=json.dumps(
+    #         list(hours)
+    #     ),
+    #     divId='div_id',
+    #     labels=json.dumps(['Horas hasta ver un nuevo prefijo']),
+    #     colors=json.dumps(['#c53526'])
+    # )
+    # nat_pressure_chart = requests.post(settings.CHARTS_URL + "/hist/code/", data=data).text
 
     import operator
     lim = 10
@@ -112,8 +112,8 @@ def charts(request):
             "v6_with_v4_capacity": v6_hosts_with_v4_capacity_cached,
             "dualstack": dualstack_cached,
             "npt": is_npt_cached,
-            "hours": Counter(hours).most_common(n=1)[0][0],
-            "nat_pressure_chart": nat_pressure_chart,
+            # "hours": Counter(hours).most_common(n=1)[0][0],
+            # "nat_pressure_chart": nat_pressure_chart,
             "country_participation_chart": country_participation_chart,
             "private_prefix_chart": private_prefix_chart
         }

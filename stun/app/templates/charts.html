@@ -76,12 +76,12 @@
                 </th>
                 <td>{{ dualstack | floatformat }}%</td>
             </tr>
-            <tr>
-                <th>Horas hasta cambiar de prefijo <span data-toggle="tooltip" class="glyphicon glyphicon-info-sign"
-                                                         title="Son las horas que transcurren hasta que los clientes son vistos con otras direcciones públicas"></span>
-                </th>
-                <td>{{ hours }} hs</td>
-            </tr>
+{#            <tr>#}
+{#                <th>Horas hasta cambiar de prefijo <span data-toggle="tooltip" class="glyphicon glyphicon-info-sign"#}
+{#                                                         title="Son las horas que transcurren hasta que los clientes son vistos con otras direcciones públicas"></span>#}
+{#                </th>#}
+{#                <td>{{ hours }} hs</td>#}
+{#            </tr>#}
         </table>
 
         <h4>Prefijos privados más vistos (top 10)</h4>
@@ -90,13 +90,13 @@
         </p>
         <div id="prefix_counter" style="min-height: 300px;"></div>
 
-        <h4>Horas hasta cambiar de prefijo</h4>
-        <p>A continuación se muestra un histograma con las horas que transcurren hasta que los clientes son vistos con
-            otras direcciones públicas. Esta medición se encuentra fuertemente afectada por la frecuencia con el un host
-            realice las mediciones; aquellos hosts que realicen mediciones muy espaciadas aportarán al extremo alto del
-            espectro, sin embargo aquellos hosst que realicen mediciones frecuentemente, nos darán una idea del tiempo
-            que transcurrió hasta que ese host es visto con una dirección diferente.</p>
-        <div id="div_id"></div>
+{#        <h4>Horas hasta cambiar de prefijo</h4>#}
+{#        <p>A continuación se muestra un histograma con las horas que transcurren hasta que los clientes son vistos con#}
+{#            otras direcciones públicas. Esta medición se encuentra fuertemente afectada por la frecuencia con el un host#}
+{#            realice las mediciones; aquellos hosts que realicen mediciones muy espaciadas aportarán al extremo alto del#}
+{#            espectro, sin embargo aquellos hosst que realicen mediciones frecuentemente, nos darán una idea del tiempo#}
+{#            que transcurrió hasta que ese host es visto con una dirección diferente.</p>#}
+{#        <div id="div_id"></div>#}
     </div>
 
     <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4" style="float: right">

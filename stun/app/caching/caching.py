@@ -16,7 +16,7 @@ class CacheKeys():
     v6_with_v4_capacity = "v6_with_v4_capacity"
     dualstack = "dualstack"
     npt = "npt"
-    nat_pressure = "nat_pressure"
+    # nat_pressure = "nat_pressure"
     country_participation = "country_participation"
     private_prefixes = "private_prefixes"
     announcements = "announcements"

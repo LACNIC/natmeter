@@ -15,7 +15,7 @@ class Command(BaseCommand):
         cache.set(cache.keys.v6_with_v4_capacity, StunMeasurement.objects.get_v6_hosts_with_v4_capability_percentage())
         cache.set(cache.keys.dualstack, StunMeasurement.objects.get_dualstack_percentage())
         cache.set(cache.keys.npt, StunMeasurement.objects.get_npt_percentage())
-        cache.set(cache.keys.nat_pressure, StunMeasurement.objects.get_nat_time_pressure())
+        # cache.set(cache.keys.nat_pressure, StunMeasurement.objects.get_nat_time_pressure())
         cache.set(cache.keys.country_participation, StunMeasurement.objects.get_country_participation())
         cache.set(cache.keys.announcements, get_announcements())
         cache.set(cache.keys.private_prefixes, StunMeasurement.objects.get_private_pfx_counter())

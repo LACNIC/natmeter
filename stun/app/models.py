@@ -279,6 +279,10 @@ class StunMeasurement(models.Model):
     cookie = models.TextField(default="", null=True)
     tester_version = models.IntegerField(default=0)
 
+    nat_free_0 = models.NullBooleanField(default=None, null=True, help_text="Any kind of NAT")
+    nat_free_4 = models.NullBooleanField(default=None, null=True, help_text="NAT")
+    nat_free_6 = models.NullBooleanField(default=None, null=True)
+
     objects = StunMeasurementManager()
 
     def is_v6_only(self):
@@ -407,21 +411,33 @@ class StunMeasurement(models.Model):
                     return True
         return False
 
-    def is_natted(self, protocol=0):
-        return not self.nat_free(protocol)
+    def is_natted(self):
+        """
+        :return: True if StunMeasurement has *some* kind of NAT
+        """
+        return not self.nat_free_0
+
+    def set_nat_free(self, persist=True):
+        self.nat_free_0 = self.nat_free(0)
+        self.nat_free_4 = self.nat_free(4)
+        self.nat_free_6 = self.nat_free(6)
+
+        if persist:
+            self.save()
 
     def nat_free(self, protocol=0):
         """
         :param protocol: 0 | 4 | 6
-        :return:
+        :return:    protocol=={ 4|6 } True if StunMeasurement has no NAT for that protocol
+                    protocol==0 True if StunMeasurement has no NAT of any kind
         """
 
         if protocol == 0:
             return len(self.get_remote_stunipaddresses()) == 0
         elif protocol == 4:
-            return len(self.get_remote_v4_addresses()) == 0
+            return len(self.get_remote_v4_addresses()) == 0 and len(self.get_local_v4_ipaddresses()) > 0
         elif protocol == 6:
-            return len(self.get_remote_v6_addresses()) == 0
+            return len(self.get_remote_v6_addresses()) == 0 and len(self.get_local_v6_ipaddresses()) > 0
         else:
             return False
 

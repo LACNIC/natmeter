@@ -28,16 +28,7 @@ install:
   - python stun/manage.py migrate
 
 before_script:
-#  - python stun/manage.py migrate
-  - npm install -g karma
-  - npm install -g requirejs
-  - npm install -g jasmine-core karma-jasmine
-  - npm install -g karma-requirejs
-  - npm install -g karma-chrome-launcher
-  - npm install -g karma-safari-launcher
-  - npm install -g karma-ie-launcher
-  - npm install -g karma-firefox-launcher
-  - npm install -g karma-browserstack-launcher
+  - npm install --global karma requirejs jasmine-core karma-jasmine karma-requirejs karma-chrome-launcher karma-safari-launcher karma-ie-launcher karma-firefox-launcher karma-browserstack-launcher
 
 script:
   - python stun/manage.py test

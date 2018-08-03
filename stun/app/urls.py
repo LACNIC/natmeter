@@ -14,6 +14,8 @@ urlpatterns = patterns(
     url(r'reports/report_nat_free_4_false', views.generic_reports, {'nat_free_4': False}, name='report_nat_free_4_false'),
     url(r'reports/report_nat_free_6_true', views.generic_reports, {'nat_free_6': True}, name='report_nat_free_6_true'),
     url(r'reports/report_nat_free_6_false', views.generic_reports, {'nat_free_6': False}, name='report_nat_free_6_false'),
+    url(r'reports/dualstack_true', views.generic_reports, {'dualstack': True}, name='report_dualstack_true'),
+    url(r'reports/dualstack_false', views.generic_reports, {'dualstack': False}, name='report_dualstack_false'),
     url(r'script/', views.script, name='script')
 
 ) + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

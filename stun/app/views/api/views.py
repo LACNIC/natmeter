@@ -2,6 +2,40 @@ from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse
 from datadog import statsd
 import stun.settings as settings
+from app.models import StunMeasurement
+from collections import Counter
+import operator
+from django.db.models import Q
+
+
+def sorted_counter(ctr):
+    """
+    :param ctr:
+    :return: lines
+    """
+    counter = sorted(ctr.items(), key=operator.itemgetter(0))
+    lines = []
+    for date, count in counter:
+        lines.append(
+            "{y}-{m}-{d},{count}\n".format(y=date.year, m=date.month, d=date.day, count=count)
+        )
+    return lines
+
+
+def generic_reports(request, *args, **kwargs):
+    print kwargs
+    dates = [
+        sm.server_test_date.replace(
+            hour=0,
+            minute=0,
+            second=0,
+            microsecond=0
+        ) for sm in StunMeasurement.objects.filter(Q(**kwargs)).order_by('-server_test_date')
+    ]
+
+    lines = sorted_counter(Counter(dates))
+
+    return HttpResponse(lines, content_type="text")
 
 
 @csrf_exempt

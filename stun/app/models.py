@@ -62,7 +62,7 @@ class StunMeasurementManager(models.Manager):
         """
         :return: All StunMeasurements that have shown IPv4 and IPv6 support
         """
-        return [s for s in self.get_results() if s.v4_count() > 0 and s.v6_count() > 0]
+        return [s for s in self.get_results() if s.dualstack]
 
     def get_dualstack_percentage(self):
         ds = StunMeasurement.objects.get_dualstack_results()
@@ -283,6 +283,8 @@ class StunMeasurement(models.Model):
     nat_free_4 = models.NullBooleanField(default=None, null=True, help_text="NAT")
     nat_free_6 = models.NullBooleanField(default=None, null=True)
 
+    dualstack = models.NullBooleanField(default=None, null=True, help_text="Dualstack detected")
+
     objects = StunMeasurementManager()
 
     def is_v6_only(self):
@@ -410,6 +412,12 @@ class StunMeasurement(models.Model):
                 if IPAddress(local) in nosiy_prefix:
                     return True
         return False
+
+    def set_dualstack(self, persist=True):
+        self.dualstack = self.v4_count() > 0 and self.v6_count() > 0
+
+        if persist:
+            self.save()
 
     def is_natted(self):
         """

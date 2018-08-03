@@ -1,5 +1,6 @@
 from django.core.cache import DefaultCacheProxy
-
+from datadog import statsd
+from stun.settings import DATADOG_DEFAULT_TAGS
 
 class CacheKeys():
     """
@@ -33,9 +34,20 @@ class LocalCacheProxy(DefaultCacheProxy):
         """
         forever = None
         cached = self.get(key)
+        hit=True
         if cached is None:
+            hit=False
             cached = call()
             self.set(key, cached, forever)
+
+        statsd.increment(
+            'cache-hit',
+            tags=[
+                    'key:' + key,
+                    'hit:' + str(hit).lower()
+                 ] + DATADOG_DEFAULT_TAGS
+        )
+
         return cached
 
 

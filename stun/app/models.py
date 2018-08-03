@@ -102,7 +102,7 @@ class StunMeasurementManager(models.Manager):
         :return: NAT % (percentage) for NAT 66
         """
         v6 = self.get_v6_results()
-        natted = [s for s in v6 if s.is_natted(protocol=6)]
+        natted = [s for s in v6 if not s.nat_free_6]
         return 100.0 * len(natted) / len(v6)
 
     def get_v4_nat_percentage(self):
@@ -131,7 +131,7 @@ class StunMeasurementManager(models.Manager):
                 continue
 
             cc_msms = [s for s in v4 if s.get_country() == cc]
-            cc_msms_natted = [s for s in cc_msms if s.is_natted(protocol=4)]
+            cc_msms_natted = [s for s in cc_msms if not s.nat_free_4]
             if len(cc_msms_natted) == 0:
                 continue
 

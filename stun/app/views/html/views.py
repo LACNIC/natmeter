@@ -53,7 +53,6 @@ def charts(request):
         ("Others", 1.0 * (total - sum(p[1] for p in most_common)))
     )  # Others
     country_participation_top = sorted(dict(country_participation_top).items(), key=operator.itemgetter(1))
-    print(country_participation_top)
 
     lim = 10
     private_prefix_counter_cached_top = [

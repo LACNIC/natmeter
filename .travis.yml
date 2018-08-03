@@ -24,13 +24,12 @@ before_install:
 install:
   - pip install -r requirements.txt
   - pip install coveralls
+  - psql -c 'create database stun;' -U postgres
+  - python stun/manage.py makemigrations
+  - python stun/manage.py migrate
 
 before_script:
-  - psql -c 'create database stun;' -U postgres
-  - python stun/manage.py makemigrations 
-  - python stun/manage.py migrate 
-  - python stun/manage.py makemigrations app 
-  - python stun/manage.py migrate app
+  - python stun/manage.py migrate
   - npm install -g karma
   - npm install -g requirejs
   - npm install -g jasmine-core karma-jasmine

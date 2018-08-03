@@ -4,6 +4,15 @@
 
 describe("Load suite", function () {
 
+    requirejs.config({
+        "paths": {
+            "stun": "/static/app/js/stun"
+        }
+    });
+    require(["stun"], function (_STUN) {
+        STUN = _STUN;  // load STUN as a global variable
+    });
+
     it("STUN has loaded correctly", function () {
         expect(STUN).toBeDefined();
     });

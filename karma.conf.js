@@ -123,6 +123,7 @@ module.exports = function (config) {
         // list of files / patterns to load in the browser
         files: [
             'https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js',
+            'https://cdn.rawgit.com/LACNIC/static/master/require.js',
             'stun/app/static/app/js/stun.js',
             'stun/app/static/app/js/tests/stun.test.js'
         ],

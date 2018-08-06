@@ -16,7 +16,7 @@ def get_cc_from_ip_address(ip_address):
 
     error = "XX"
 
-    if ip.is_private:
+    if not ip.is_global:
         return error
 
     try:

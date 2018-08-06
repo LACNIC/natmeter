@@ -46,6 +46,7 @@ schedule==0.5.0
 simplegeneric==0.8.1
 singledispatch==3.4.0.3
 six==1.10.0
+statsd==3.2.2
 terminado==0.6
 tornado==4.4.1
 traitlets==4.3.0

@@ -1,10 +1,22 @@
 from django.core.management.base import BaseCommand
-from app.caching.caching import cache as cache
+from app.caching.caching import cache
 from app.models import StunMeasurement
+from statsd import StatsClient
 
 
 class Command(BaseCommand):
     def handle(self, *args, **options):
+        old = cache.set
+
+        statsd = StatsClient()
+
+        @statsd.timer('cache.set')
+        def new(k, v, t=None):
+            print "Setting {key}".format(key=k)
+            old(k, v, t)
+
+        cache.set = new
+
         cache.set(cache.keys.v6_avg, StunMeasurement.objects.v6_count_avg())
         cache.set(cache.keys.v4_avg, StunMeasurement.objects.v4_count_avg())
         cache.set(cache.keys.v6_max, StunMeasurement.objects.v6_count_max())

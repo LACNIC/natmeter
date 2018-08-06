@@ -43,8 +43,8 @@ class LocalCacheProxy(DefaultCacheProxy):
         statsd.increment(
             'cache-hit',
             tags=[
-                    'key:' + key,
-                    'hit:' + str(hit).lower()
+                     'key:' + key,
+                     'hit:' + str(hit).lower()
                  ] + DATADOG_DEFAULT_TAGS
         )
 

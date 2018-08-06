@@ -32,13 +32,14 @@ class LocalCacheProxy(DefaultCacheProxy):
         :param call:
         :return:
         """
+        HOURS = 3600
         forever = None
         cached = self.get(key)
         hit=True
         if cached is None:
             hit=False
             cached = call()
-            self.set(key, cached, forever)
+            self.set(key, cached, 25*HOURS)
 
         statsd.increment(
             'cache-hit',

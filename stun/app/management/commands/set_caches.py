@@ -12,8 +12,9 @@ class Command(BaseCommand):
 
         @statsd.timer('cache.set')
         def new(k, v, t=None):
+            HOURS = 3600
             print "Setting {key}".format(key=k)
-            old(k, v, t)
+            old(k, v, timeout=25 * HOURS)
 
         cache.set = new
 

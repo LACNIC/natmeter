@@ -7,6 +7,8 @@ from collections import Counter
 from app.libraries.geolocation import get_cc_from_ip_address
 from static_defs import NOISY_PREFIXES
 from datetime import timedelta
+from django.db import transaction
+from tqdm import tqdm
 
 
 class StunMeasurementManager(models.Manager):
@@ -218,6 +220,11 @@ class StunMeasurementManager(models.Manager):
         counter = Counter(pvt_pfxs).items()
         return sorted(counter, key=operator.itemgetter(1), reverse=True)
 
+    @transaction.atomic
+    def set_attributes(self):
+        for sm in tqdm(self.all()):
+            sm.set_attributes()
+
     @staticmethod
     def is_npt(ip1, ip2):
 
@@ -285,7 +292,29 @@ class StunMeasurement(models.Model):
 
     dualstack = models.NullBooleanField(default=None, null=True, help_text="Dualstack detected")
 
+    v6_only = models.NullBooleanField(default=None, null=True, help_text="v6 only host")
+    v4_only = models.NullBooleanField(default=None, null=True, help_text="v4 only host")
+
+    v4_count = models.IntegerField(default=0, null=True, help_text="IPv4 addresses count for that host")
+    v6_count = models.IntegerField(default=0, null=True, help_text="IPv6 addresses count for that host")
+
+    npt = models.NullBooleanField(default=None, null=True, help_text="Usage of NPT")
+
     objects = StunMeasurementManager()
+
+    def set_attributes(self):
+        """Attributes to make post-processing, filter, etc. easier and quicker"""
+
+        # save object in the end
+        self.set_nat_free(persist=False)
+        self.set_dualstack(persist=False)
+        self.v6_only = self.is_v6_only()
+        self.v4_only = self.is_v4_only()
+        self.v6_count = self.get_v6_count()
+        self.v4_count = self.get_v4_count()
+        self.npt = self.is_npt()
+
+        self.save()
 
     def is_v6_only(self):
         """
@@ -294,6 +323,16 @@ class StunMeasurement(models.Model):
         local_addresses = self.get_local_addresses()
         for ip in local_addresses:
             if "." in ip:
+                return False
+        return True
+
+    def is_v4_only(self):
+        """
+        :return: True if this host had v6-only interfaces during this STUN measurement. False otherwise.
+        """
+        local_addresses = self.get_local_addresses()
+        for ip in local_addresses:
+            if ":" in ip:
                 return False
         return True
 
@@ -328,7 +367,7 @@ class StunMeasurement(models.Model):
     def get_local_v4_ipaddresses(self):
         return [ip for ip in self.get_local_addresses() if "." in ip]
 
-    def v6_count(self):
+    def get_v6_count(self):
         return len(self.get_local_v6_stunipaddresses())
 
     def get_local_v4_stunipaddresses(self):
@@ -339,7 +378,7 @@ class StunMeasurement(models.Model):
         v4 = [ip for ip in ips if "." in ip.ip_address]
         return v4
 
-    def v4_count(self):
+    def get_v4_count(self):
         return len(self.get_local_v4_stunipaddresses())
 
     def get_local_stunipaddresses(self):
@@ -414,7 +453,7 @@ class StunMeasurement(models.Model):
         return False
 
     def set_dualstack(self, persist=True):
-        self.dualstack = self.v4_count() > 0 and self.v6_count() > 0
+        self.dualstack = self.get_v4_count() > 0 and self.get_v6_count() > 0
 
         if persist:
             self.save()

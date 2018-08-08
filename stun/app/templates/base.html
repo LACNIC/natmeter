@@ -77,15 +77,13 @@
         function langRedirect(lang) {
             $.ajax({
                 type: "POST",
-                url: 'i18n/setlang/',
+                url: '/i18n/setlang/',
                 beforeSend: function (xhr, settings) {
                     xhr.setRequestHeader("X-CSRFToken", getCookie('natmeter_csrftoken'));
-
-{#                    mprogress3.start();#}
-
                 },
                 data: {
-                    'language': lang
+                    'language': lang,
+                    'next': window.location.href
                 },
                 success: function (d, s, xhr) {
                    window.location.reload();
@@ -94,11 +92,10 @@
 
                 },
                 after: function () {
-{#                    mprogress3.stop();#}
+
                 }
-            })
-            ;
-        };
+            });
+        }
 
     </script>
 

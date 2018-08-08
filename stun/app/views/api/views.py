@@ -23,7 +23,6 @@ def sorted_counter(ctr):
 
 
 def generic_reports(request, *args, **kwargs):
-    print kwargs
     dates = [
         sm.server_test_date.replace(
             hour=0,

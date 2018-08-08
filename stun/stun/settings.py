@@ -181,3 +181,11 @@ LOGGING = {
         },
     },
 }
+
+ccs = ['BB', 'KY', 'CU', 'DM', 'DO', 'GD', 'GP', 'HT', 'JM', 'BZ', 'AW', 'BS', 'SV', 'GT', 'HN', 'AR', 'BO',
+       'BR', 'CL', 'GY', 'GF', 'EC', 'CO', 'LC', 'VC', 'TT', 'TC', 'VG', 'VI', 'MX', 'MS', 'PR', 'NI', 'PA',
+       'PE', 'VE', 'UY', 'SR', 'PY', 'AI', 'AG', 'MQ', 'KN', 'CR',
+       'FK']
+special_ccs = ['XX', 'DEF']  # XX for no geolocation available, DEF for IPs which haven;t been resolved to a cc yet.
+
+all_ccs = ccs + special_ccs

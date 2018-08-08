@@ -1,5 +1,5 @@
 from app.caching.caching import cache as custom_cache
-from collections import Counter
+from collections import defaultdict
 from django.shortcuts import render, render_to_response
 from django.template import RequestContext
 from django.views.decorators.csrf import requires_csrf_token
@@ -8,6 +8,11 @@ import json
 import requests
 import operator
 import stun.settings as settings
+
+
+# Aux
+def rec_dd():
+    return defaultdict(rec_dd)
 
 
 def home(request):
@@ -24,26 +29,38 @@ def charts(request):
     :return:
     """
 
-    v6_avg_cached = custom_cache.get_or_set(custom_cache.keys.v6_avg, call=StunMeasurement.objects.v6_count_avg)
-    v4_avg_cached = custom_cache.get_or_set(custom_cache.keys.v4_avg, call=StunMeasurement.objects.v4_count_avg)
-    v6_max_cached = custom_cache.get_or_set(custom_cache.keys.v6_max, call=StunMeasurement.objects.v6_count_max)
-    v4_max_cached = custom_cache.get_or_set(custom_cache.keys.v4_max, call=StunMeasurement.objects.v4_count_max)
-    all_nat_cached = custom_cache.get_or_set(custom_cache.keys.all_nat, call=StunMeasurement.objects.nat_stats)
-    v4_nat_cached = custom_cache.get_or_set(custom_cache.keys.v4_nat,
-                                            call=StunMeasurement.objects.get_v4_nat_percentage)
-    v6_nat_cached = custom_cache.get_or_set(custom_cache.keys.v6_nat,
-                                            call=StunMeasurement.objects.get_v6_nat_percentage)
-    v6_hosts_with_v4_capacity_cached = custom_cache.get_or_set(custom_cache.keys.v6_with_v4_capacity,
-                                                               call=StunMeasurement.objects.get_v6_hosts_with_v4_capability_percentage)
-    dualstack_cached = custom_cache.get_or_set(custom_cache.keys.dualstack,
-                                               call=StunMeasurement.objects.get_dualstack_percentage)
-    is_npt_cached = custom_cache.get_or_set(custom_cache.keys.npt, call=StunMeasurement.objects.get_npt_percentage)
-    # nat_pressure_cached = custom_cache.get_or_set(custom_cache.keys.nat_pressure,
-    #                                               call=StunMeasurement.objects.get_nat_time_pressure)
-    country_participation_counter_cached = custom_cache.get_or_set(custom_cache.keys.country_participation,
-                                                                   call=StunMeasurement.objects.get_country_participation)
-    private_prefix_counter_cached = custom_cache.get_or_set(custom_cache.keys.private_prefixes,
-                                                            call=StunMeasurement.objects.get_private_pfx_counter)
+    v6_avg_cached = custom_cache.get(custom_cache.keys.v6_avg)['v6_count__avg']
+    v4_avg_cached = custom_cache.get(custom_cache.keys.v4_avg)['v4_count__avg']
+
+    nat = rec_dd()
+    nat['all']['lac'] = custom_cache.get(custom_cache.keys.all_nat, 0)
+    nat['all']['world'] = custom_cache.get(custom_cache.keys.all_nat_world, 0)
+
+    nat['v4']['lac'] = custom_cache.get(custom_cache.keys.v4_nat, 0)
+    nat['v4']['world'] = custom_cache.get(custom_cache.keys.v4_nat_world, 0)
+
+    nat['v6']['lac'] = custom_cache.get(custom_cache.keys.v6_nat, 0)
+    nat['v6']['world'] = custom_cache.get(custom_cache.keys.v6_nat_world, 0)
+
+    v6_with_v4_cap = rec_dd()
+    v6_with_v4_cap['lac'] = custom_cache.get(custom_cache.keys.v6_with_v4_capacity)
+    v6_with_v4_cap['world'] = custom_cache.get(custom_cache.keys.v6_with_v4_capacity_world)
+
+    dualstack = rec_dd()
+    dualstack['lac'] = custom_cache.get(custom_cache.keys.dualstack)
+    dualstack['world'] = custom_cache.get(custom_cache.keys.dualstack_world)
+
+    v6_only = custom_cache.get(custom_cache.keys.v6_only)
+
+    npt = rec_dd()
+    npt['lac'] = custom_cache.get(custom_cache.keys.npt)
+    npt['world'] = custom_cache.get(custom_cache.keys.npt_world)
+
+    country_participation_counter_cached = custom_cache.get(custom_cache.keys.country_participation)
+
+    public_pfxs_ratio = custom_cache.get(custom_cache.keys.public_pfxs_nat_free_0_false_percentage)
+
+    private_prefix_counter_cached = custom_cache.get(custom_cache.keys.private_prefixes)
 
     # Country participation chart
     total = sum(country_participation_counter_cached.values())
@@ -80,16 +97,15 @@ def charts(request):
         {
             "v6_avg": v6_avg_cached,
             "v4_avg": v4_avg_cached,
-            "v6_max": v6_max_cached,
-            "v4_max": v4_max_cached,
-            "all_nat": all_nat_cached,
-            "v4_nat": v4_nat_cached,
-            "v6_nat": v6_nat_cached,
-            "v6_with_v4_capacity": v6_hosts_with_v4_capacity_cached,
-            "dualstack": dualstack_cached,
-            "npt": is_npt_cached,
-            # "hours": Counter(hours).most_common(n=1)[0][0],
-            # "nat_pressure_chart": nat_pressure_chart,
+            "nat": nat,
+            "npt": npt,
+
+            "v6_with_v4_cap": v6_with_v4_cap,
+            "dualstack": dualstack,
+            "v6_only": v6_only,
+
+            "public_pfxs_ratio": public_pfxs_ratio,
+
             "country_participation": country_participation_top,
             "private_prefix_chart": private_prefix_chart
         }

@@ -8,3 +8,7 @@ h1 { /* cambia en base a #barra-secundaria */
 #highlight {
 	color: #FF1654;
 }
+
+a h2{
+    text-decoration: underline;
+}

@@ -33,7 +33,7 @@ em, i {
 
 a {
     /* enlace general */
-    text-decoration: underline;
+    text-decoration: none;
     color: #009dca;
 }
 

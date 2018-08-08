@@ -72,11 +72,11 @@ msgstr "Measurements behind NAT"
 
 #: app/templates/charts.html:47
 msgid "Mediciones detrás de NAT 44"
-msgstr "Measurements behind NAT"
+msgstr "Measurements behind NAT 44"
 
 #: app/templates/charts.html:52
 msgid "Mediciones detrás de NAT 66"
-msgstr "Measurements behind NAT"
+msgstr "Measurements behind NAT 66"
 
 #: app/templates/charts.html:57
 msgid "Mediciones Natteados con NPT (v6)"
@@ -358,27 +358,3 @@ msgstr ""
 #: app/templates/script.html:168
 msgid "Something happened when posting to the central database :|"
 msgstr ""
-
-#, fuzzy
-#~| msgid "Clientes detrás de NAT 44"
-#~ msgid "Clientes detrás de NAT  (estimación regional)"
-#~ msgstr "Clients behind NAT 44"
-
-#, fuzzy
-#~| msgid "Clientes detrás de NAT 44"
-#~ msgid "Clientes detrás de NAT 44 (estimación regional)"
-#~ msgstr "Clients behind NAT 44"
-
-#, fuzzy
-#~| msgid "Clientes detrás de NAT 66"
-#~ msgid "Clientes detrás de NAT 66 (estimación regional)"
-#~ msgstr "Clients behind NAT 66"
-
-#~ msgid "Hosts Dualstack"
-#~ msgstr "Dualstack hosts"
-
-#~ msgid "Máximo"
-#~ msgstr "Maximum"
-
-#~ msgid "Cantidad de direcciones por host"
-#~ msgstr "Amount of addresses per host"

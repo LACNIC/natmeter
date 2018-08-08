@@ -52,7 +52,7 @@ class Command(BaseCommand):
 
 
 
-        # cache.set(cache.keys.announcements, get_announcements())
+        cache.set(cache.keys.announcements, get_announcements())
         cache.set(cache.keys.private_prefixes, StunMeasurement.objects.get_private_pfx_counter())
 
 

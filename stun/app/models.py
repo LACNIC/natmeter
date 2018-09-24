@@ -268,9 +268,9 @@ class StunMeasurementManager(models.Manager):
         return 100.0*len(natted) / (len(natted) + len(nat_free))
 
     @transaction.atomic
-    def set_attributes(self):
+    def set_attributes(self, persist=True, force=True):
         for sm in tqdm(self.all()):
-            sm.set_attributes()
+            sm.set_attributes(persist=persist, force=force)
 
     @staticmethod
     def is_npt(ip1, ip2):

@@ -30,9 +30,10 @@ class Command(BaseCommand):
         cache.set(cache.keys.v4_nat_world, StunMeasurement.objects.nat_4_percentage(consider_country=False))
         # cache.set(cache.keys.v4_nat, StunMeasurement.objects.get_v4_nat_percentage(consider_country=True))
         # cache.set(cache.keys.v4_nat_world, StunMeasurement.objects.get_v4_nat_percentage(consider_country=False))
-        #
-        # cache.set(cache.keys.v6_nat, StunMeasurement.objects.get_v6_nat_percentage(consider_country=True))
-        # cache.set(cache.keys.v6_nat_world, StunMeasurement.objects.get_v6_nat_percentage(consider_country=False))
+
+
+        cache.set(cache.keys.v6_nat, StunMeasurement.objects.nat_6_percentage(consider_country=True))
+        cache.set(cache.keys.v6_nat_world, StunMeasurement.objects.nat_6_percentage(consider_country=False))
 
         cache.set(cache.keys.v6_only, StunMeasurement.objects.v6_only_percentage(consider_country=False))
 

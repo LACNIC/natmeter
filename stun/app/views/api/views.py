@@ -29,7 +29,7 @@ def generic_reports(request, *args, **kwargs):
             minute=0,
             second=0,
             microsecond=0
-        ) for sm in StunMeasurement.objects.filter(Q(**kwargs)).order_by('-server_test_date')
+        ) for sm in StunMeasurement.objects.get_results().filter(Q(**kwargs)).order_by('-server_test_date')
     ]
 
     lines = sorted_counter(Counter(dates))

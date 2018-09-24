@@ -159,7 +159,11 @@ class StunMeasurementManager(models.Manager):
         """
         :return: NAT % (percentage) for NAT 66
         """
-        natted = StunMeasurement.objects.get_results(consider_country=consider_country).filter(nat_free_6=False).count()
+        natted = StunMeasurement.objects.get_results(
+            consider_country=consider_country
+        ).filter(
+            nat_free_6=False,
+        ).count()
         return 100.0 * natted / StunMeasurement.objects.get_results(consider_country=consider_country).count()
 
     def v6_only_percentage(self, consider_country=False):
@@ -347,18 +351,21 @@ class StunMeasurement(models.Model):
 
     objects = StunMeasurementManager()
 
-    def set_attributes(self):
-        """Attributes to make post-processing, filter, etc. easier and quicker"""
+    def set_attributes(self, persist=True, force=False):
+        """Attributes to make post-processing, filter, etc. easier and quicker
+        :param force: Overwrite existing value in DB
+        :return: None
+        """
 
         # save object in the end
-        self.set_nat_free(persist=False)
-        self.set_dualstack(persist=False)
+        self.set_nat_free(persist=persist, force=force)
+        self.set_dualstack(persist=persist, force=force)
         self.v6_only = self.is_v6_only()
         self.v4_only = self.is_v4_only()
         self.v6_count = self.get_v6_count()
         self.v4_count = self.get_v4_count()
         self.npt = self.is_npt()
-        self.noisy_prefix = self.has_noisy_prefix()
+        self.noisy_prefix = self.has_noisy_prefix()  # TODO provate prefixes
 
         self.save()
 

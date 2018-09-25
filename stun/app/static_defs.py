@@ -8,4 +8,6 @@ NOISY_PREFIXES = [
 
 NOISY_PREFIXES += ['2001:67c:2e8::/48', '193.0.22.0/23', '193.0.20.0/23', '193.0.18.0/23', '193.0.12.0/23', '193.0.10.0/23', '193.0.0.0/21']
 
-NOISY_PREFIXES += ['fe80::/10'] # link-local
+NOISY_PREFIXES += ['fe80::/10']  # link-local
+
+NOISY_PREFIXES += ['2001:470:5:516::/64']  # Alejandro's home

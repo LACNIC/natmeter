@@ -163,6 +163,7 @@ class StunMeasurementManager(models.Manager):
             consider_country=consider_country
         ).filter(
             nat_free_6=False,
+            v6_count__gt=0
         ).count()
         return 100.0 * natted / StunMeasurement.objects.get_results(consider_country=consider_country).count()
 

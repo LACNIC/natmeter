@@ -114,7 +114,7 @@ class StunMeasurementManager(models.Manager):
         """
 
         from app.caching.caching import cache as custom_cache
-        from management.commands.set_caches import get_announcements
+        from app.management.commands.set_caches import get_announcements
         announcements = custom_cache.get_or_set(
             custom_cache.keys.announcements,
             call=get_announcements
@@ -420,7 +420,7 @@ class StunMeasurement(models.Model):
     def get_local_v4_ipaddresses(self):
         return [ip for ip in self.get_local_addresses() if "." in ip]
 
-    def get_v6_count(self):
+    def get_v6_count(self, force=False):
         return len(self.get_local_v6_stunipaddresses())
 
     def get_local_v4_stunipaddresses(self):
@@ -431,7 +431,7 @@ class StunMeasurement(models.Model):
         v4 = [ip for ip in ips if "." in ip.ip_address]
         return v4
 
-    def get_v4_count(self):
+    def get_v4_count(self, force=False):
         return len(self.get_local_v4_stunipaddresses())
 
     def get_local_stunipaddresses(self):
@@ -490,7 +490,10 @@ class StunMeasurement(models.Model):
 
         return False
 
-    def has_noisy_prefix(self):
+    def is_private(self):
+        return self.is_private_v4() or self.is_private_v6()
+
+    def has_noisy_prefix(self, force=False):
         """
         :return: True if the StunMeasurement has any address in a nosiy prefix
          (prefixes not helping in the measurements)
@@ -505,8 +508,9 @@ class StunMeasurement(models.Model):
                     return True
         return False
 
-    def set_dualstack(self, persist=True):
-        self.dualstack = self.get_v4_count() > 0 and self.get_v6_count() > 0
+    def set_dualstack(self, persist=True, force=False):
+        if force or not self.dualstack:
+            self.dualstack = self.get_v4_count() > 0 and self.get_v6_count() > 0
 
         if persist:
             self.save()
@@ -517,10 +521,14 @@ class StunMeasurement(models.Model):
         """
         return not self.nat_free_0
 
-    def set_nat_free(self, persist=True):
-        self.nat_free_0 = self.nat_free(0)
-        self.nat_free_4 = self.nat_free(4)
-        self.nat_free_6 = self.nat_free(6)
+    def set_nat_free(self, persist=True, force=False):
+
+        if force or not self.nat_free_0:
+            self.nat_free_0 = self.nat_free(0)
+        if force or not self.nat_free_4:
+            self.nat_free_4 = self.nat_free(4)
+        if force or not self.nat_free_6:
+            self.nat_free_6 = self.nat_free(6)
 
         if persist:
             self.save()

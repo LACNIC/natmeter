@@ -352,7 +352,7 @@ class StunMeasurement(models.Model):
 
     objects = StunMeasurementManager()
 
-    def set_attributes(self, persist=True, force=False):
+    def set_attributes(self, persist=True, force=True):
         """Attributes to make post-processing, filter, etc. easier and quicker
         :param force: Overwrite existing value in DB
         :return: None

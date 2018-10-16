@@ -15,12 +15,16 @@ def rec_dd():
     return defaultdict(rec_dd)
 
 
+def base_render(request, template):
+    return render(request, template, {'debug': settings.DEBUG})
+
+
 def home(request):
-    return render(request, "home.html")
+    return base_render(request, "home.html")
 
 
 def script(request):
-    return render(request, "script.html")
+    return base_render(request, "script.html")
 
 
 def charts(request):

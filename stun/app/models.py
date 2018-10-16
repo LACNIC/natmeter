@@ -350,6 +350,8 @@ class StunMeasurement(models.Model):
 
     noisy_prefix = models.NullBooleanField(default=None, null=True, help_text="This measurement comes from one of the ignored prefixes (special cases)")
 
+    href = models.CharField(default=None, null=True, help_text="Site providing the results", max_length=1024)
+
     objects = StunMeasurementManager()
 
     def set_attributes(self, persist=True, force=True):

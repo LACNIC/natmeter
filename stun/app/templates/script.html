@@ -41,6 +41,12 @@
         {% trans "intro.demo" %}
     </p>
 
+    <p>
+        <button onclick="STUN.COOKIES.readSTUNCookie(); document.getElementById('cookie_msg').innerText = '  cookie cleared! Reloading...'; setTimeout(a=>{STUN.COOKIES.eraseSTUNCookie(); location.reload()}, 3000)">
+            Clear cookie and reload
+        </button><span id="cookie_msg"></span>
+    </p>
+
     <div class="progress progress-striped active" style="height: 5px;">
         <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"
              style="width:0%">
@@ -94,6 +100,13 @@
             STUN.callbacks.after_cookie = function () {
             };
 
+            STUN.callbacks.on_cookie_hit = function () {
+                const line = "{% trans "Looks like you've already performed a measurement! (You can clear cookies if you want to re-run the experiment)" %}";
+                output_easy(line);
+                output(line);
+                updateBarTo(100);
+            };
+
             STUN.callbacks.before_private_request = function () {
                 const line = "{% trans "Looking for client's local address(es)..." %}";
                 output_easy(line);
@@ -102,7 +115,7 @@
             };
 
             STUN.callbacks.after_private_request = function () {
-                updateBarTo(10);
+                updateBarTo(15);
             };
 
             STUN.callbacks.after_private_stun_response = function (response) {

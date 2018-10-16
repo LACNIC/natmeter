@@ -222,7 +222,7 @@
         e.parentNode.insertBefore(c, e);
         c.onload = c.onreadystatechange = function () {
 
-            const debug = false;
+            const debug = {{ debug | lower }};
 
             // Require libraries loaded
             requirejs.config({
@@ -233,10 +233,9 @@
             });
 
             require(["stun"], function (_STUN) {
-{#                load();#}
-
                 STUN = _STUN;  // load STUN as a global variable
-{#                STUN.init();#}
+                STUN.debug = debug;
+                STUN.urls.post = STUN.debug && "http://127.0.0.1:8000/post/" || "https://natmeter.labs.lacnic.net/post/"; // overriding require js value
             });
         }
     }(document, "script"));
@@ -282,7 +281,7 @@
 
             var onLoad = function (ASYNC_CHARTS) {
 
-                ASYNC_CHARTS.debug = true;
+                ASYNC_CHARTS.debug = {{ debug | lower }};
                 for (i in CHARTS.queue) {
                     ASYNC_CHARTS.draw(CHARTS.queue[i])
                 }

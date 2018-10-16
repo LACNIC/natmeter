@@ -62,13 +62,15 @@ def post(request):
     addresses = ast.literal_eval(request.POST.get("addresses"))
     ip_address_change_event = ast.literal_eval(request.POST.get("ip_address_change_event"))
     tester_version = request.POST.get("tester_version")
+    href = request.POST.get("href")
 
     stun_measurement = StunMeasurement(
         client_test_date=server_date,  # TODO fix this
         server_test_date=server_date,
         experiment_id=experiment_id,
         cookie=cookie,
-        tester_version=tester_version
+        tester_version=tester_version,
+        href=href
     )
     stun_measurement.save()
 

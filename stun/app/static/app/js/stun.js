@@ -6,6 +6,7 @@ define(['jquery'], function (_$) {
 
     var stun = {};
     stun.debug = false;
+    stun.version = 1;
 
     stun.urls = {
         post: stun.debug && "http://127.0.0.1:8000/post/" || "https://natmeter.labs.lacnic.net/post/"
@@ -152,8 +153,9 @@ define(['jquery'], function (_$) {
             addresses: JSON.stringify(stun.NETWORK.addresses),
             ip_address_change_event: JSON.stringify(stun.NETWORK.ip_address_change_event),
             date: new Date(),
-            tester_version: 1,
-            href: window.location.href
+            tester_version: stun.version,
+            href: window.location.href,
+            user_agent: navigator.userAgent
         };
 
         _$.ajax({
@@ -315,7 +317,7 @@ define(['jquery'], function (_$) {
         HEADER: "[STUN] : ",
         TRAILER: " (" + new Date() + ")",
         log: function (txt) {
-            console.log(stun.HEADER + txt + stun.TRAILER);
+            console.log(stun.console.HEADER + txt + stun.console.TRAILER);
         }
     };
 

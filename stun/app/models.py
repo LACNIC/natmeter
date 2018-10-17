@@ -352,6 +352,8 @@ class StunMeasurement(models.Model):
 
     href = models.CharField(default=None, null=True, help_text="Site providing the results", max_length=1024)
 
+    user_agent = models.CharField(default=None, null=True, help_text="User Agent", max_length=1024)
+
     objects = StunMeasurementManager()
 
     def set_attributes(self, persist=True, force=True):

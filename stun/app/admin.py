@@ -13,7 +13,7 @@ class StunGenericAdmin(admin.ModelAdmin):
 
 class StunMeasurementAdmin(StunGenericAdmin):
 
-    list_display = ['server_test_date', 'cookie', 'nat_free_0', 'v6_count', 'v4_count', 'get_country']
+    list_display = ['server_test_date', 'href', 'nat_free_0', 'v6_count', 'v4_count', 'get_country']
     ordering = ['-server_test_date']
     search_fields = ['cookie']
 

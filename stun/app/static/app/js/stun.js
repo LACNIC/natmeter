@@ -154,7 +154,7 @@ define(['jquery'], function (_$) {
             ip_address_change_event: JSON.stringify(stun.NETWORK.ip_address_change_event),
             date: new Date(),
             tester_version: stun.version,
-            href: window.location.href,
+            href: window.location.href.split("/")[2],
             user_agent: navigator.userAgent
         };
 

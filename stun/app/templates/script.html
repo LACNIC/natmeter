@@ -42,7 +42,7 @@
     </p>
 
     <p>
-        <button onclick="STUN.COOKIES.readSTUNCookie(); document.getElementById('cookie_msg').innerText = '  cookie cleared! Reloading...'; setTimeout(a=>{STUN.COOKIES.eraseSTUNCookie(); location.reload()}, 3000)">
+        <button id="button">
             Clear cookie and reload
         </button><span id="cookie_msg"></span>
     </p>
@@ -78,13 +78,15 @@
 
         function load() {
 
+            $("#button").attr("onclick","STUN.COOKIES.readSTUNCookie(); document.getElementById('cookie_msg').innerText = '  cookie cleared! Reloading...'; setTimeout(a=>{STUN.COOKIES.eraseSTUNCookie(); location.reload()}, 3000)");
+
             function output(line) {
 
                 $("#advanced-console").append(STUN.console.HEADER + line + "\n");
                 $("#advanced-console").scrollTop(500);
             };
 
-            output('Loading...')
+            output('Loading...');
 
             function output_easy(line) {
                 $("#easy-console").append(line + "\n");

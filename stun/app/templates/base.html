@@ -112,7 +112,17 @@
 </head>
 <body>
 
-{#Barra anaranjada#}
+{#Barra roja#}
+
+<div id="message">
+    <div style="padding: 5px;" class="alert">
+        <div id="inner-message">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            {% trans "info.banner" %}
+        </div>
+    </div>
+</div>
+
 <div id="barra-primaria" class="navbar">
 
     <a href="https://www.labs.lacnic.net" title="LACNIC labs" class="pull-right">
@@ -138,22 +148,20 @@
         <li><a href="https://simon.lacnic.net">{% trans "bar.secondary.simon" %}</a></li>
     </ul>
 
+
+
     <ul id="setlang" class="nav navbar-nav navbar-right" style="margin-right: 1em; margin-left: 1em;">
         <li><a href="#" onclick="langRedirect('en');">EN</a></li>
         <li><a href="#" onclick="langRedirect('es');">ES</a></li>
         <li>
-            <span
+            <a><span
                     class="glyphicon glyphicon-info-sign"
                     data-toggle="tooltip"
                     title="{% trans "bar.secondary.cookie" %}"
-            ></span>
+            ></span></a>
         </li>
+        <li><a href="#" onclick="STUN.COOKIES.eraseSTUNCookie()">borrar cookies</a></li>
         <!-- Material Design loading component -->
-        <div
-                id="setlang-progress"
-                {#                class="mdl-progress mdl-js-progress"#}
-                style="height:1px; width:5em; top:-15px; left:1em;"
-        ></div>
     </ul>
 
 </div>
@@ -168,14 +176,13 @@
     {% endblock %}
 
     <div id="fondo" class="row marketing">
-        {#        <div style="Margin: 1em; padding: 1em;">#}
-        {% block content %}
 
-            {#                Every child will get rendered in here.#}
+        <div class="col-lg-12">
+            {% block content %}
+                {#                Every child will get rendered in here.#}
+            {% endblock %}
+        </div>
 
-
-        {% endblock %}
-        {#        </div>#}
     </div>
 
 
@@ -212,7 +219,7 @@
 <!-- STUN script async loading -->
 <script type="application/javascript">
 
-    var STUN;
+    var STUN = {};
 
     (function (f, b) {
         var c = f.createElement(b),

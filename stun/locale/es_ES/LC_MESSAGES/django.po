@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-10-15 23:06+0000\n"
+"POT-Creation-Date: 2018-10-19 14:08+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,19 +17,24 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: app/templates/base.html:136
+#: app/templates/base.html:121
+msgid "info.banner"
+msgstr ""
+"Este sitio utiliza cookies para mejorar tu experiencia. Más infromación <a href=\"/cookies\">aquí</a>"
+
+#: app/templates/base.html:146
 msgid "bar.secondary.home"
 msgstr "Home de LACNIC"
 
-#: app/templates/base.html:137
+#: app/templates/base.html:147
 msgid "bar.secondary.blog"
 msgstr "Blog de LACNIC Labs"
 
-#: app/templates/base.html:138
+#: app/templates/base.html:148
 msgid "bar.secondary.simon"
 msgstr "Proyecto Simón"
 
-#: app/templates/base.html:148
+#: app/templates/base.html:160
 msgid "bar.secondary.cookie"
 msgstr ""
 "Necesitamos almacenar una cookie de seguridad en tu navegador, para poder "
@@ -181,6 +186,19 @@ msgstr ""
 msgid "Promedio"
 msgstr ""
 
+#: app/templates/cookies.html:9
+msgid "title.cookies"
+msgstr "Acerca de nuestras cookies"
+
+#: app/templates/cookies.html:12
+msgid "intro.cookies"
+msgstr ""
+"Almacenamos las siguientes cookies en tu navegador para que tengas una mejor "
+"experiencia: <ul><li><b>natmeter_csrftoken</b>: Utilizada para mecanismos de "
+"CSRF.</li><li><b>lacnic-stun-cookie</b>: Utilizada para el funcionamiento "
+"del script. Si el cookie esta presente entonces no repite el experimento. "
+"Ventana de expiración: 14 días.</li></ul>"
+
 #: app/templates/home.html:29
 msgid "home.intro"
 msgstr "Centro de estadísticas de NAT 44 y NAT 66."
@@ -282,67 +300,69 @@ msgstr ""
 "La siguiente demostración realiza una consulta a servidores STUN para "
 "construir las estadísticas a nivel regional."
 
-#: app/templates/script.html:51
+#: app/templates/script.html:57
 msgid "sub1.demo"
 msgstr "Respuesta por parte de los servidores STUN:"
 
-#: app/templates/script.html:56
+#: app/templates/script.html:62
 msgid "sub2.demo"
 msgstr "Respuesta sencilla"
 
-#: app/templates/script.html:89
+#: app/templates/script.html:97
 msgid "Looking for information stored in your browser's cookies..."
 msgstr ""
 "Buscando información almacenada previamente en cookies del navegador..."
 
-#: app/templates/script.html:98
-msgid "Looks like you've already performed a measurement!..."
+#: app/templates/script.html:106
+msgid ""
+"Looks like you've already performed a measurement! (You can clear cookies if "
+"you want to re-run the experiment)"
 msgstr ""
 
-#: app/templates/script.html:105
+#: app/templates/script.html:113
 msgid "Looking for client's local address(es)..."
 msgstr "Buscando la(s) dirección IP local"
 
-#: app/templates/script.html:116
+#: app/templates/script.html:124
 msgid "Local response: "
 msgstr "Respuesta local:"
 
-#: app/templates/script.html:124
+#: app/templates/script.html:132
 msgid "Local addresses found: "
 msgstr "Direcciones IP locales encontradas:"
 
-#: app/templates/script.html:133 app/templates/script.html.py:134
+#: app/templates/script.html:141 app/templates/script.html.py:142
 msgid "Looking for client's remote address(es)..."
 msgstr "Buscando la(s) dirección IP remotas..."
 
-#: app/templates/script.html:140
+#: app/templates/script.html:148
 msgid "Remote STUN server response: "
 msgstr "Respuesta por parte del servidor STUN remoto:"
 
-#: app/templates/script.html:148
+#: app/templates/script.html:156
 msgid "Address(es) seen from our STUN servers: "
 msgstr "Direcciones percibidas desde nuestros servidores STUN:"
 
-#: app/templates/script.html:153
+#: app/templates/script.html:161
 msgid "NAT detectado!"
 msgstr ""
 
-#: app/templates/script.html:156
+#: app/templates/script.html:164
 msgid "NAT no detectado"
 msgstr ""
 
-#: app/templates/script.html:160
+#: app/templates/script.html:168
 msgid "Remote addresses found: "
 msgstr "Direcciones IP remotas encontradas:"
 
-#: app/templates/script.html:163
+#: app/templates/script.html:171
 msgid "Posting results to central database..."
 msgstr "Enviando resultados a la base central..."
 
-#: app/templates/script.html:168
+#: app/templates/script.html:176
 msgid "Thank you for checking out this demo!"
 msgstr "Gracias por correr esta demo!"
 
-#: app/templates/script.html:175
+#: app/templates/script.html:183
 msgid "Something happened when posting to the central database :|"
 msgstr "Algo ha ocurrido mientras se enviaban los datos al servidor central :|"

@@ -93,7 +93,7 @@ define(['jquery'], function (_$) {
         },
 
         createSTUNCookie: function (cookieValue) {
-            return this.createCookie(stun.cookieName, cookieValue, stun.cookieDays);
+            return this.createCookie(stun.COOKIES.cookieName, cookieValue, stun.COOKIES.cookieDays);
         },
 
         readSTUNCookie: function () {

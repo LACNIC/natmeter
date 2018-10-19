@@ -27,6 +27,10 @@ def script(request):
     return base_render(request, "script.html")
 
 
+def cookies(request):
+    return base_render(request, "cookies.html")
+
+
 def charts(request):
     """
     :param request:

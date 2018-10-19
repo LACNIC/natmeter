@@ -26,7 +26,8 @@ urlpatterns = patterns(
     url(r'charts/', views.charts, name='charts'),
     url(r'post/', views.post, name='post'),
     url(r'reports/', include(reports)),
-    url(r'script/', views.script, name='script')
+    url(r'script/', views.script, name='script'),
+    url(r'cookies/', views.cookies, name='cookies')
 
 ) + reports + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 

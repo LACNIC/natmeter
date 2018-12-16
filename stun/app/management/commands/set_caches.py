@@ -53,8 +53,10 @@ class Command(BaseCommand):
 
 
 
-        cache.set(cache.keys.announcements, get_announcements())
-        cache.set(cache.keys.private_prefixes, StunMeasurement.objects.get_private_pfx_counter())
+        # cache.set(cache.keys.announcements, get_announcements())
+        
+        cache.set(cache.keys.private_prefixes, StunMeasurement.objects.get_private_pfx_counter_v6())
+        cache.set(cache.keys.private_prefixes, StunMeasurement.objects.get_private_pfx_counter_v4())
 
 
 def get_announcements():

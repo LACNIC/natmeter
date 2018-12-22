@@ -6,12 +6,12 @@ from app.management.commands.resolve_countries import Command as ResolveCountrie
 from app.management.commands.set_attributes import Command as SetAttributesCommand
 
 # Daily jobs
-schedule.every(1).days.do(ExportResultsCommand().handle())
-schedule.every(1).days.do(SetCachesCommand().handle())
-schedule.every(1).days.do(ResolveCountriesCommand().handle())
+schedule.every(7).days.do(ExportResultsCommand().handle())
+schedule.every(7).days.do(SetCachesCommand().handle())
+schedule.every(7).days.do(ResolveCountriesCommand().handle())
 
 # Hourly jobs
-schedule.every(12).hour.do(SetAttributesCommand().handle())
+schedule.every(7).days.do(SetAttributesCommand().handle())
 
 
 def main():

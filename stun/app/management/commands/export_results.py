@@ -5,6 +5,7 @@ import csv
 import datetime
 import pytz
 from stun.settings import STATIC_ROOT
+from tqdm import tqdm
 
 class Command(BaseCommand):
     def handle(self, *args, **options):
@@ -37,7 +38,7 @@ class Command(BaseCommand):
             writer.writerow([])
 
             writer.writerow(fieldnames)
-            for sm in sms:
+            for sm in tqdm(sms):
                 local_addresses = StunMeasurement.objects.show_addresses_to_the_world(sm.get_local_addresses())
                 stun_addresses = StunMeasurement.objects.show_addresses_to_the_world(sm.get_remote_addresses())
 

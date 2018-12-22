@@ -228,12 +228,23 @@ class StunMeasurementManager(models.Manager):
 
         return counter
 
-    def get_private_pfx_counter(self):
+    def get_private_pfx_counter_v6(self):
 
-        results = self.get_results()
+        results = self.get_v6_results()
         pvt_pfxs = []
         for r in results:
-            addresses = r.get_local_addresses()
+            addresses = r.get_local_v6_ipaddresses()
+            world = StunMeasurement.objects.show_addresses_to_the_world(addresses)
+            pvt_pfxs += world
+        counter = Counter(pvt_pfxs).items()
+        return sorted(counter, key=operator.itemgetter(1), reverse=True)
+
+    def get_private_pfx_counter_v4(self):
+
+        results = self.get_v4_results()
+        pvt_pfxs = []
+        for r in results:
+            addresses = r.get_local_v4_ipaddresses()
             world = StunMeasurement.objects.show_addresses_to_the_world(addresses)
             pvt_pfxs += world
         counter = Counter(pvt_pfxs).items()

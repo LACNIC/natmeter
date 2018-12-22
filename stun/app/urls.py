@@ -16,8 +16,8 @@ reports = patterns(
     url(r'dualstack_false', views.generic_reports, {'dualstack': False}, name='report_dualstack_false'),
     url(r'npt_true', views.generic_reports, {'npt': True}, name='report_npt_false'),
     url(r'npt_false', views.generic_reports, {'npt': False}, name='report_npt_false'),
-    url(r'v4_only', views.generic_reports, {'v4_count': 0}, name='report_npt_false'),
-    url(r'v6_only', views.generic_reports, {'v6_count': 0}, name='report_npt_false'),
+    url(r'v4_only', views.generic_reports, {'v6_count': 0}, name='report_npt_false'),
+    url(r'v6_only', views.generic_reports, {'v4_count': 0}, name='report_npt_false'),
 )
 
 urlpatterns = patterns(

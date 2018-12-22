@@ -270,8 +270,19 @@ class StunMeasurementManager(models.Manager):
 
     @transaction.atomic
     def set_attributes(self, persist=True, force=True):
-        for sm in tqdm(self.all()):
-            sm.set_attributes(persist=persist, force=force)
+
+        def chunks(l, n):
+            """Yield successive n-sized chunks from l."""
+            for i in xrange(0, len(l), n):
+                yield l[i:i + n]
+
+        def set_attrs(sm):
+            return sm.set_attributes(persist=persist, force=force)
+
+        for sms in tqdm(chunks(self.filter(already_processed=False), 100)):
+            map(set_attrs, sms)
+
+
 
     @staticmethod
     def is_npt(ip1, ip2):
@@ -354,6 +365,8 @@ class StunMeasurement(models.Model):
 
     user_agent = models.CharField(default=None, null=True, help_text="User Agent", max_length=1024)
 
+    already_processed = models.BooleanField(default=False)
+
     objects = StunMeasurementManager()
 
     def set_attributes(self, persist=True, force=True):
@@ -371,6 +384,7 @@ class StunMeasurement(models.Model):
         self.v4_count = self.get_v4_count()
         self.npt = self.is_npt()
         self.noisy_prefix = self.has_noisy_prefix()  # TODO provate prefixes
+        self.already_processed = True
 
         self.save()
 

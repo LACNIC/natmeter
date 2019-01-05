@@ -1,17 +1,30 @@
 import schedule
 import time
-from app.management.commands.export_results import Command as ExportResultsCommand
-from app.management.commands.set_caches import Command as SetCachesCommand
-from app.management.commands.resolve_countries import Command as ResolveCountriesCommand
-from app.management.commands.set_attributes import Command as SetAttributesCommand
 
-# Daily jobs
-schedule.every(7).days.do(ExportResultsCommand().handle())
-schedule.every(7).days.do(SetCachesCommand().handle())
-schedule.every(7).days.do(ResolveCountriesCommand().handle())
 
-# Hourly jobs
-schedule.every(7).days.do(SetAttributesCommand().handle())
+def command_callable(command):
+    return command.handle
+
+
+# Weekly jobs
+
+from app.management.commands.export_results import ExportResults as Command
+command_callable(Command)
+schedule.every(7).days.do(command_callable(Command))
+
+from app.management.commands.set_caches import SetCachesCommand as Command
+command_callable(Command)
+schedule.every(7).days.do(command_callable(Command))
+
+from app.management.commands.resolve_countries import ResolveCountriesCommand as Command
+command_callable(Command)
+schedule.every(7).days.do(command_callable(Command))
+
+# # Hourly jobs
+
+from app.management.commands.set_attributes import SetAttributesCommand as Command
+command_callable(Command)
+schedule.every(4).hours.do(command_callable(Command))
 
 
 def main():

@@ -4,7 +4,7 @@ from app.models import StunMeasurement
 from statsd import StatsClient
 from stun import settings
 
-class Command(BaseCommand):
+class SetCachesCommand(BaseCommand):
     def handle(self, *args, **options):
         old = cache.set
 

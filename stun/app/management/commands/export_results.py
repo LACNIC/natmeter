@@ -7,7 +7,9 @@ import pytz
 from stun.settings import STATIC_ROOT
 from tqdm import tqdm
 
-class Command(BaseCommand):
+
+class ExportResults(BaseCommand):
+
     def handle(self, *args, **options):
         comments = []
         comments.append(["# This is a TAB separated values file containing the results gathered by the NAT Meter experiment (https://natmeter.labs.lacnic.net)."])

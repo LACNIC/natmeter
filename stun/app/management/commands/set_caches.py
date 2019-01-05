@@ -14,7 +14,7 @@ class Command(BaseCommand):
         def new(k, v, t=None):
             HOURS = 3600
             print "Setting {key}".format(key=k)
-            old(k, v, timeout=168 * HOURS)
+            old(k, v, timeout=24 * HOURS)
 
         cache.set = new
 

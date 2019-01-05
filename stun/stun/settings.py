@@ -152,17 +152,23 @@ if 'simon' in HOSTNAME:
     CHARTS_URL = "https://charts.dev.lacnic.net"  # *no* trailing slash
     DATADOG_DEFAULT_TAGS = ['env:prod']
     # Default chaching stratrgy for production environment
+    CACHES = {
+        'default': {
+            'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
+            'LOCATION': '127.0.0.1:11211',
+        }
+    }
 else:
     # Developer mode
     DEBUG = True
     CHARTS_URL = "http://127.0.0.1:8001"  # ""https://charts.dev.lacnic.net"
     DATADOG_DEFAULT_TAGS = ['env:dev']
-CACHES = {
-    'default': {
-        'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
-        'LOCATION': '/var/tmp/django_cache',
+    CACHES = {
+        'default': {
+            'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
+            'LOCATION': '/var/tmp/django_cache',
+        }
     }
-}
 
 # Logging configurations
 DJANGO_LOG_LEVEL = DEBUG

@@ -3,27 +3,23 @@ import time
 
 
 def command_callable(command):
-    return command.handle
+    return command().handle
 
 
 # Weekly jobs
 
-from app.management.commands.export_results import ExportResults as Command
-command_callable(Command)
+from app.management.commands.export_results import Command
 schedule.every(7).days.do(command_callable(Command))
 
-from app.management.commands.set_caches import SetCachesCommand as Command
-command_callable(Command)
+from app.management.commands.set_caches import Command
 schedule.every(7).days.do(command_callable(Command))
 
-from app.management.commands.resolve_countries import ResolveCountriesCommand as Command
-command_callable(Command)
+from app.management.commands.resolve_countries import Command
 schedule.every(7).days.do(command_callable(Command))
 
-# # Hourly jobs
+# Hourly jobs
 
-from app.management.commands.set_attributes import SetAttributesCommand as Command
-command_callable(Command)
+from app.management.commands.set_attributes import Command
 schedule.every(4).hours.do(command_callable(Command))
 
 

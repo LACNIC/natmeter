@@ -8,7 +8,7 @@ from stun.settings import STATIC_ROOT
 from tqdm import tqdm
 
 
-class ExportResults(BaseCommand):
+class Command(BaseCommand):
 
     def handle(self, *args, **options):
         comments = []

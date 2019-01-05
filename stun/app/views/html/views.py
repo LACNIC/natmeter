@@ -15,8 +15,9 @@ def rec_dd():
     return defaultdict(rec_dd)
 
 
-def base_render(request, template):
-    return render(request, template, {'debug': settings.DEBUG})
+def base_render(request, template, ctx={}):
+    ctx.update({'debug': settings.DEBUG})
+    return render(request, template, ctx)
 
 
 def home(request):
@@ -100,23 +101,21 @@ def charts(request):
     )
     private_prefix_chart = requests.post(settings.CHARTS_URL + "/code/", data=data).text
 
-    ctx = RequestContext(
-        request,
-        {
-            "v6_avg": v6_avg_cached,
-            "v4_avg": v4_avg_cached,
-            "nat": nat,
-            "npt": npt,
+    ctx = {
+        "v6_avg": v6_avg_cached,
+        "v4_avg": v4_avg_cached,
+        "nat": nat,
+        "npt": npt,
 
-            "v6_with_v4_cap": v6_with_v4_cap,
-            "dualstack": dualstack,
-            "v6_only": v6_only,
+        "v6_with_v4_cap": v6_with_v4_cap,
+        "dualstack": dualstack,
+        "v6_only": v6_only,
 
-            "public_pfxs_ratio": public_pfxs_ratio,
+        "public_pfxs_ratio": public_pfxs_ratio,
 
-            "country_participation": country_participation_top,
-            "private_prefix_chart": private_prefix_chart
-        }
-    )
+        "country_participation": country_participation_top,
+        "private_prefix_chart": private_prefix_chart
+    }
 
-    return render_to_response("charts.html", ctx)
+    return base_render(request, "charts.html", ctx=ctx)
+    # return render_to_response("charts.html", ctx)

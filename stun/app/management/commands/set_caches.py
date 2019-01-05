@@ -11,10 +11,9 @@ class Command(BaseCommand):
         statsd = StatsClient()
 
         @statsd.timer('cache.set')
-        def new(k, v, t=None):
-            HOURS = 3600
+        def new(k, v):
             print "Setting {key}".format(key=k)
-            old(k, v, timeout=24 * HOURS)
+            old(k, v)
 
         cache.set = new
 

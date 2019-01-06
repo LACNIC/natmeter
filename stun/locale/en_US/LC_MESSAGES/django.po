@@ -21,7 +21,9 @@ msgstr ""
 #: app/templates/base.html:121
 msgid "info.banner"
 msgstr ""
-"This website uses cookies to enhace your experience. More information in <a href=\"/cookies\">here</a>"
+"To provide you with the best possible experience on our website, we may use cookies, as described <a href=\"{% url \"cookies\" %}\">here</a>."
+"By clicking accept, closing this banner, or continuing to browse our websites, you consent to the use of such cookies."
+
 
 #: app/templates/base.html:146
 msgid "bar.secondary.home"

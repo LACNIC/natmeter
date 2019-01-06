@@ -20,7 +20,9 @@ msgstr ""
 #: app/templates/base.html:121
 msgid "info.banner"
 msgstr ""
-"Este sitio utiliza cookies para mejorar tu experiencia. Más infromación <a href=\"/cookies\">aquí</a>"
+"Para ofrecerta la mejor experiencia en este sitio utilizamos cookies, como descrito <a href=\"{% url \"cookies\" %}\">aquí</a>."
+"Si cierras esta notificación o simplemente sigues navegando, entonces nos das consentimiento del uso de estas cookies."
+
 
 #: app/templates/base.html:146
 msgid "bar.secondary.home"

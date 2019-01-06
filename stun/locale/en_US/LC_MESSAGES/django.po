@@ -91,7 +91,7 @@ msgstr "Measurements through NPT (v6)"
 
 #: app/templates/charts.html:63
 msgid "Prefijos públicos vistos detrás de NAT"
-msgstr "Clients behind NAT"
+msgstr "Public prefixes seen behind NAT"
 
 #: app/templates/charts.html:74
 msgid "Participación por país"

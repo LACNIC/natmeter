@@ -6,6 +6,7 @@ from app.models import StunMeasurement
 from collections import Counter
 import operator
 from django.db.models import Q
+from django.views.decorators.http import require_http_methods
 
 
 def sorted_counter(ctr):
@@ -38,9 +39,8 @@ def generic_reports(request, *args, **kwargs):
 
 
 @csrf_exempt
+@require_http_methods(["POST"])
 def post(request):
-    if request.method != 'POST':
-        return HttpResponse("Invalid method: %s" % request.method, content_type="text", status=400)
 
     import ast
     from app.libraries.classes import datetime_uy

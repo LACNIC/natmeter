@@ -122,7 +122,6 @@
 
             STUN.callbacks.after_private_stun_response = function (response) {
                 output("{% trans "Local response: " %}" + response);
-                console.log("private = " + STUN.NETWORK.addresses.getPrivateAddresses());
                 updateBarTo(20);
             };
 
@@ -146,7 +145,6 @@
             STUN.callbacks.after_public_stun_response = function (response) {
 
                 output("{% trans "Remote STUN server response: " %}" + response);
-                console.log("public = " + STUN.NETWORK.addresses.getPublicAddresses());
                 updateBarTo(60);
             };
 

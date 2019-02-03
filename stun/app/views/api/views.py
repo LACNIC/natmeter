@@ -42,13 +42,15 @@ def generic_reports(request, *args, **kwargs):
 @require_http_methods(["POST"])
 def post(request):
 
-    import ast
+    import ast, json
     from app.libraries.classes import datetime_uy
     from app.models import StunIpAddress, StunMeasurement, StunIpAddressChangeEvent
     from datetime import datetime
 
+    post = json.loads(request.body)
+
     server_date = datetime_uy()
-    client_date = request.POST.get("date")
+    client_date = post.get("date")
 
     try:
         client_date = datetime.strptime(client_date.split(" GMT")[0], "%a %b %d %Y %H:%M:%S")
@@ -57,13 +59,13 @@ def post(request):
     finally:
         print client_date
 
-    experiment_id = request.POST.get("experiment_id")
-    cookie = request.POST.get("cookie")
-    addresses = ast.literal_eval(request.POST.get("addresses"))
-    ip_address_change_event = ast.literal_eval(request.POST.get("ip_address_change_event"))
-    tester_version = request.POST.get("tester_version")
-    href = request.POST.get("href")
-    user_agent = request.POST.get("user_agent")
+    experiment_id = post.get("experiment_id")
+    cookie = post.get("cookie")
+    addresses = ast.literal_eval(post.get("addresses"))
+    ip_address_change_event = ast.literal_eval(post.get("ip_address_change_event"))
+    tester_version = post.get("tester_version")
+    href = post.get("href")
+    user_agent = post.get("user_agent")
 
     stun_measurement = StunMeasurement(
         client_test_date=server_date,  # TODO fix this

@@ -12,6 +12,10 @@ define([], function () {
         post: stun.debug && "http://127.0.0.1:8000/post/" || "https://natmeter.labs.lacnic.net/post/"
     };
 
+    stun.TIMERS = {
+
+    };
+
     stun.callbacks = {
 
         before_cookie: function () {
@@ -155,7 +159,8 @@ define([], function () {
             date: new Date(),
             tester_version: stun.version,
             href: window.location.href.split("/")[2],
-            user_agent: navigator.userAgent
+            user_agent: navigator.userAgent,
+            timers: stun.TIMERS
         };
 
         return fetch(
@@ -175,7 +180,6 @@ define([], function () {
                 body: JSON.stringify(data), // body data type must match "Content-Type" header
         }).then(
             response => {
-                console.log(response)
                 if (response.statusText === "OK") {
                     stun.callbacks.after_post();
                     return true;
@@ -273,6 +277,8 @@ define([], function () {
         /*
          * First run trying the local connection
          */
+        stun.TIMERS['init'] = new Date().toISOString();
+
         stun.callbacks.after_stun_response = function (response) {
 
             stun.callbacks.after_private_stun_response(response);
@@ -302,6 +308,8 @@ define([], function () {
                 }
 
                 stun.callbacks.after_experiment = function () {
+                    stun.TIMERS['after_experiment'] = new Date().toISOString();
+
                     stun.postResults();
                 }
 
@@ -329,7 +337,7 @@ define([], function () {
 
     stun.console = {
         HEADER: "[STUN] : ",
-        TRAILER: " (" + new Date() + ")",
+        TRAILER: " (" + new Date().toISOString() + ")",
         log: function (txt) {
             console.log(stun.console.HEADER + txt + stun.console.TRAILER);
         }

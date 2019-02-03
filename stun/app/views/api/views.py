@@ -66,6 +66,19 @@ def post(request):
     tester_version = post.get("tester_version")
     href = post.get("href")
     user_agent = post.get("user_agent")
+    timers = post.get("timers")
+
+    t0 = datetime.strptime(timers['init'][:-1], "%Y-%m-%dT%H:%M:%S.%f")
+    for t, d in timers.items():
+        t1 = datetime.strptime(d[:-1], "%Y-%m-%dT%H:%M:%S.%f")
+        dt = t1 - t0
+
+        statsd.timing(
+            "timers.{timer}".format(timer=t),
+            dt.microseconds,
+            tags=['tester:NATMeter'] + settings.DATADOG_DEFAULT_TAGS
+        )
+
 
     stun_measurement = StunMeasurement(
         client_test_date=server_date,  # TODO fix this

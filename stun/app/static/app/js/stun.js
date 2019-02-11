@@ -247,13 +247,13 @@ define([], function () {
         //create a bogus data channel
         pc.createDataChannel("");
         //create an offer sdp
-        pc.createOffer(function (result) {
+        pc.createOffer().then(
+            result => {
             //trigger the stun server request
-            pc.setLocalDescription(result, function () {
-            }, function () {
-            });
-        }, function () {
-        });
+                pc.setLocalDescription(result, ()=>{}, ()=>{});
+            },
+            ()=>{}
+        );
 
         //wait for a while to let everything done
         setTimeout(function () {

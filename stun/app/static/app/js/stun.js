@@ -227,11 +227,7 @@ define([], function () {
             useWebKit = !!win.webkitRTCPeerConnection;
         }
         //minimal requirements for data connection
-        var mediaConstraints = {
-            optional: [{
-                RtpDataChannels: true
-            }]
-        };
+        var mediaConstraints = null;
 
         //construct a new RTCPeerConnection
         var pc = new RTCPeerConnection({

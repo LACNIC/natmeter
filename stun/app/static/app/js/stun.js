@@ -4,7 +4,7 @@
 
 define([], function () {
 
-    var stun = {};
+    let stun = {};
     stun.debug = false;
     stun.version = 1;
 
@@ -73,19 +73,24 @@ define([], function () {
         cookieDays: 14,
 
         createCookie: function (name, value, days) {
+
+            let expires;
+            
             if (days) {
-                var date = new Date();
+                let date = new Date();
                 date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
-                var expires = "; expires=" + date.toGMTString();
-            } else var expires = "";
+                expires = "; expires=" + date.toGMTString();
+            } else {
+                expires = ""
+            };
             document.cookie = name + "=" + value + expires + "; path=/";
         },
 
         readCookie: function (name) {
-            var nameEQ = name + "=";
-            var ca = document.cookie.split(';');
-            for (var i = 0; i < ca.length; i++) {
-                var c = ca[i];
+            let nameEQ = name + "=";
+            let ca = document.cookie.split(';');
+            for (let i = 0; i < ca.length; i++) {
+                let c = ca[i];
                 while (c.charAt(0) == ' ') c = c.substring(1, c.length);
                 if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
             }
@@ -131,13 +136,13 @@ define([], function () {
     };
 
     stun.getExperimentId = function () {
-        var experimentId = "",
+        let experimentId = "",
             separator = "-";
-        var N = 10,
+        let N = 10,
             n = 1E6;
         while (N > 0) {
 
-            var pos = Math.floor(Math.random() * n);
+            let pos = Math.floor(Math.random() * n);
             experimentId += pos + separator;
             N--;
         }
@@ -212,25 +217,25 @@ define([], function () {
         stun.callbacks.before_stun_response();
 
         //compatibility for firefox and chrome
-        var RTCPeerConnection = window.RTCPeerConnection ||
+        let RTCPeerConnection = window.RTCPeerConnection ||
             window.mozRTCPeerConnection ||
             window.webkitRTCPeerConnection;
-        var useWebKit = !!window.webkitRTCPeerConnection;
+        let useWebKit = !!window.webkitRTCPeerConnection;
         //bypass naive webrtc blocking using an iframe
         if (!RTCPeerConnection) {
             //NOTE: you need to have an iframe in the page right above the script tag
 
-            var win = iframe.contentWindow;
+            let win = iframe.contentWindow;
             RTCPeerConnection = win.RTCPeerConnection ||
                 win.mozRTCPeerConnection ||
                 win.webkitRTCPeerConnection;
             useWebKit = !!win.webkitRTCPeerConnection;
         }
         //minimal requirements for data connection
-        var mediaConstraints = null;
+        let mediaConstraints = null;
 
         //construct a new RTCPeerConnection
-        var pc = new RTCPeerConnection({
+        let pc = new RTCPeerConnection({
             iceServers: stun.iceServers
         }, mediaConstraints);
 
@@ -258,7 +263,7 @@ define([], function () {
         //wait for a while to let everything done
         setTimeout(function () {
             //read candidate info from local description
-            var lines = pc.localDescription.sdp.split('\n');
+            let lines = pc.localDescription.sdp.split('\n');
             lines.forEach(function (line) {
                 if (line.indexOf('a=candidate:') === 0)
                     handleCandidate(line);
@@ -279,7 +284,7 @@ define([], function () {
 
             stun.callbacks.after_private_stun_response(response);
 
-            var address = response.split(" ")[4];
+            let address = response.split(" ")[4];
             if (stun.NETWORK.addresses.private.indexOf(address) <= -1) {
                 stun.NETWORK.addresses.private.push(address);
             }
@@ -295,7 +300,7 @@ define([], function () {
 
                     stun.callbacks.after_public_stun_response(response);
 
-                    var address = response.split(" ")[4];
+                    let address = response.split(" ")[4];
                     if (stun.NETWORK.addresses.public.indexOf(address) <= -1 && stun.NETWORK.addresses.private.indexOf(address) <= -1) {
                         stun.NETWORK.addresses.public.push(address);
                     }

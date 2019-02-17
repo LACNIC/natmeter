@@ -1,6 +1,6 @@
 Natmeter measurements should be able to work using any STUN Server in Internet, however if you wish to use you own Stun Server we suggest STUNTMAN (http://www.stunprotocol.org/).
 
-Also be aware that for this project you will need two STUN Servers, one in IPv6 and one in IPv4. STUNTMANT supports both.
+Also be aware that for this project you will need two STUN Servers, one in IPv6 and one in IPv4. STUNTMAN supports both.
 
 After you successfully installed STUNTMANT the way we run it is:
 
@@ -9,3 +9,5 @@ cd /PATHTOSTUNTMAN; nohup ./stunserver --family 4 &
 
 IPv6:
 cd /PATHTOSTUNTMAN; nohup ./stunserver --family 6 &
+
+Please note that there is no logging (and this is the way we run it)

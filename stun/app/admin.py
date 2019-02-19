@@ -26,6 +26,13 @@ class StunIpAddressAdmin(StunGenericAdmin):
 
     stun_measurement__cookie.short_description = "Cookie stored in the client's browser"
 
+    def resolve_announcing_asns(modeladmin, request, queryset):
+        for q in queryset:
+            q.resolve_announcing_asns()
+    resolve_announcing_asns.short_description = "Resolve announcing ASNs for this IP address"
+
+    actions = [resolve_announcing_asns]
+
 
 class StunIpAddressChangeEventAdmin(StunGenericAdmin):
     list_display = ['previous', 'current', 'stun_measurement__server_test_date']
@@ -35,7 +42,10 @@ class StunIpAddressChangeEventAdmin(StunGenericAdmin):
 
     stun_measurement__server_test_date.short_description = "Date"
 
+class AnnouncingAsnAdmin(StunGenericAdmin):
+    pass
 
 admin.site.register(StunMeasurement, StunMeasurementAdmin)
 admin.site.register(StunIpAddress, StunIpAddressAdmin)
 admin.site.register(StunIpAddressChangeEvent, StunIpAddressChangeEventAdmin)
+admin.site.register(AnnouncingAsn, AnnouncingAsnAdmin)

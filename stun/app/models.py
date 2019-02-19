@@ -11,6 +11,9 @@ from static_defs import NOISY_PREFIXES
 from tqdm import tqdm
 from django.db.models import Avg, Max
 from stun import settings
+import requests
+import pytz
+import json
 
 class StunMeasurementManager(models.Manager):
     def get_average(self, _list=[]):
@@ -631,8 +634,38 @@ class StunIpAddress(models.Model):
             self.save()
         return cc
 
+    def resolve_announcing_asns(self):
+
+        epoch = datetime(1970, 1, 1, tzinfo=pytz.UTC)
+        date = self.stun_measurement.server_test_date.astimezone(pytz.UTC)
+        diff = date - epoch
+        starttime = int(diff.total_seconds())
+
+        respose = requests.get(
+            "https://stat.ripe.net/data/routing-history/data.json?"
+            "resource={pfx}&"
+            "starttime={starttime}&"
+            "endtime={endtime}".format(
+                pfx=StunMeasurementManager.show_address_to_the_world(self.ip_address) + '/24',
+                starttime=starttime,
+                endtime=starttime+86400
+            )
+        )
+
+        origins = json.loads(respose.text)["data"]["by_origin"]
+        for origin in origins:
+            asn = int(origin["origin"])
+            AnnouncingAsn.objects.create(
+                ip_address=self,
+                asn=asn
+            )
+
     def __str__(self):
         return str(self.ip_address)
+
+class AnnouncingAsn(models.Model):
+    asn = models.IntegerField(default=0, null=True)
+    ip_address = models.ForeignKey(StunIpAddress)
 
 
 class StunIpAddressChangeEvent(models.Model):

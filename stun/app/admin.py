@@ -13,13 +13,13 @@ class StunGenericAdmin(admin.ModelAdmin):
 
 class StunMeasurementAdmin(StunGenericAdmin):
 
-    list_display = ['server_test_date', 'href', 'nat_free_0', 'v6_count', 'v4_count', 'get_country', 'already_processed']
+    list_display = ['server_test_date', 'href', 'nat_free_0', 'v6_count', 'v4_count', 'get_country', 'get_asn', 'already_processed']
     ordering = ['-server_test_date']
     search_fields = ['cookie']
 
 
 class StunIpAddressAdmin(StunGenericAdmin):
-    list_display = ['ip_address', 'stun_measurement__cookie']
+    list_display = ['ip_address', 'stun_measurement__cookie', 'stun_measurement']
 
     def stun_measurement__cookie(self, obj):
         return obj.stun_measurement.cookie

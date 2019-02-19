@@ -346,6 +346,45 @@ class StunMeasurementManager(models.Manager):
 
         return res
 
+    @classmethod
+    def is_private(cls, address):
+        return cls.is_private_v4(address) or cls.is_private_v6(address)
+
+    @classmethod
+    def is_private_v4(cls, address):
+
+        excluded_ranges = [
+            IPNetwork("10.0.0.0/8"),
+            IPNetwork("172.16.0.0/12"),
+            IPNetwork("192.168.0.0/16"),
+            IPNetwork("127.0.0.0/8")
+        ]
+
+        for i in range(224, 256):
+            excluded_ranges.append(IPNetwork("%d.0.0.0/8" % i))
+
+        for e in excluded_ranges:
+            if IPAddress(address) in e:
+                return True
+
+        return False
+
+    @classmethod
+    def is_private_v6(cls, address):
+
+        excluded_ranges = [
+            IPNetwork("2000::/3"),
+            IPNetwork("2001::/32"),
+            IPNetwork("2001:db8::/32"),
+            IPNetwork("2002::/16"),
+        ]
+
+        for e in excluded_ranges:
+            if IPAddress(address) in e:
+                return True
+
+        return False
+
 
 class StunMeasurement(models.Model):
     """
@@ -489,39 +528,10 @@ class StunMeasurement(models.Model):
         return [ip for ip in self.get_remote_addresses() if ":" in ip]
 
     def is_private_v4(self):
-
-        excluded_ranges = [
-            IPNetwork("10.0.0.0/8"),
-            IPNetwork("172.16.0.0/12"),
-            IPNetwork("192.168.0.0/16"),
-            IPNetwork("127.0.0.0/8")
-        ]
-
-        for i in range(224, 256):
-            excluded_ranges.append(IPNetwork("%d.0.0.0/8" % i))
-
-        for e in excluded_ranges:
-            for local in self.get_local_v4_ipaddresses():
-                if IPAddress(local) in e:
-                    return True
-
-        return False
+        return any([StunMeasurementManager.is_private_v4(local) for local in self.get_local_v4_stunipaddresses()])
 
     def is_private_v6(self):
-
-        excluded_ranges = [
-            IPNetwork("2000::/3"),
-            IPNetwork("2001::/32"),
-            IPNetwork("2001:db8::/32"),
-            IPNetwork("2002::/16"),
-        ]
-
-        for e in excluded_ranges:
-            for local in self.get_local_v6_stunipaddresses():
-                if IPAddress(local) in e:
-                    return True
-
-        return False
+        return any([StunMeasurementManager.is_private_v6(local) for local in self.get_local_v6_stunipaddresses()])
 
     def is_private(self):
         return self.is_private_v4() or self.is_private_v6()
@@ -607,6 +617,12 @@ class StunMeasurement(models.Model):
         else:
             return "XX"
 
+    def get_asn(self):
+
+        _set = AnnouncingAsn.objects.filter(ip_address__stun_measurement=self)
+
+        return ','.join([str(asn.asn) for asn in _set])
+
 
 def enum(**enums):
     return type(str("Enum"), (), enums)
@@ -635,6 +651,9 @@ class StunIpAddress(models.Model):
         return cc
 
     def resolve_announcing_asns(self):
+
+        if StunMeasurementManager.is_private(self.ip_address):
+            return
 
         epoch = datetime(1970, 1, 1, tzinfo=pytz.UTC)
         date = self.stun_measurement.server_test_date.astimezone(pytz.UTC)

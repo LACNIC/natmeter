@@ -25,6 +25,7 @@ class StunMeasurementAdmin(StunGenericAdmin):
     resolve_announcing_asns.short_description = "Resolve announcing ASNs for this IP address"
 
     actions = [resolve_announcing_asns]
+    list_per_page = 1000
 
 
 class StunIpAddressAdmin(StunGenericAdmin):

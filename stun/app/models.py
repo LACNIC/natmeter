@@ -438,6 +438,7 @@ class StunMeasurement(models.Model):
         self.npt = self.is_npt()
         self.noisy_prefix = self.has_noisy_prefix()  # TODO provate prefixes
         self.already_processed = True
+        self.resolve_announcing_asns()
 
         self.save()
 
@@ -616,6 +617,15 @@ class StunMeasurement(models.Model):
             return Counter(ccs).most_common()[0][0]
         else:
             return "XX"
+
+    def resolve_announcing_asns(self):
+
+        if AnnouncingAsn.objects.filter(ip_address__stun_measurement=self).count() > 0:
+            return
+
+        ips = self.stunipaddress_set.all()
+        for ip in ips:
+            ip.resolve_announcing_asns()
 
     def get_asn(self):
 

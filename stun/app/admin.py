@@ -17,6 +17,15 @@ class StunMeasurementAdmin(StunGenericAdmin):
     ordering = ['-server_test_date']
     search_fields = ['cookie']
 
+    def resolve_announcing_asns(modeladmin, request, queryset):
+        for q in queryset:
+            ips = StunIpAddress.objects.filter(stun_measurement=q)
+            for ip in ips:
+                ip.resolve_announcing_asns()
+    resolve_announcing_asns.short_description = "Resolve announcing ASNs for this IP address"
+
+    actions = [resolve_announcing_asns]
+
 
 class StunIpAddressAdmin(StunGenericAdmin):
     list_display = ['ip_address', 'stun_measurement__cookie', 'stun_measurement']

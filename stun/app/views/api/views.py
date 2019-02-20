@@ -75,7 +75,7 @@ def post(request):
 
         statsd.timing(
             "timers.{timer}".format(timer=t),
-            dt.microseconds,
+            dt.total_seconds(),
             tags=['tester:NATMeter'] + settings.DATADOG_DEFAULT_TAGS
         )
 

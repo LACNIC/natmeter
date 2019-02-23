@@ -11,8 +11,8 @@ addons:
   postgresql: "9.5"
   apt:
     packages:
-    - libpq5=9.5.13-0ubuntu0.16.04
-    - libpq-dev=9.5.13-0ubuntu0.16.04
+    - libpq5
+    - libpq-dev
     - apache2
     - apache2-dev
     - python-dev

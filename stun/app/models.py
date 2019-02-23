@@ -522,6 +522,9 @@ class StunMeasurement(models.Model):
     def get_remote_addresses(self):
         return [r.ip_address for r in self.get_remote_stunipaddresses()]
 
+    def get_asns(self):
+        return [asn.asn for asn in AnnouncingAsn.objects.filter(ip_address__stun_measurement=self)]
+
     def get_remote_v4_addresses(self):
         return [ip for ip in self.get_remote_addresses() if "." in ip]
 

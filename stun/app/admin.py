@@ -22,7 +22,8 @@ class StunMeasurementAdmin(StunGenericAdmin):
             ips = StunIpAddress.objects.filter(stun_measurement=q)
             for ip in ips:
                 ip.resolve_announcing_asns()
-    resolve_announcing_asns.short_description = "Resolve announcing ASNs for this IP address"
+    resolve_announcing_asns.short_description = "Resolve announcing ASNs for this StunMeasurement's IP addresses"
+
     def set_attributes(modeladmin, request, queryset):
         for q in queryset:
             q.set_attributes()

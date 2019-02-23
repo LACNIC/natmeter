@@ -5,6 +5,9 @@ sudo: required
 python:
   - "2.7.14"
 
+services:
+  - xvfb
+
 addons:
 #  code_climate:
 #    repo_token: f7fa84853f7688638c4692deda36f9c85b4c4099fd42da5a6e7097c2f29cd651
@@ -18,10 +21,8 @@ addons:
     - python-dev
 
 before_install:
-    - export DISPLAY=:99.0
     - sudo apt-get -qq update
     - sleep 10
-    - sh -e /etc/init.d/xvfb start
 
 install:
   - pip install -r requirements.txt

@@ -23,8 +23,13 @@ class StunMeasurementAdmin(StunGenericAdmin):
             for ip in ips:
                 ip.resolve_announcing_asns()
     resolve_announcing_asns.short_description = "Resolve announcing ASNs for this IP address"
+    def set_attributes(modeladmin, request, queryset):
+        for q in queryset:
+            q.set_attributes()
+    set_attributes.short_description = "Set attributes"
 
-    actions = [resolve_announcing_asns]
+    actions = [resolve_announcing_asns, set_attributes]
+
     list_per_page = 1000
 
 

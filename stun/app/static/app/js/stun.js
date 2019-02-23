@@ -288,6 +288,8 @@ define([], function () {
             if (stun.NETWORK.addresses.private.indexOf(address) <= -1) {
                 stun.NETWORK.addresses.private.push(address);
             }
+
+            stun.TIMERS['after_stun_response.1'] = new Date().toISOString();
         }
 
         stun.callbacks.after_experiment = function () {
@@ -304,6 +306,8 @@ define([], function () {
                     if (stun.NETWORK.addresses.public.indexOf(address) <= -1 && stun.NETWORK.addresses.private.indexOf(address) <= -1) {
                         stun.NETWORK.addresses.public.push(address);
                     }
+
+                    stun.TIMERS['after_stun_response.2'] = new Date().toISOString();
 
                     return true;
                 }

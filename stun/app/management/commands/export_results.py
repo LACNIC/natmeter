@@ -18,8 +18,8 @@ class Command(BaseCommand):
         comments.append(["# Remote IP Addressess: (List) Those IP prefixes that the host is *not* able to see locally but the remote STUN server is"])
         # comments.append(["# STUN Measurement ID:  The measurement ID corresponding with a certain user. This field is a cookie stored in the user's browser."])
 
-        comments.append(["# The following prefixes have been excluded (LACNIC's own networks)"])
-        comments.append(['# ' + ', '.join(NOISY_PREFIXES)])
+        # comments.append(["# The following prefixes have been excluded (LACNIC's own networks)"])
+        # comments.append(['# ' + ', '.join(NOISY_PREFIXES)])
         # comments.append(['# If you know any other bias email {agustin | alejandro | carlos} at lacnic dot net.'])
 
         now = datetime.datetime.now().replace(second=0, microsecond=0)
@@ -30,7 +30,7 @@ class Command(BaseCommand):
         sms = StunMeasurement.objects.all().order_by('-server_test_date')
         with open(STATIC_ROOT + '/results.csv', 'wb') as csvfile:
 
-            fieldnames = ['local_ip_addresses', 'remote_ip_addresses', 'date']
+            fieldnames = ['local_ip_addresses', 'remote_ip_addresses', 'asns' 'date']
 
             writer = csv.writer(csvfile, delimiter='\t')
 
@@ -43,8 +43,9 @@ class Command(BaseCommand):
             for sm in tqdm(sms):
                 local_addresses = StunMeasurement.objects.show_addresses_to_the_world(sm.get_local_addresses())
                 stun_addresses = StunMeasurement.objects.show_addresses_to_the_world(sm.get_remote_addresses())
+                asns = sm.get_asns()
 
                 if len(stun_addresses) == 0: continue
 
                 date = sm.server_test_date.date()
-                writer.writerow([local_addresses] + [stun_addresses] + [date])
+                writer.writerow([local_addresses] + [stun_addresses] + [asns] + [date])

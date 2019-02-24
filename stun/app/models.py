@@ -293,8 +293,12 @@ class StunMeasurementManager(models.Manager):
         def set_attrs(sm):
             return sm.set_attributes(persist=persist, force=force)
 
+        session = requests.Session()
+
         for sms in tqdm(chunks(self.filter(already_processed=False), 100)):
             map(set_attrs, sms)
+
+        session.close()
 
 
 
@@ -422,7 +426,7 @@ class StunMeasurement(models.Model):
 
     objects = StunMeasurementManager()
 
-    def set_attributes(self, persist=True, force=True):
+    def set_attributes(self, persist=True, force=True, session=None):
         """Attributes to make post-processing, filter, etc. easier and quicker
         :param force: Overwrite existing value in DB
         :return: None
@@ -438,7 +442,7 @@ class StunMeasurement(models.Model):
         self.npt = self.is_npt()
         self.noisy_prefix = self.has_noisy_prefix()  # TODO provate prefixes
         self.already_processed = True
-        self.resolve_announcing_asns()
+        self.resolve_announcing_asns(session=session)
 
         self.save()
 
@@ -621,14 +625,22 @@ class StunMeasurement(models.Model):
         else:
             return "XX"
 
-    def resolve_announcing_asns(self):
+    def resolve_announcing_asns(self, session=None):
 
         if AnnouncingAsn.objects.filter(ip_address__stun_measurement=self).count() > 0:
             return
 
+        local_session = False
+        if not session:
+            session = requests.Session()
+            local_session = True
+
         ips = self.stunipaddress_set.all()
         for ip in ips:
-            ip.resolve_announcing_asns()
+            ip.resolve_announcing_asns(session=session)
+
+        if local_session:
+            session.close()
 
     def get_asn(self):
 
@@ -663,7 +675,12 @@ class StunIpAddress(models.Model):
             self.save()
         return cc
 
-    def resolve_announcing_asns(self):
+    def resolve_announcing_asns(self, session=None):
+
+        local_session = False
+        if not session:
+            session = requests.Session()
+            local_session = True
 
         if StunMeasurementManager.is_private(self.ip_address):
             return
@@ -673,7 +690,7 @@ class StunIpAddress(models.Model):
         diff = date - epoch
         starttime = int(diff.total_seconds())
 
-        respose = requests.get(
+        respose = session.get(
             "https://stat.ripe.net/data/routing-history/data.json?"
             "resource={pfx}&"
             "starttime={starttime}&"
@@ -683,6 +700,9 @@ class StunIpAddress(models.Model):
                 endtime=starttime+86400
             )
         )
+
+        if local_session:
+            session.close()
 
         origins = json.loads(respose.text)["data"]["by_origin"]
         for origin in origins:

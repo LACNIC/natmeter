@@ -30,7 +30,7 @@ class Command(BaseCommand):
         sms = StunMeasurement.objects.all().order_by('-server_test_date')
         with open(STATIC_ROOT + '/results.csv', 'wb') as csvfile:
 
-            fieldnames = ['local_ip_addresses', 'remote_ip_addresses', 'asns' 'date']
+            fieldnames = ['local_ip_addresses', 'remote_ip_addresses', 'asns', 'date']
 
             writer = csv.writer(csvfile, delimiter='\t')
 

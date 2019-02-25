@@ -297,7 +297,6 @@ class StunMeasurementManager(models.Manager):
         for sms in tqdm(chunks(self.filter(already_processed=False), 100)):
             map(set_attrs, sms)
 
-    @transaction.atomic
     def resolve_announcing_asns(self):
 
         session = requests.Session()

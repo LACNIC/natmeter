@@ -94,3 +94,4 @@ ENV/
 
 node_modules/
 *.mmdb
+results.csv

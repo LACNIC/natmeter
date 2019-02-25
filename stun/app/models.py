@@ -1,6 +1,6 @@
 from __future__ import unicode_literals
 import operator
-from django.db.models import Q
+from django.db.models import Q, Count
 from app.libraries.geolocation import get_cc_from_ip_address
 from collections import Counter, defaultdict
 from django.db import models, transaction
@@ -293,10 +293,23 @@ class StunMeasurementManager(models.Manager):
         def set_attrs(sm):
             return sm.set_attributes(persist=persist, force=force)
 
-        session = requests.Session()
 
         for sms in tqdm(chunks(self.filter(already_processed=False), 100)):
             map(set_attrs, sms)
+
+    @transaction.atomic
+    def resolve_announcing_asns(self):
+
+        session = requests.Session()
+
+        sms = self.annotate(
+            count=Count('stunipaddress__announcingasn')
+        ).filter(
+            count=0
+        )
+
+        for sm in tqdm(sms):
+            sm.resolve_announcing_asns(session=session)
 
         session.close()
 
@@ -442,7 +455,6 @@ class StunMeasurement(models.Model):
         self.npt = self.is_npt()
         self.noisy_prefix = self.has_noisy_prefix()  # TODO provate prefixes
         self.already_processed = True
-        self.resolve_announcing_asns(session=session)
 
         self.save()
 
@@ -627,15 +639,13 @@ class StunMeasurement(models.Model):
 
     def resolve_announcing_asns(self, session=None):
 
-        if AnnouncingAsn.objects.filter(ip_address__stun_measurement=self).count() > 0:
-            return
-
         local_session = False
         if not session:
             session = requests.Session()
             local_session = True
 
         ips = self.stunipaddress_set.all()
+        ips = [ip for ip in ips if not StunMeasurementManager.is_private(ip)]
         for ip in ips:
             ip.resolve_announcing_asns(session=session)
 

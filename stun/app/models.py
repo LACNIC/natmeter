@@ -713,13 +713,16 @@ class StunIpAddress(models.Model):
         if local_session:
             session.close()
 
-        origins = json.loads(respose.text)["data"]["by_origin"]
-        for origin in origins:
-            asn = int(origin["origin"])
-            AnnouncingAsn.objects.create(
-                ip_address=self,
-                asn=asn
-            )
+        json_response = json.loads(respose.text)
+
+        if "data" in json_response.keys() and "by_origin" in json_response["data"].keys():
+            origins = json_response["data"]["by_origin"]
+            for origin in origins:
+                asn = int(origin["origin"])
+                AnnouncingAsn.objects.create(
+                    ip_address=self,
+                    asn=asn
+                )
 
     def __str__(self):
         return str(self.ip_address)

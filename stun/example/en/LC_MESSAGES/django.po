@@ -111,14 +111,6 @@ msgid "Participación por país"
 msgstr "Country participation"
 
 #: app/templates/charts.html:79
-#, fuzzy
-#| msgid ""
-#| "Las mediciones realizadas en este experimento se realizan desde un "
-#| "navegador a medida que los usuarios\n"
-#| "                navegan por sitios que colaboran con el proyecto NAT "
-#| "Meter. Los usuarios pertenecen mayoritariamente a los\n"
-#| "                siguientes países (geolocalización con Maxmind)\n"
-#| "            "
 msgid ""
 "Las mediciones realizadas en este experimento se realizan desde un navegador "
 "a medida\n"
@@ -210,14 +202,10 @@ msgid "Promedio"
 msgstr "Average"
 
 #: app/templates/cookies.html:9
-#, fuzzy
-#| msgid "title.demo"
 msgid "title.cookies"
 msgstr "STUN script Demo"
 
 #: app/templates/cookies.html:12
-#, fuzzy
-#| msgid "intro.demo"
 msgid "intro.cookies"
 msgstr ""
 "The following demo queries LACNIC STUN servers, and sends the data collected "

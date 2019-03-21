@@ -28,6 +28,9 @@
             {% trans "Gráficas y estadísticas" %}
         </h1>
 
+        <p>{% trans "Actualizado: " %} {{ report.date.date.isoformat }}</p>
+        <p>{% trans "Ventana de tiempo: últimos" %} {{ report.window }} {% trans "días" %}</p>
+
         <div class="col-xs-12 col-sm-8 col-md-8 col-lg-8" style="float:left;">
             <h2>{% trans "Casos de NAT" %}</h2>
             <p>{% trans "La siguiente tabla muestra los registros más reciente de las mediciones NAT que estamos realizando. En el marco de estas mediciones, un cliente es equivalente a un navegador web." %}</p>
@@ -40,29 +43,29 @@
                 <tbody>
                 <tr>
                     <th>{% trans "Mediciones detrás de NAT " %}</th>
-                    <td>{{ nat.all.lac | floatformat }}%</td>
-                    <td>{{ nat.all.world | floatformat }}%</td>
+                    <td>{{ report.all_nat | floatformat }}%</td>
+                    <td>{{ report.all_nat_world | floatformat }}%</td>
                 </tr>
                 <tr>
                     <th>{% trans "Mediciones detrás de NAT 44" %}</th>
-                    <td>{{ nat.v4.lac | floatformat }}%</td>
-                    <td>{{ nat.v4.world | floatformat }}%</td>
+                    <td>{{ report.v4_nat | floatformat }}%</td>
+                    <td>{{ report.v4_nat_world | floatformat }}%</td>
                 </tr>
                 <tr>
                     <th>{% trans "Mediciones detrás de NAT 66" %}</th>
-                    <td>{{ nat.v6.lac | floatformat }}%</td>
-                    <td>{{ nat.v6.world | floatformat }}%</td>
+                    <td>{{ report.v6_nat | floatformat:2 }}%</td>
+                    <td>{{ report.v4_nat_world | floatformat:2 }}%</td>
                 </tr>
                 <tr>
                     <th>{% trans "Mediciones Natteados con NPT (v6)" %}</th>
-                    <td>{{ npt.lac | floatformat }}%</td>
-                    <td>{{ npt.world | floatformat }}%</td>
+                    <td>{{ report.npt | floatformat:2 }}%</td>
+                    <td>{{ report.npt_world | floatformat:2 }}%</td>
                 </tr>
 
                 <tr>
                     <th>{% trans "Prefijos públicos vistos detrás de NAT" %}</th>
                     <td></td>
-                    <td>{{ public_pfxs_ratio | floatformat }}%</td>
+                    <td>{{ report.public_pfxs_nat_free_0_false_percentage | floatformat }}%</td>
                 </tr>
 
 
@@ -96,21 +99,21 @@
                 <tr>
                     <th>{% trans "Mediciones desde hosts Dualstack" %}
                     </th>
-                    <td>{{ dualstack.lac | floatformat }}%</td>
-                    <td>{{ dualstack.world | floatformat }}%</td>
+                    <td>{{ report.dualstack | floatformat }}%</td>
+                    <td>{{ report.dualstack_world | floatformat }}%</td>
                 </tr>
                 <tr>
                     <th>{% trans "Mediciones desde hosts v6-only" %}</th>
-                    <td></td>
-                    <td>{{ v6_only | floatformat }}%</td>
+                    <td>{{ report.v6_only_world | floatformat }}%</td>
+                    <td>{{ report.v6_only | floatformat }}%</td>
                 </tr>
                 <tr>
                     <th>{% trans "Mediciones desde hosts v6-only con capacidad v4" %} <span data-toggle="tooltip"
                                                                                             class="glyphicon glyphicon-info-sign"
                                                                                             title="{% trans "Son aquellos hosts que han sido vistos con capacidad *local* únicamente sobre v6 y de forma remota sobre v4" %}"></span>
                     </th>
-                    <td>{{ v6_with_v4_cap.lac | floatformat }}%</td>
-                    <td>{{ v6_with_v4_cap.world | floatformat }}%</td>
+                    <td>{{ report.v6_with_v4_capacity | floatformat }}%</td>
+                    <td>{{ report.v6_with_v4_capacity_world | floatformat }}%</td>
                 </tr>
             </table>
 
@@ -147,11 +150,11 @@
                 </tr>
             </table>
 
-            <h3>{% trans "charts.prefixes.h1" %}</h3>
-            <p>
-                {% trans "La gráfica de abajo muestra un ranking con los prefijos más utilizados detrás de una caja NAT." %}
-            </p>
-            <div id="prefix_counter" style="min-height: 300px;"></div>
+{#            <h3>{% trans "charts.prefixes.h1" %}</h3>#}
+{#            <p>#}
+{#                {% trans "La gráfica de abajo muestra un ranking con los prefijos más utilizados detrás de una caja NAT." %}#}
+{#            </p>#}
+{#            <div id="prefix_counter" style="min-height: 300px;"></div>#}
         </div>
 
         <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4" style="float: right">
@@ -170,8 +173,8 @@
                 <tbody>
                 <tr>
                     <th>{% trans "Promedio" %}</th>
-                    <td>{{ v6_avg | floatformat }}</td>
-                    <td>{{ v4_avg | floatformat }}</td>
+                    <td>{{ report.v6_avg | floatformat }}</td>
+                    <td>{{ report.v4_avg | floatformat }}</td>
                 </tr>
                 </tbody>
             </table>

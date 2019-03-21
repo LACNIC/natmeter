@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-10-19 14:08+0000\n"
+"POT-Creation-Date: 2019-03-12 18:43+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -21,9 +21,10 @@ msgstr ""
 #: app/templates/base.html:121
 msgid "info.banner"
 msgstr ""
-"To provide you with the best possible experience on our website, we may use cookies, as described <a href=\"{% url \"cookies\" %}\">here</a>."
-"By clicking accept, closing this banner, or continuing to browse our websites, you consent to the use of such cookies."
-
+"To provide you with the best possible experience on our website, we may use "
+"cookies, as described <a href=\"{% url \"cookies\" %}\">here</a>.By clicking "
+"accept, closing this banner, or continuing to browse our websites, you "
+"consent to the use of such cookies."
 
 #: app/templates/base.html:146
 msgid "bar.secondary.home"
@@ -52,11 +53,23 @@ msgstr "Charts"
 msgid "Gráficas y estadísticas"
 msgstr "Charts and stats"
 
+#: app/templates/charts.html:31
+msgid "Actualizado: "
+msgstr ""
+
 #: app/templates/charts.html:32
+msgid "Ventana de tiempo: últimos"
+msgstr ""
+
+#: app/templates/charts.html:32
+msgid "días"
+msgstr ""
+
+#: app/templates/charts.html:35
 msgid "Casos de NAT"
 msgstr "Detected cases of NAT"
 
-#: app/templates/charts.html:33
+#: app/templates/charts.html:36
 msgid ""
 "La siguiente tabla muestra los registros más reciente de las mediciones NAT "
 "que estamos realizando. En el marco de estas mediciones, un cliente es "
@@ -65,47 +78,39 @@ msgstr ""
 "The following table shows the most recent measurements we're gathering. In "
 "this context, one browser represents one client."
 
-#: app/templates/charts.html:37 app/templates/charts.html.py:93
+#: app/templates/charts.html:40 app/templates/charts.html.py:96
 msgid "Región LAC"
 msgstr "LAC region"
 
-#: app/templates/charts.html:38 app/templates/charts.html.py:94
+#: app/templates/charts.html:41 app/templates/charts.html.py:97
 msgid "Todos los resultados"
 msgstr "All results"
 
-#: app/templates/charts.html:42
+#: app/templates/charts.html:45
 msgid "Mediciones detrás de NAT "
 msgstr "Measurements behind NAT"
 
-#: app/templates/charts.html:47
+#: app/templates/charts.html:50
 msgid "Mediciones detrás de NAT 44"
 msgstr "Measurements behind NAT 44"
 
-#: app/templates/charts.html:52
+#: app/templates/charts.html:55
 msgid "Mediciones detrás de NAT 66"
 msgstr "Measurements behind NAT 66"
 
-#: app/templates/charts.html:57
+#: app/templates/charts.html:60
 msgid "Mediciones Natteados con NPT (v6)"
 msgstr "Measurements through NPT (v6)"
 
-#: app/templates/charts.html:63
+#: app/templates/charts.html:66
 msgid "Prefijos públicos vistos detrás de NAT"
 msgstr "Public prefixes seen behind NAT"
 
-#: app/templates/charts.html:74
+#: app/templates/charts.html:77
 msgid "Participación por país"
 msgstr "Country participation"
 
-#: app/templates/charts.html:76
-#, fuzzy
-#| msgid ""
-#| "Las mediciones realizadas en este experimento se realizan desde un "
-#| "navegador a medida que los usuarios\n"
-#| "                navegan por sitios que colaboran con el proyecto NAT "
-#| "Meter. Los usuarios pertenecen mayoritariamente a los\n"
-#| "                siguientes países (geolocalización con Maxmind)\n"
-#| "            "
+#: app/templates/charts.html:79
 msgid ""
 "Las mediciones realizadas en este experimento se realizan desde un navegador "
 "a medida\n"
@@ -115,16 +120,15 @@ msgid ""
 "                    a los\n"
 "                    siguientes países (geolocalización con Maxmind)\n"
 "                "
-msgstr ""
-"The measurements backing this experiment are performed through users' "
+msgstr "The measurements backing this experiment are performed through users' "
 "browsers as they surf sites which collaborate with the NAT Meter project. "
 "Users are mostly from the following regions (geolocation by Maxmind):"
 
-#: app/templates/charts.html:87
+#: app/templates/charts.html:90
 msgid "Otras estadísticas derivadas"
 msgstr "Other derived stats"
 
-#: app/templates/charts.html:88
+#: app/templates/charts.html:91
 msgid ""
 "Además de las estadísticas de uso de NAT, las mediciones nos ayudan a "
 "observar otras componentes de la operativa de Internet."
@@ -132,19 +136,19 @@ msgstr ""
 "This kind of measurements not only let us see the usage of NAT, but also "
 "other components of Internet operations."
 
-#: app/templates/charts.html:97
+#: app/templates/charts.html:100
 msgid "Mediciones desde hosts Dualstack"
-msgstr ""
+msgstr "Measurments from dualstack hosts"
 
-#: app/templates/charts.html:103
+#: app/templates/charts.html:106
 msgid "Mediciones desde hosts v6-only"
-msgstr ""
+msgstr "Measurements from v6-only hosts"
 
-#: app/templates/charts.html:108
+#: app/templates/charts.html:111
 msgid "Mediciones desde hosts v6-only con capacidad v4"
 msgstr "Measurements from v6-only hosts with v4 capabilites"
 
-#: app/templates/charts.html:110
+#: app/templates/charts.html:113
 msgid ""
 "Son aquellos hosts que han sido vistos con capacidad *local* únicamente "
 "sobre v6 y de forma remota sobre v4"
@@ -152,58 +156,47 @@ msgstr ""
 "Those hosts that have reported *local* v6-only capabilities but remote v4 "
 "ones"
 
-#: app/templates/charts.html:117
+#: app/templates/charts.html:120
 msgid "Datos históricos"
 msgstr "Historical data"
 
-#: app/templates/charts.html:122
+#: app/templates/charts.html:125
 msgid "Link a los datos"
 msgstr "Link to data"
 
-#: app/templates/charts.html:126
+#: app/templates/charts.html:129
 msgid "Mediciones con dualstack detectado"
 msgstr "Measurements with dualstack detected"
 
-#: app/templates/charts.html:128 app/templates/charts.html.py:134
-#: app/templates/charts.html:140 app/templates/charts.html.py:146
+#: app/templates/charts.html:131 app/templates/charts.html.py:137
+#: app/templates/charts.html:143 app/templates/charts.html.py:149
 msgid "aquí"
 msgstr "here"
 
-#: app/templates/charts.html:132
+#: app/templates/charts.html:135
 msgid "Mediciones con NAT detectado (NAT 44 o 66)"
 msgstr "Measurements with NAT detected (NAT 44 or 66)"
 
-#: app/templates/charts.html:138
+#: app/templates/charts.html:141
 msgid "Mediciones con NAT44 detectado"
 msgstr "Measurements with NAT 44 detected"
 
-#: app/templates/charts.html:144
+#: app/templates/charts.html:147
 msgid "Mediciones con NAT66 detectado"
 msgstr "Measurements with NAT 66 detected"
 
-#: app/templates/charts.html:150
-msgid "charts.prefixes.h1"
-msgstr "Top 10 private prefixes"
-
-#: app/templates/charts.html:152
-msgid ""
-"La gráfica de abajo muestra un ranking con los prefijos más utilizados "
-"detrás de una caja NAT."
-msgstr ""
-"The chart underneath displays a ranking with the most seen private prefixes."
-
-#: app/templates/charts.html:158
+#: app/templates/charts.html:161
 msgid "charts.addresses.h2"
 msgstr "Addresses per host"
 
-#: app/templates/charts.html:159
+#: app/templates/charts.html:162
 msgid "charts.addresses.p"
 msgstr ""
 "Other intersting stat is the amount of addresses a host uses. Naturally, the "
 "minimum value it can take is 1. A curious fact is that there are hosts that "
 "can be taking more than 10 IP addresses! "
 
-#: app/templates/charts.html:172
+#: app/templates/charts.html:175
 msgid "Promedio"
 msgstr "Average"
 
@@ -345,42 +338,52 @@ msgstr ""
 msgid "Local response: "
 msgstr ""
 
-#: app/templates/script.html:132
+#: app/templates/script.html:131
 msgid "Local addresses found: "
 msgstr ""
 
-#: app/templates/script.html:141 app/templates/script.html.py:142
+#: app/templates/script.html:140 app/templates/script.html.py:141
 msgid "Looking for client's remote address(es)..."
 msgstr ""
 
-#: app/templates/script.html:148
+#: app/templates/script.html:147
 msgid "Remote STUN server response: "
 msgstr ""
 
-#: app/templates/script.html:156
+#: app/templates/script.html:154
 msgid "Address(es) seen from our STUN servers: "
 msgstr ""
 
-#: app/templates/script.html:161
+#: app/templates/script.html:159
 msgid "NAT detectado!"
 msgstr ""
 
-#: app/templates/script.html:164
+#: app/templates/script.html:162
 msgid "NAT no detectado"
 msgstr ""
 
-#: app/templates/script.html:168
+#: app/templates/script.html:166
 msgid "Remote addresses found: "
 msgstr ""
 
-#: app/templates/script.html:171
+#: app/templates/script.html:169
 msgid "Posting results to central database..."
 msgstr ""
 
-#: app/templates/script.html:176
+#: app/templates/script.html:174
 msgid "Thank you for checking out this demo!"
 msgstr ""
 
-#: app/templates/script.html:183
+#: app/templates/script.html:181
 msgid "Something happened when posting to the central database :|"
 msgstr ""
+
+#~ msgid "charts.prefixes.h1"
+#~ msgstr "Top 10 private prefixes"
+
+#~ msgid ""
+#~ "La gráfica de abajo muestra un ranking con los prefijos más utilizados "
+#~ "detrás de una caja NAT."
+#~ msgstr ""
+#~ "The chart underneath displays a ranking with the most seen private "
+#~ "prefixes."

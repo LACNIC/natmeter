@@ -22,63 +22,71 @@ class StunMeasurementManager(models.Manager):
     def get_max(self, _list=[]):
         return max(_list)
 
-    def get_results(self, consider_country=False):  # everythin in the last 60 days
+    def get_results(self, consider_country=False, since=None, until=None):  # everythin in the last 60 days
         """
-        @days_ago: time window going backwards. 0 means infinity (all data)
+        :param consider_country:
+        :param window: time window going backwards. 0 means infinity (all data)
         :return: Get clean results ready for doing stats
         """
         stun_measurements = StunMeasurement.objects.filter(noisy_prefix=False)
         if consider_country:
             stun_measurements = stun_measurements.filter(stunipaddress__country__in=settings.all_ccs)
+
+        if since:
+            stun_measurements = stun_measurements.filter(server_test_date__gte=since)
+
+        if until:
+            stun_measurements = stun_measurements.filter(server_test_date__lte=until)
+
         return stun_measurements
 
-    def get_v6_results(self, consider_country=False):
+    def get_v6_results(self, consider_country=False, since=None, until=None):
         """
         :return: All StunMeasurements that have shown IPv6 support
         """
-        return self.get_results(consider_country=consider_country).filter(v6_count__gt=0)
+        return self.get_results(consider_country=consider_country, since=since, until=until).filter(v6_count__gt=0)
 
-    def get_v4_results(self, consider_country=False):
+    def get_v4_results(self, consider_country=False, since=None, until=None):
         """
         :return: All StunMeasurements that have shown IPv4 support
         """
-        return self.get_results(consider_country=consider_country).filter(v4_count__gt=0)
+        return self.get_results(consider_country=consider_country, since=since, until=until).filter(v4_count__gt=0)
 
-    def get_dualstack_results(self, consider_country=False):
+    def get_dualstack_results(self, consider_country=False, since=None, until=None):
         """
         :return: All StunMeasurements that have shown IPv4 and IPv6 support
         """
-        return StunMeasurement.objects.get_results(consider_country=consider_country).filter(dualstack=True)
+        return StunMeasurement.objects.get_results(consider_country=consider_country, since=since, until=until).filter(dualstack=True)
 
-    def get_dualstack_percentage(self, consider_country=False):
-        ds = StunMeasurement.objects.get_dualstack_results(consider_country=consider_country).count()
-        return 100.0 * ds / StunMeasurement.objects.get_results(consider_country=consider_country).count()
+    def get_dualstack_percentage(self, consider_country=False, since=None, until=None):
+        ds = StunMeasurement.objects.get_dualstack_results(consider_country=consider_country, since=since, until=until).count()
+        return 100.0 * ds / StunMeasurement.objects.get_results(consider_country=consider_country, since=since, until=until).count()
 
-    def v6_count(self):
+    def v6_count(self, since=None, until=None):
         """
         :return: All v6_counts (# of addresses) for StunMeasurements that have shown IPv6 support
         """
-        return StunMeasurement.objects.get_v6_results().values_list('v6_count', flat=True)
+        return StunMeasurement.objects.get_v6_results(since=since, until=until).values_list('v6_count', flat=True)
 
-    def v6_count_avg(self):
-        return StunMeasurement.objects.get_v6_results().aggregate(Avg('v6_count'))
+    def v6_count_avg(self, since=None, until=None):
+        return StunMeasurement.objects.get_v6_results(since=since, until=until).aggregate(Avg('v6_count'))['v6_count__avg']
 
-    def v6_count_max(self):
-        return StunMeasurement.objects.get_v6_results().aggregate(Max('v6_count'))
+    def v6_count_max(self, since=None, until=None):
+        return StunMeasurement.objects.get_v6_results(since=since, until=until).aggregate(Max('v6_count'))['v6_count__max']
 
-    def v4_count(self):
+    def v4_count(self, since=None, until=None):
         """
         :return: All v4_counts (# of addresses) for StunMeasurements that have shown IPv4 support
         """
-        return StunMeasurement.objects.get_v4_results().values_list('v4_count', flat=True)
+        return StunMeasurement.objects.get_v4_results(since=since, until=until).values_list('v4_count', flat=True)
 
-    def v4_count_avg(self):
-        return StunMeasurement.objects.get_v4_results().aggregate(Avg('v4_count'))
+    def v4_count_avg(self, since=None, until=None):
+        return StunMeasurement.objects.get_v4_results(since=since, until=until).aggregate(Avg('v4_count'))['v4_count__avg']
 
-    def v4_count_max(self):
-        return StunMeasurement.objects.get_v4_results().aggregate(Max('v4_count'))
+    def v4_count_max(self, since=None, until=None):
+        return StunMeasurement.objects.get_v4_results(since=since, until=until).aggregate(Max('v4_count'))['v4_count__max']
 
-    def get_v6_nat_percentage(self, consider_country=False):
+    def get_v6_nat_percentage(self, consider_country=False, since=None, until=None):
         """
         :return: NAT % (percentage) for NAT 66
         """
@@ -90,7 +98,7 @@ class StunMeasurementManager(models.Manager):
             call=get_announcements
         )
 
-        v6_stunmeasurements = self.get_v6_results(consider_country=consider_country)
+        v6_stunmeasurements = self.get_v6_results(consider_country=consider_country, since=since, until=until)
 
         # weigh by country
         total_region_ips = 0
@@ -111,7 +119,7 @@ class StunMeasurementManager(models.Manager):
 
         return 100.0 * total_region_natted_ips / total_region_ips if total_region_ips > 0 else 0
 
-    def get_v4_nat_percentage(self, consider_country=False):
+    def get_v4_nat_percentage(self, consider_country=False, since=None, until=None):
         """
         :return: NAT % (percentage) for NAT 44
         """
@@ -123,7 +131,7 @@ class StunMeasurementManager(models.Manager):
             call=get_announcements
         )
 
-        v4_stunmeasurements = self.get_v4_results(consider_country=consider_country)
+        v4_stunmeasurements = self.get_v4_results(consider_country=consider_country, since=since, until=until)
 
         # weigh by country
         total_region_ips = 0
@@ -144,21 +152,21 @@ class StunMeasurementManager(models.Manager):
 
         return 100.0 * total_region_natted_ips / total_region_ips if total_region_ips > 0 else 0
 
-    def nat_0_percentage(self, consider_country=False):
+    def nat_0_percentage(self, consider_country=False, since=None, until=None):
         """
         :return: NAT % (percentage) for any kind of NAT
         """
-        natted = StunMeasurement.objects.get_results(consider_country=consider_country).filter(nat_free_0=False).count()
-        return 100.0 * natted / StunMeasurement.objects.get_results(consider_country=consider_country).count()
+        natted = StunMeasurement.objects.get_results(consider_country=consider_country, since=since, until=until).filter(nat_free_0=False).count()
+        return 100.0 * natted / StunMeasurement.objects.get_results(consider_country=consider_country, since=since, until=until).count()
 
-    def nat_4_percentage(self, consider_country=False):
+    def nat_4_percentage(self, consider_country=False, since=None, until=None):
         """
         :return: NAT % (percentage) for NAT 44
         """
-        natted = StunMeasurement.objects.get_results(consider_country=consider_country).filter(nat_free_4=False).count()
-        return 100.0 * natted / StunMeasurement.objects.get_results(consider_country=consider_country).count()
+        natted = StunMeasurement.objects.get_results(consider_country=consider_country, since=since, until=until).filter(nat_free_4=False).count()
+        return 100.0 * natted / StunMeasurement.objects.get_results(consider_country=consider_country, since=since, until=until).count()
 
-    def nat_6_percentage(self, consider_country=False):
+    def nat_6_percentage(self, consider_country=False, since=None, until=None):
         """
         :return: NAT % (percentage) for NAT 66
         """
@@ -167,27 +175,34 @@ class StunMeasurementManager(models.Manager):
         ).filter(
             nat_free_6=False,
             v6_count__gt=0
-        ).count()
-        return 100.0 * natted / StunMeasurement.objects.get_results(consider_country=consider_country).count()
+        )
+        if since:
+            natted = natted.filter(server_test_date__gte=since)
 
-    def v6_only_percentage(self, consider_country=False):
-        v6_only = StunMeasurement.objects.get_v6_results(consider_country=consider_country).filter(v4_count=0).count()
-        return 100.0*v6_only / StunMeasurement.objects.get_v6_results(consider_country=consider_country).count()
+        if until:
+            natted = natted.filter(server_test_date__lte=until)
 
-    def get_v6_hosts_with_v4_capability_percentage(self, consider_country=False):
+        natted = natted.count()
+        return 100.0 * natted / StunMeasurement.objects.get_results(consider_country=consider_country, since=since, until=until).count()
+
+    def v6_only_percentage(self, consider_country=False, since=None, until=None):
+        v6_only = StunMeasurement.objects.get_v6_results(consider_country=consider_country, since=since, until=until).filter(v4_count=0).count()
+        return 100.0*v6_only / StunMeasurement.objects.get_v6_results(consider_country=consider_country, since=since, until=until).count()
+
+    def get_v6_hosts_with_v4_capability_percentage(self, consider_country=False, since=None, until=None):
         """
         :return: v4 capability % (percentage) for v6-only hosts
         """
-        v6 = self.get_v6_results(consider_country=consider_country)
+        v6 = self.get_v6_results(consider_country=consider_country, since=since, until=until)
         is_v4_capable = [s for s in v6 if s.is_v6_with_v4_capabilities()]
         return 100.0 * len(is_v4_capable) / len(v6)
 
-    def get_npt_percentage(self, consider_country=False):
+    def get_npt_percentage(self, consider_country=False, since=None, until=None):
         """
         :return: NPT % (percentage) among v6-only hosts
         """
-        is_npt = self.get_v6_results(consider_country=consider_country).filter(npt=True).count()
-        return 100.0 * is_npt / self.get_v6_results(consider_country=consider_country).count()
+        is_npt = self.get_v6_results(consider_country=consider_country, since=since, until=until).filter(npt=True).count()
+        return 100.0 * is_npt / self.get_v6_results(consider_country=consider_country, since=since, until=until).count()
 
     def get_distinct_cookies(self):
         """
@@ -253,20 +268,21 @@ class StunMeasurementManager(models.Manager):
         counter = Counter(pvt_pfxs).items()
         return sorted(counter, key=operator.itemgetter(1), reverse=True)
 
-    def get_public_pfxs_nat_free_4_false(self):
-        return self._get_public_pfxs_nat_free_generic({'nat_free_4': False, 'v4_count__gt':0})
+    def get_public_pfxs_nat_free_4_false(self, since=None, until=None):
+        return self._get_public_pfxs_nat_free_generic({'nat_free_4': False, 'v4_count__gt':0 }, since=since, until=until)
 
-    def get_public_pfxs_nat_free_4_true(self):
-        return self._get_public_pfxs_nat_free_generic({'nat_free_4': True, 'v4_count__gt':0})
+    def get_public_pfxs_nat_free_4_true(self, since=None, until=None):
+        return self._get_public_pfxs_nat_free_generic({'nat_free_4': True, 'v4_count__gt':0 }, since=since, until=until)
 
-    def get_public_pfxs_nat_free_0_false(self):
-        return self._get_public_pfxs_nat_free_generic({'nat_free_0': False})
+    def get_public_pfxs_nat_free_0_false(self, since=None, until=None):
+        return self._get_public_pfxs_nat_free_generic({'nat_free_0': False }, since=since, until=until)
 
-    def get_public_pfxs_nat_free_0_true(self):
-        return self._get_public_pfxs_nat_free_generic({'nat_free_0':True})
+    def get_public_pfxs_nat_free_0_true(self, since=None, until=None):
+        return self._get_public_pfxs_nat_free_generic({'nat_free_0':True }, since=since, until=until)
 
     def _get_public_pfxs_nat_free_generic(self, *args, **kwargs):
-        ips = StunMeasurement.objects.get_results().filter(Q(**kwargs)).filter(
+
+        ips = StunMeasurement.objects.get_results(since=kwargs['since'], until=kwargs['until']).filter(Q(**args[0])).filter(
             stunipaddress__ip_address_kind=StunIpAddress.Kinds.REMOTE
         ).values(
             'pk'
@@ -276,9 +292,9 @@ class StunMeasurementManager(models.Manager):
 
         return set(StunMeasurementManager.show_addresses_to_the_world(ips))
 
-    def public_pfxs_nat_0_false_percentage(self):
-        natted = StunMeasurement.objects.get_public_pfxs_nat_free_0_false()
-        nat_free = StunMeasurement.objects.get_public_pfxs_nat_free_0_true()
+    def public_pfxs_nat_0_false_percentage(self, since=None, until=None):
+        natted = StunMeasurement.objects.get_public_pfxs_nat_free_0_false(since=since, until=until)
+        nat_free = StunMeasurement.objects.get_public_pfxs_nat_free_0_true(since=since, until=until)
 
         return 100.0*len(natted) / (len(natted) + len(nat_free))
 
@@ -739,3 +755,102 @@ class StunIpAddressChangeEvent(models.Model):
     previous = models.GenericIPAddressField(default="127.0.0.1")
     current = models.GenericIPAddressField(default="127.0.0.1")
     stun_measurement = models.ForeignKey(StunMeasurement)
+
+
+class Report(models.Model):
+
+    date = models.DateTimeField(default=datetime_uy)
+    window = models.IntegerField(default=90, help_text="Time window this report covers (start=now-window)")
+
+    v6_avg = models.FloatField()
+    v4_avg = models.FloatField()
+    v6_max = models.FloatField()
+    v4_max = models.FloatField()
+
+    all_nat = models.FloatField()
+    all_nat_world = models.FloatField()
+
+    v4_nat = models.FloatField()
+    v4_nat_world = models.FloatField()
+    # cache.v4_nat = StunMeasurement.objects.get_v4_nat_percentage(consider_country=True)
+    # cache.v4_nat_world = StunMeasurement.objects.get_v4_nat_percentage(consider_country=False)
+
+    v6_nat = models.FloatField()
+    v6_nat_world = models.FloatField()
+
+    v6_only = models.FloatField()
+    v6_only_world = models.FloatField(default=-1)
+
+    v6_with_v4_capacity = models.FloatField()
+    v6_with_v4_capacity_world = models.FloatField()
+
+    dualstack = models.FloatField()
+    dualstack_world = models.FloatField()
+
+    npt = models.FloatField()
+    npt_world = models.FloatField()
+
+    public_pfxs_nat_free_0_false_percentage = models.FloatField()
+
+    models.Field
+
+
+    # announcements = get_announcements())
+
+    # country_participation = StunMeasurement.objects.get_country_participation()
+    # v6_private_prefixes = StunMeasurement.objects.get_private_pfx_counter_v6()
+    # v4_private_prefixes = StunMeasurement.objects.get_private_pfx_counter_v4()
+
+    def set_values(self):
+
+        now = datetime_uy().now()
+        since = now - timedelta(days=self.window)
+
+        with tqdm(total=18) as pbar:
+            self.v6_avg = StunMeasurement.objects.v6_count_avg(since=since)
+            self.v4_avg = StunMeasurement.objects.v4_count_avg(since=since)
+            self.v6_max = StunMeasurement.objects.v6_count_max(since=since)
+            self.v4_max = StunMeasurement.objects.v4_count_max(since=since)
+            pbar.update(4)
+
+            self.all_nat = StunMeasurement.objects.nat_0_percentage(consider_country=True, since=since)
+            self.all_nat_world = StunMeasurement.objects.nat_0_percentage(consider_country=False, since=since)
+            pbar.update(2)
+
+            self.v4_nat = StunMeasurement.objects.nat_4_percentage(consider_country=True, since=since)
+            self.v4_nat_world = StunMeasurement.objects.nat_4_percentage(consider_country=False, since=since)
+            # cache.v4_nat = StunMeasurement.objects.get_v4_nat_percentage(consider_country=True)
+            # cache.v4_nat_world = StunMeasurement.objects.get_v4_nat_percentage(consider_country=False)
+            pbar.update(2)
+
+            self.v6_nat = StunMeasurement.objects.nat_6_percentage(consider_country=True, since=since)
+            self.v6_nat_world = StunMeasurement.objects.nat_6_percentage(consider_country=False, since=since)
+            pbar.update(2)
+
+            self.v6_only = StunMeasurement.objects.v6_only_percentage(consider_country=True, since=since)
+            self.v6_only_world = StunMeasurement.objects.v6_only_percentage(consider_country=False, since=since)
+            pbar.update(1)
+
+            self.v6_with_v4_capacity = StunMeasurement.objects.get_v6_hosts_with_v4_capability_percentage(consider_country=True, since=since)
+            self.v6_with_v4_capacity_world = StunMeasurement.objects.get_v6_hosts_with_v4_capability_percentage(consider_country=False, since=since)
+            pbar.update(2)
+
+            self.dualstack = StunMeasurement.objects.get_dualstack_percentage(consider_country=True, since=since)
+            self.dualstack_world = StunMeasurement.objects.get_dualstack_percentage(consider_country=False, since=since)
+            pbar.update(2)
+
+            self.npt = StunMeasurement.objects.get_npt_percentage(consider_country=True, since=since)
+            self.npt_world = StunMeasurement.objects.get_npt_percentage(consider_country=False, since=since)
+            pbar.update(2)
+
+
+
+            self.public_pfxs_nat_free_0_false_percentage = StunMeasurement.objects.public_pfxs_nat_0_false_percentage(since=since)
+            pbar.update(1)
+
+
+            # announcements = get_announcements())
+
+            # self.country_participation = StunMeasurement.objects.get_country_participation()
+            # self.v6_private_prefixes = StunMeasurement.objects.get_private_pfx_counter_v6()
+            # self.v4_private_prefixes = StunMeasurement.objects.get_private_pfx_counter_v4()

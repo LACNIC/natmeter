@@ -136,8 +136,8 @@ USE_L10N = True
 USE_TZ = True
 
 LANGUAGES = (
-    ('en', 'English'),
-    ('es', 'Spanish'),
+    ('en_US', 'English'),
+    ('es_UY', 'Spanish'),
 )
 LANGUAGE_CODE = 'en-us'  # default language
 

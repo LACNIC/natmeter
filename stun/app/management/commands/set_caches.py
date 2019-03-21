@@ -1,61 +1,27 @@
 from django.core.management.base import BaseCommand
+from django.db import models
 from app.caching.caching import cache
-from app.models import StunMeasurement
+from app.models import StunMeasurement, Report
 from statsd import StatsClient
-from stun import settings
+
+
+
 
 class Command(BaseCommand):
     def handle(self, *args, **options):
-        old = cache.set
+        # old = cache.set
 
-        statsd = StatsClient()
+        # statsd = StatsClient()
+        #
+        # @statsd.timer('cache.set')
+        # def new(k, v):
+        #     print "Setting {key}".format(key=k)
+        #     old(k, v)
 
-        @statsd.timer('cache.set')
-        def new(k, v):
-            print "Setting {key}".format(key=k)
-            old(k, v)
+        report = Report()
+        report.set_values()
+        report.save()
 
-        cache.set = new
-
-        cache.set(cache.keys.v6_avg, StunMeasurement.objects.v6_count_avg())
-        cache.set(cache.keys.v4_avg, StunMeasurement.objects.v4_count_avg())
-        cache.set(cache.keys.v6_max, StunMeasurement.objects.v6_count_max())
-        cache.set(cache.keys.v4_max, StunMeasurement.objects.v4_count_max())
-
-        cache.set(cache.keys.all_nat, StunMeasurement.objects.nat_0_percentage(consider_country=True))
-        cache.set(cache.keys.all_nat_world, StunMeasurement.objects.nat_0_percentage(consider_country=False))
-
-        cache.set(cache.keys.v4_nat, StunMeasurement.objects.nat_4_percentage(consider_country=True))
-        cache.set(cache.keys.v4_nat_world, StunMeasurement.objects.nat_4_percentage(consider_country=False))
-        # cache.set(cache.keys.v4_nat, StunMeasurement.objects.get_v4_nat_percentage(consider_country=True))
-        # cache.set(cache.keys.v4_nat_world, StunMeasurement.objects.get_v4_nat_percentage(consider_country=False))
-
-
-        cache.set(cache.keys.v6_nat, StunMeasurement.objects.nat_6_percentage(consider_country=True))
-        cache.set(cache.keys.v6_nat_world, StunMeasurement.objects.nat_6_percentage(consider_country=False))
-
-        cache.set(cache.keys.v6_only, StunMeasurement.objects.v6_only_percentage(consider_country=False))
-
-        cache.set(cache.keys.v6_with_v4_capacity, StunMeasurement.objects.get_v6_hosts_with_v4_capability_percentage(consider_country=True))
-        cache.set(cache.keys.v6_with_v4_capacity_world, StunMeasurement.objects.get_v6_hosts_with_v4_capability_percentage(consider_country=False))
-
-        cache.set(cache.keys.dualstack, StunMeasurement.objects.get_dualstack_percentage(consider_country=True))
-        cache.set(cache.keys.dualstack_world, StunMeasurement.objects.get_dualstack_percentage(consider_country=False))
-
-        cache.set(cache.keys.npt, StunMeasurement.objects.get_npt_percentage(consider_country=True))
-        cache.set(cache.keys.npt_world, StunMeasurement.objects.get_npt_percentage(consider_country=False))
-
-        cache.set(cache.keys.public_pfxs_nat_free_0_false_percentage, StunMeasurement.objects.public_pfxs_nat_0_false_percentage())
-
-        cache.set(cache.keys.country_participation, StunMeasurement.objects.get_country_participation())
-
-
-
-
-        # cache.set(cache.keys.announcements, get_announcements())
-        
-        cache.set(cache.keys.private_prefixes, StunMeasurement.objects.get_private_pfx_counter_v6())
-        cache.set(cache.keys.private_prefixes, StunMeasurement.objects.get_private_pfx_counter_v4())
 
 
 def get_announcements():

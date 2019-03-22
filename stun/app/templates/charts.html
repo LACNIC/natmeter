@@ -43,13 +43,13 @@
                 <tbody>
                 <tr>
                     <th>{% trans "Mediciones detrás de NAT " %}</th>
-                    <td>{{ report.all_nat | floatformat }}%</td>
-                    <td>{{ report.all_nat_world | floatformat }}%</td>
+                    <td>{{ report.all_nat | floatformat:0 }}%</td>
+                    <td>{{ report.all_nat_world | floatformat:0 }}%</td>
                 </tr>
                 <tr>
                     <th>{% trans "Mediciones detrás de NAT 44" %}</th>
-                    <td>{{ report.v4_nat | floatformat }}%</td>
-                    <td>{{ report.v4_nat_world | floatformat }}%</td>
+                    <td>{{ report.v4_nat | floatformat:0 }}%</td>
+                    <td>{{ report.v4_nat_world | floatformat:0 }}%</td>
                 </tr>
                 <tr>
                     <th>{% trans "Mediciones detrás de NAT 66" %}</th>

@@ -170,20 +170,20 @@ class StunMeasurementManager(models.Manager):
         """
         :return: NAT % (percentage) for NAT 66
         """
-        natted = StunMeasurement.objects.get_results(
-            consider_country=consider_country
-        ).filter(
+        results = StunMeasurement.objects.get_results(consider_country=consider_country)
+
+        if since:
+            results = results.filter(server_test_date__gte=since)
+
+        if until:
+            results = results.filter(server_test_date__lte=until)
+
+        natted = results.filter(
             nat_free_6=False,
             v6_count__gt=0
         )
-        if since:
-            natted = natted.filter(server_test_date__gte=since)
 
-        if until:
-            natted = natted.filter(server_test_date__lte=until)
-
-        natted = natted.count()
-        return 100.0 * natted / StunMeasurement.objects.get_results(consider_country=consider_country, since=since, until=until).count()
+        return 100.0 * natted.count() / results.count()
 
     def v6_only_percentage(self, consider_country=False, since=None, until=None):
         v6_only = StunMeasurement.objects.get_v6_results(consider_country=consider_country, since=since, until=until).filter(v4_count=0).count()

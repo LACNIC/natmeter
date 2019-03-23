@@ -789,9 +789,6 @@ class Report(models.Model):
 
     public_pfxs_nat_free_0_false_percentage = models.FloatField()
 
-    models.Field
-
-
     # announcements = get_announcements())
 
     # country_participation = StunMeasurement.objects.get_country_participation()

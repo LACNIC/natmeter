@@ -629,9 +629,6 @@ class StunMeasurement(models.Model):
 
     def is_npt(self):
 
-        if self.nat_free() == 0:
-            return False
-
         local_addresses = self.get_local_v6_ipaddresses()
         remote_addressess = self.get_remote_v6_addresses()
         for local in local_addresses:

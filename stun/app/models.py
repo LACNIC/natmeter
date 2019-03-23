@@ -298,20 +298,14 @@ class StunMeasurementManager(models.Manager):
 
         return 100.0*len(natted) / (len(natted) + len(nat_free))
 
-    @transaction.atomic
     def set_attributes(self, persist=True, force=True):
 
-        def chunks(l, n):
-            """Yield successive n-sized chunks from l."""
-            for i in xrange(0, len(l), n):
-                yield l[i:i + n]
+        self_filter = self.all()
+        if not force:
+            self_filter = self.filter(already_processed=False)
 
-        def set_attrs(sm):
-            return sm.set_attributes(persist=persist, force=force)
-
-
-        for sms in tqdm(chunks(self.filter(already_processed=False), 100)):
-            map(set_attrs, sms)
+        for sm in tqdm(self_filter):
+            sm.set_attributes(persist=persist, force=force)
 
     def resolve_announcing_asns(self):
 

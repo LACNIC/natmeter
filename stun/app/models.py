@@ -170,7 +170,11 @@ class StunMeasurementManager(models.Manager):
         """
         :return: NAT % (percentage) for NAT 66
         """
-        results = StunMeasurement.objects.get_results(consider_country=consider_country)
+        results = StunMeasurement.objects.get_results(
+            consider_country=consider_country,
+        ).filter(
+            v6_count__gt=0
+        )
 
         if since:
             results = results.filter(server_test_date__gte=since)

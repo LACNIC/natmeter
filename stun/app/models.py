@@ -339,7 +339,7 @@ class StunMeasurementManager(models.Manager):
         except AddressValueError:
             return False
 
-        return v6_1.exploded.split(":")[4:] == v6_2.exploded.split(":")[4:]
+        return v6_1.exploded.split(":")[4:] == v6_2.exploded.split(":")[4:] and v6_1.exploded.split(":")[:4] != v6_2.exploded.split(":")[:4]
 
     @staticmethod
     def disjoint_lists(list_1, list_2):

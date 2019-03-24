@@ -208,6 +208,14 @@ class StunMeasurementManager(models.Manager):
         is_npt = self.get_v6_results(consider_country=consider_country, since=since, until=until).filter(npt=True).count()
         return 100.0 * is_npt / self.get_v6_results(consider_country=consider_country, since=since, until=until).count()
 
+
+    def get_nat64_percentage(self, consider_country=False, since=None, until=None):
+        """
+        :return: NAT64 % (percentage) among v6-only hosts
+        """
+        is_nat64 = self.get_v6_results(consider_country=consider_country, since=since, until=until).filter(nat64=True).count()
+        return 100.0 * is_nat64 / self.get_results(consider_country=consider_country, since=since, until=until, nat_free_0=False).count()
+
     def get_distinct_cookies(self):
         """
         :return: List of distinct cookies
@@ -442,6 +450,8 @@ class StunMeasurement(models.Model):
 
     npt = models.NullBooleanField(default=None, null=True, help_text="Usage of NPT")
 
+    nat64 = models.NullBooleanField(default=None, null=True, help_text="Usage of NAT64")
+
     noisy_prefix = models.NullBooleanField(default=None, null=True, help_text="This measurement comes from one of the ignored prefixes (special cases)")
 
     href = models.CharField(default=None, null=True, help_text="Site providing the results", max_length=1024)
@@ -466,6 +476,7 @@ class StunMeasurement(models.Model):
         self.v6_count = self.get_v6_count()
         self.v4_count = self.get_v4_count()
         self.npt = self.is_npt()
+        self.nat64 = self.is_nat64()
         self.noisy_prefix = self.has_noisy_prefix()  # TODO provate prefixes
         self.already_processed = True
 
@@ -635,6 +646,9 @@ class StunMeasurement(models.Model):
                     return True
         return False
 
+    def is_nat64(self):
+        return all([':' in ip for ip in self.get_local_v6_ipaddresses()]) and self.get_remote_v4_addresses() and self.get_remote_v6_addresses()
+
     def get_country(self):
         all_addresses = self.get_local_addresses() + self.get_remote_addresses()
         ccs = []
@@ -784,6 +798,9 @@ class Report(models.Model):
 
     npt = models.FloatField()
     npt_world = models.FloatField()
+
+    nat64 = models.FloatField()
+    nat64_world = models.FloatField()
 
     public_pfxs_nat_free_0_false_percentage = models.FloatField()
 

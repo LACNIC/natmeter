@@ -799,8 +799,8 @@ class Report(models.Model):
     npt = models.FloatField()
     npt_world = models.FloatField()
 
-    nat64 = models.FloatField()
-    nat64_world = models.FloatField()
+    nat64 = models.FloatField(default=-1)
+    nat64_world = models.FloatField(default=-1)
 
     public_pfxs_nat_free_0_false_percentage = models.FloatField()
 
@@ -850,7 +850,11 @@ class Report(models.Model):
 
             self.npt = StunMeasurement.objects.get_npt_percentage(consider_country=True, since=since)
             self.npt_world = StunMeasurement.objects.get_npt_percentage(consider_country=False, since=since)
-            pbar.update(2)
+            pbar.update(1)
+
+            self.nat64 = StunMeasurement.objects.get_npt_percentage(consider_country=True, since=since)
+            self.nat64_world = StunMeasurement.objects.get_npt_percentage(consider_country=False, since=since)
+            pbar.update(1)
 
 
 

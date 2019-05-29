@@ -156,7 +156,10 @@
                         output_easy("  &bull;  " + ip);
                     }
 
-                    output_easy("<b>" + "{% trans "NAT detectado!" %}" + "</b>");
+                    if (ip.indexOf(':') > 0)
+                        output_easy("<b>" + "{% trans "NAT 66 detectado!" %}" + "</b>");
+                    else
+                        output_easy("<b>" + "{% trans "NAT 44 detectado!" %}" + "</b>");
 
                 } else {
                     output_easy("<b>" + "{% trans "NAT no detectado" %}" + "</b>");

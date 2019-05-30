@@ -62,6 +62,12 @@
                     <td>{{ report.npt_world | floatformat:2 }}%</td>
                 </tr>
 
+                <tr>
+                    <th>{% trans "Mediciones con NAT64" %}</th>
+                    <td>{{ report.nat64 | floatformat:2 }}%</td>
+                    <td>{{ report.nat64_world | floatformat:2 }}%</td>
+                </tr>
+
 {#                <tr>#}
 {#                    <th>{% trans "Prefijos públicos vistos detrás de NAT" %}</th>#}
 {#                    <td></td>#}

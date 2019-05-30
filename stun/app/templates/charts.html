@@ -157,28 +157,6 @@
 {#            <div id="prefix_counter" style="min-height: 300px;"></div>#}
         </div>
 
-        <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4" style="float: right">
-            <h2>{% trans "charts.addresses.h2" %}</h2>
-            <p>{% trans "charts.addresses.p" %}</p>
-
-            <table class="table">
-                <thead>
-                <tr>
-                    <td></td>
-                    <th>IPv6</th>
-                    <th>IPv4</th>
-                </tr>
-                </thead>
-
-                <tbody>
-                <tr>
-                    <th>{% trans "Promedio" %}</th>
-                    <td>{{ report.v6_avg | floatformat }}</td>
-                    <td>{{ report.v4_avg | floatformat }}</td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
     </div>
 {% endblock content %}
 

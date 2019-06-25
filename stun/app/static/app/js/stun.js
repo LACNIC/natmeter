@@ -320,7 +320,7 @@ define([], function () {
 
                 stun.callbacks.before_public_request();
                 stun.iceServers = [{
-                    urls: ["stun:stun4.acostasite.com", "stun:stun6.acostasite.com"]
+                    urls: ["stun:stunv4.labs.lacnic.net", "stun:stunv6.labs.lacnic.net"]
                 }];
                 stun._init();
                 stun.callbacks.after_public_request();

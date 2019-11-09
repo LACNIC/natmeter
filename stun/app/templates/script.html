@@ -122,6 +122,12 @@
 
             STUN.callbacks.after_private_stun_response = function (response) {
                 output("{% trans "Local response: " %}" + response);
+
+                // Abort if all (every) private addresses is a dot local address
+                let address = response.split(" ")[4];
+                if(address.indexOf('.local') >= 0)
+                    output("Dot local address detected - your browser implements mDNS...");
+
                 updateBarTo(20);
             };
 
@@ -150,7 +156,10 @@
 
             STUN.callbacks.before_post = function () {
 
-                if ( STUN.NETWORK.addresses.getPublicAddresses().length > 0 ) {
+                if (STUN.NETWORK.addresses.getPrivateAddresses().every(address => (address.indexOf('.local') >= 0))){
+                    output_easy("<b>" + "{% trans "Todas tus direcciones privadas son .local, imposible detectar NAT :(" %}" + "</b>");
+
+                } else if ( STUN.NETWORK.addresses.getPublicAddresses().length > 0 ) {
                     output_easy("{% trans "Address(es) seen from our STUN servers: " %}");
                     for ( ip of STUN.NETWORK.addresses.getPublicAddresses() ) {
                         output_easy("  &bull;  " + ip);

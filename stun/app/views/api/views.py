@@ -96,21 +96,19 @@ def post(request):
         tags=['type:HTTP', 'tester:NATMeter'] + settings.DATADOG_DEFAULT_TAGS
     )
 
-    for ip_address in addresses["public"]:
-        a = StunIpAddress(
-            ip_address=ip_address,
-            stun_measurement=stun_measurement,
-            ip_address_kind=StunIpAddress.Kinds.REMOTE
-        )
-        stun_measurement.stunipaddress_set.add(a)
+    for addresses, kind in zip([addresses["public"], addresses["private"]], [StunIpAddress.Kinds.REMOTE, StunIpAddress.Kinds.LOCAL]):
+        for ip_address in addresses:
 
-    for ip_address in addresses["private"]:
-        a = StunIpAddress(
-            ip_address=ip_address,
-            stun_measurement=stun_measurement,
-            ip_address_kind=StunIpAddress.Kinds.LOCAL
-        )
-        stun_measurement.stunipaddress_set.add(a)
+            if '.local' in ip_address:
+                ip_address = StunIpAddress._meta.get_field_by_name('ip_address')[0].default
+                kind = StunIpAddress.Kinds.DOTLOCAL
+
+            a = StunIpAddress(
+                ip_address=ip_address,
+                stun_measurement=stun_measurement,
+                ip_address_kind=kind
+            )
+            stun_measurement.stunipaddress_set.add(a)
 
     current_ = ip_address_change_event["current"]
     previous_ = ip_address_change_event["previous"]

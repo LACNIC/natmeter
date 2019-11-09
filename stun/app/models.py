@@ -692,7 +692,7 @@ class StunIpAddress(models.Model):
         Place to store each IP address for that client for that measurement
     """
 
-    Kinds = enum(LOCAL=1, REMOTE=2, NA=0)
+    Kinds = enum(LOCAL=1, REMOTE=2, DOTLOCAL=3, NA=0)
 
     ip_address = models.GenericIPAddressField(default="127.0.0.1")
     ip_address_kind = models.IntegerField(default=0)

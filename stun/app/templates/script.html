@@ -156,26 +156,25 @@
 
             STUN.callbacks.before_post = function () {
 
-                if (STUN.NETWORK.addresses.getPrivateAddresses().every(address => (address.indexOf('.local') >= 0))){
-                    output_easy("<b>" + "{% trans "Todas tus direcciones privadas son .local, imposible detectar NAT :(" %}" + "</b>");
-
-                } else if ( STUN.NETWORK.addresses.getPublicAddresses().length > 0 ) {
+                if ( STUN.NETWORK.addresses.getPublicAddresses().length > 0 ) {
                     output_easy("{% trans "Address(es) seen from our STUN servers: " %}");
                     for ( ip of STUN.NETWORK.addresses.getPublicAddresses() ) {
                         output_easy("  &bull;  " + ip);
                     }
 
-                    if (ip.indexOf(':') > 0)
-                        output_easy("<b>" + "{% trans "NAT 66 detectado!" %}" + "</b>");
-                    else
-                        output_easy("<b>" + "{% trans "NAT 44 detectado!" %}" + "</b>");
-
                 } else {
-                    output_easy("<b>" + "{% trans "NAT no detectado" %}" + "</b>");
+                    output_easy("<b>" + "{% trans "NAT not detected" %}" + "</b>");
                 }
 
-                if (STUN.NETWORK.addresses.getPublicAddresses().length > 0) {
-                    output("{% trans "Remote addresses found: " %}" + STUN.NETWORK.addresses.getPublicAddresses());
+                if (STUN.NETWORK.addresses.getPrivateAddresses().every(address => (address.indexOf('.local') >= 0))){
+                    output_easy("<b>" + "{% trans "All your private addresses are .local, impossible to detect NAT :(" %}" + "</b>");
+                } else {
+                    for (let ip of STUN.NETWORK.addresses.getPrivateAddresses()) {
+                        if (ip.indexOf(':') > 0)
+                            output_easy("<b>" + "{% trans "NAT 66 detected!" %}" + "</b>");
+                        else
+                            output_easy("<b>" + "{% trans "NAT 44 detected!" %}" + "</b>");
+                    }
                 }
 
                 output("{% trans "Posting results to central database..." %}");

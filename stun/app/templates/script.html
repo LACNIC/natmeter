@@ -126,7 +126,7 @@
                 // Abort if all (every) private addresses is a dot local address
                 let address = response.split(" ")[4];
                 if(address.indexOf('.local') >= 0)
-                    output("Dot local address detected - your browser implements mDNS...");
+                    output("{% trans "Dot local address detected - your browser implements mDNS..." %}");
 
                 updateBarTo(20);
             };
@@ -140,7 +140,7 @@
                     }
                 }
 
-                output("Local addresses found: " + STUN.NETWORK.addresses.getPrivateAddresses());
+                output("{% trans "Local addresses found: " %}" + STUN.NETWORK.addresses.getPrivateAddresses());
                 updateBarTo(30);
 
                 output_easy("{% trans "Looking for client's remote address(es)..." %}");

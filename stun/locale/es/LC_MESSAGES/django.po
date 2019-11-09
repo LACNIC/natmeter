@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-11-09 09:58+0000\n"
+"POT-Creation-Date: 2019-11-09 10:12+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -317,7 +317,11 @@ msgstr "Buscando direcciones IP locales..."
 msgid "Local response: "
 msgstr "Respuesta local:"
 
-#: app/templates/script.html:137
+#: app/templates/script.html:129
+msgid "Dot local address detected - your browser implements mDNS..."
+msgstr "Direcciones 'punto local' detectadas - tu navegador implementa mDNS..."
+
+#: app/templates/script.html:137 app/templates/script.html.py:143
 msgid "Local addresses found: "
 msgstr "Direcciones IP locales encontradas:"
 

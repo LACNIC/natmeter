@@ -136,14 +136,10 @@ USE_L10N = True
 USE_TZ = True
 
 LANGUAGES = (
-    ('en_US', 'English'),
-    ('es_UY', 'Spanish'),
+    ('en', 'English'),
+    ('es', 'Spanish'),
 )
 LANGUAGE_CODE = 'en-us'  # default language
-
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/1.9/howto/static-files/
-STATIC_URL = '/static/'
 
 HOSTNAME = socket.gethostname()
 DEBUG = True

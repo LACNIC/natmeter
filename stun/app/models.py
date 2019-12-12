@@ -28,7 +28,11 @@ class StunMeasurementManager(models.Manager):
         :param window: time window going backwards. 0 means infinity (all data)
         :return: Get clean results ready for doing stats
         """
-        stun_measurements = StunMeasurement.objects.filter(noisy_prefix=False)
+        stun_measurements = StunMeasurement.objects.filter(
+            noisy_prefix=False,
+        ).exclude(
+            stunipaddress__ip_address_kind=StunIpAddress.Kinds.DOTLOCAL
+        )
         if consider_country:
             stun_measurements = stun_measurements.filter(stunipaddress__country__in=settings.all_ccs)
 

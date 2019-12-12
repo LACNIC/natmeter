@@ -632,7 +632,7 @@ class StunMeasurement(models.Model):
         """
 
         if protocol == 0:
-            return len(self.get_remote_stunipaddresses()) == 0
+            return len(self.get_remote_stunipaddresses()) == 0 and len(self.get_local_stunipaddresses()) > 0
         elif protocol == 4:
             return len(self.get_remote_v4_addresses()) == 0 and len(self.get_local_v4_ipaddresses()) > 0
         elif protocol == 6:

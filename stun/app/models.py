@@ -14,6 +14,8 @@ from stun import settings
 import requests
 import pytz
 import json
+from django.db.models import Count
+
 
 class StunMeasurementManager(models.Manager):
     def get_average(self, _list=[]):
@@ -28,7 +30,10 @@ class StunMeasurementManager(models.Manager):
         :param window: time window going backwards. 0 means infinity (all data)
         :return: Get clean results ready for doing stats
         """
-        stun_measurements = StunMeasurement.objects.filter(
+        stun_measurements = StunMeasurement.objects.annotate(
+            ips=Count('stunipaddress')
+        ).filter(
+            ips__gt=0,
             noisy_prefix=False,
         ).exclude(
             stunipaddress__ip_address_kind=StunIpAddress.Kinds.DOTLOCAL

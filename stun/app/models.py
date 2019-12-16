@@ -35,7 +35,6 @@ class StunMeasurementManager(models.Manager):
             local_ips=Count('stunipaddress', filter=Q(stunipaddress__ip_address_kind=StunIpAddress.Kinds.LOCAL)),
             remote_ips=Count('stunipaddress', filter=Q(stunipaddress__ip_address_kind=StunIpAddress.Kinds.REMOTE))
         ).filter(
-            ips__gt=0,
             noisy_prefix=False,
         ).exclude(
             stunipaddress__ip_address_kind=StunIpAddress.Kinds.DOTLOCAL

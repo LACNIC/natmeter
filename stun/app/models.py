@@ -33,7 +33,8 @@ class StunMeasurementManager(models.Manager):
         stun_measurements = StunMeasurement.objects.annotate(
             ips=Count('stunipaddress'),
             local_ips=Count('stunipaddress', filter=Q(stunipaddress__ip_address_kind=StunIpAddress.Kinds.LOCAL)),
-            remote_ips=Count('stunipaddress', filter=Q(stunipaddress__ip_address_kind=StunIpAddress.Kinds.REMOTE))
+            remote_ips=Count('stunipaddress', filter=Q(stunipaddress__ip_address_kind=StunIpAddress.Kinds.REMOTE)),
+            dotlocal_ips=Count('stunipaddress', filter=Q(stunipaddress__ip_address_kind=StunIpAddress.Kinds.DOTLOCAL)),
         ).filter(
             noisy_prefix=False,
         ).exclude(
@@ -193,8 +194,7 @@ class StunMeasurementManager(models.Manager):
             results = results.filter(server_test_date__lte=until)
 
         natted = results.filter(
-            nat_free_6=False,
-            v6_count__gt=0
+            nat_free_6=False
         )
 
         return 100.0 * natted.count() / results.count()

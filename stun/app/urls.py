@@ -26,6 +26,8 @@ reports = patterns(
     url(r'remote_ips_0', views.generic_reports, {'remote_ips': 0}, name='remote_ips_0'),
     url(r'remote_ips__gt_0', views.generic_reports, {'remote_ips__gt': 0}, name='remote_ips__gt_0'),
     url(r'remote_local_0', views.generic_reports, {'remote_ips': 0, 'local_ips': 0}, name='remote_local_0'),
+
+    url(r'dotlocal_ips__gt_0', views.generic_reports, {'dotlocal_ips__gt': 0}, name='remote_local_0'),
 )
 
 urlpatterns = patterns(

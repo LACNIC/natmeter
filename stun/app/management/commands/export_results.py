@@ -1,11 +1,12 @@
 from django.core.management.base import BaseCommand
-from app.models import StunMeasurement
+from app.models import StunMeasurement, StunIpAddress
 from app.static_defs import NOISY_PREFIXES
 import csv
 import datetime
 import pytz
 from stun.settings import STATIC_ROOT
 from tqdm import tqdm
+from django.db.models import Count
 
 
 class Command(BaseCommand):
@@ -27,7 +28,14 @@ class Command(BaseCommand):
         now = uy.localize(now)
         comments.append(["# Data exported at %s (%s)." % (now, now.tzinfo)])
 
-        sms = StunMeasurement.objects.all().order_by('-server_test_date')
+        sms = StunMeasurement.objects.annotate(
+            ips=Count('stunipaddress')
+        ).filter(
+            ips__gt=0,
+            noisy_prefix=False,
+        ).exclude(
+            stunipaddress__ip_address_kind=StunIpAddress.Kinds.DOTLOCAL
+        ).order_by('-server_test_date')
         with open(STATIC_ROOT + '/results.csv', 'wb') as csvfile:
 
             fieldnames = ['local_ip_addresses', 'remote_ip_addresses', 'asns', 'date']

@@ -31,7 +31,9 @@ class StunMeasurementManager(models.Manager):
         :return: Get clean results ready for doing stats
         """
         stun_measurements = StunMeasurement.objects.annotate(
-            ips=Count('stunipaddress')
+            ips=Count('stunipaddress'),
+            local_ips=Count('stunipaddress', filter=Q(stunipaddress__ip_address_kind=StunIpAddress.Kinds.LOCAL)),
+            remote_ips=Count('stunipaddress', filter=Q(stunipaddress__ip_address_kind=StunIpAddress.Kinds.REMOTE))
         ).filter(
             ips__gt=0,
             noisy_prefix=False,

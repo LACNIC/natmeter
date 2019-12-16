@@ -37,6 +37,8 @@ class StunMeasurementManager(models.Manager):
             dotlocal_ips=Count('stunipaddress', filter=Q(stunipaddress__ip_address_kind=StunIpAddress.Kinds.DOTLOCAL)),
         ).filter(
             noisy_prefix=False,
+        ).exclude(
+            stunipaddress__ip_address_kind=StunIpAddress.Kinds.DOTLOCAL
         )
         if consider_country:
             stun_measurements = stun_measurements.filter(stunipaddress__country__in=settings.all_ccs)

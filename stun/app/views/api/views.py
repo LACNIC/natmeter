@@ -23,19 +23,32 @@ def sorted_counter(ctr):
     return lines
 
 
-def generic_reports(request, *args, **kwargs):
+def reports(request, results):
     dates = [
         sm.server_test_date.replace(
             hour=0,
             minute=0,
             second=0,
             microsecond=0
-        ) for sm in StunMeasurement.objects.get_results().filter(Q(**kwargs)).order_by('-server_test_date')
+        ) for sm in results
     ]
 
     lines = sorted_counter(Counter(dates))
 
     return HttpResponse(lines, content_type="text")
+
+def generic_reports(request, *args, **kwargs):
+    return reports(
+        request=request,
+        results=StunMeasurement.objects.get_results().filter(Q(**kwargs)).order_by('-server_test_date')
+    )
+
+
+def dotlocal_reports(request, *args, **kwargs):
+    return reports(
+        request=request,
+        results=StunMeasurement.objects.all().filter(Q(**kwargs)).order_by('-server_test_date')
+    )
 
 
 @csrf_exempt

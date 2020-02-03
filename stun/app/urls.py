@@ -21,7 +21,7 @@ reports = patterns(
     url(r'v4_only', views.generic_reports, {'v6_count': 0, 'ips__gt': 0}, name='report_npt_false'),
     url(r'v6_only', views.generic_reports, {'v4_count': 0, 'ips__gt': 0}, name='report_npt_false'),
 
-    url(r'dotlocal_ips__gt_0', views.generic_reports, {'n_addr_dotlocal__gt': 0}, name='dotlocal_ips__gt_0'),
+    url(r'dotlocal_ips__gt_0', views.dotlocal_reports, {'n_addr_dotlocal__gt': 0}, name='dotlocal_ips__gt_0'),
     url(r'local_ips_0', views.generic_reports, {'n_addr_local': 0}, name='local_ips_0'),
     url(r'local_ips__gt_0', views.generic_reports, {'n_addr_local__gt': 0}, name='local_ips__gt_0'),
     url(r'remote_ips_0', views.generic_reports, {'n_addr_remote': 0}, name='remote_ips_0'),

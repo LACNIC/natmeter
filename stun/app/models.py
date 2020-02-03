@@ -15,6 +15,7 @@ import requests
 import pytz
 import json
 from django.db.models import Count
+from django.db.transaction import commit_on_success
 
 
 class StunMeasurementManager(models.Manager):
@@ -320,6 +321,7 @@ class StunMeasurementManager(models.Manager):
 
         return 100.0*len(natted) / (len(natted) + len(nat_free))
 
+    @commit_on_success
     def set_attributes(self, persist=True, force=True):
 
         self_filter = self.all()
@@ -470,6 +472,10 @@ class StunMeasurement(models.Model):
 
     already_processed = models.BooleanField(default=False)
 
+    n_addr_local = models.IntegerField(default=-1)
+    n_addr_remote = models.IntegerField(default=-1)
+    n_addr_dotlocal = models.IntegerField(default=-1)
+
     objects = StunMeasurementManager()
 
     def set_attributes(self, persist=True, force=True, session=None):
@@ -489,6 +495,8 @@ class StunMeasurement(models.Model):
         self.nat64 = self.is_nat64()
         self.noisy_prefix = self.has_noisy_prefix()  # TODO provate prefixes
         self.already_processed = True
+
+        self.n_addr_local, self.n_addr_remote, self.n_addr_dotlocal = self.get_ip_count()
 
         self.save()
 
@@ -691,6 +699,14 @@ class StunMeasurement(models.Model):
         _set = AnnouncingAsn.objects.filter(ip_address__stun_measurement=self)
 
         return ','.join([str(asn.asn) for asn in _set])
+
+    def get_ip_count(self):
+
+        local = self.stunipaddress_set.filter(ip_address_kind=StunIpAddress.Kinds.LOCAL).count()
+        remote = self.stunipaddress_set.filter(ip_address_kind=StunIpAddress.Kinds.REMOTE).count()
+        dotlocal = self.stunipaddress_set.filter(ip_address_kind=StunIpAddress.Kinds.DOTLOCAL).count()
+
+        return local, remote, dotlocal
 
 
 def enum(**enums):

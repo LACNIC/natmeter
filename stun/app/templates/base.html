@@ -32,8 +32,8 @@
     <meta http-equiv="content-type" content="text/html;charset=utf-8">
 
     <!-- Progress bar -->
-    <link rel='stylesheet' href='//cdn.dev.lacnic.net/mprogress.css'/>
-    <script src='//cdn.dev.lacnic.net/mprogress.js'></script>
+    <link rel='stylesheet' href='/static/app/css/mprogress.css'/>
+    <script src='/static/app/js/mprogress.js'></script>
 
     <link rel="stylesheet" type="text/css" href="{% static "app/css/stun.css" %}">
     <link rel="stylesheet" type="text/css" href="{% static "app/css/lacniclabs-generico.css" %}">
@@ -224,7 +224,7 @@
     (function (f, b) {
         var c = f.createElement(b),
             e = f.getElementsByTagName(b)[0];
-        c.src = "https://cdn.rawgit.com/LACNIC/static/master/require.js"; //"http://requirejs.org/docs/release/2.3.2/minified/require.js";
+        c.src = "https://simon.lacnic.net/static/simon_app/js/require.js"; //"http://requirejs.org/docs/release/2.3.2/minified/require.js";
         c.type = "text/javascript";
         e.parentNode.insertBefore(c, e);
         c.onload = c.onreadystatechange = function () {
@@ -234,7 +234,7 @@
             // Require libraries loaded
             requirejs.config({
                 "paths": {
-                    "jquery": "https://cdn.dev.lacnic.net/jquery-1.11.1.min",
+                    "jquery": "https://simon.lacnic.net/static/simon_app/js/jquery-1.11.1.min",
                     "stun": debug && "http://127.0.0.1:8000/static/app/js/stun" || "https://rawgit.com/LACNIC/natmeter/59f6bd2860a0c417d8ea7e67d2c6868d93800ed8/stun/app/static/app/js/stun"
                 }
             });
@@ -262,7 +262,7 @@
 
         var c = f.createElement(b),
             e = f.getElementsByTagName(b)[0];
-        c.src = "https://cdn.dev.lacnic.net/require.js";
+        c.src = "https://simon.lacnic.net/static/simon_app/js/require.js";
         c.type = "text/javascript";
         e.parentNode.insertBefore(c, e);
         c.onload = c.onreadystatechange = function () {
@@ -272,7 +272,7 @@
                     "charts": "https://cdn.rawgit.com/LACNIC/static/96dacbac/charts",
 {#                        "charts": "http://simon.local:8000/static/simon_app/js/charts",#}
                     "jsapi": "https://www.gstatic.com/charts/loader",
-                    "jquery": "https://cdn.dev.lacnic.net/jquery-1.11.1.min"
+                    "jquery": "https://simon.lacnic.net/static/simon_app/js/jquery-1.11.1.min"
                 }
             });
 

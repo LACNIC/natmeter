@@ -169,7 +169,7 @@
                 if (STUN.NETWORK.addresses.getPrivateAddresses().every(address => (address.indexOf('.local') >= 0))){
                     output_easy("<b>" + "{% trans "All your private addresses are .local, impossible to detect NAT :(" %}" + "</b>");
                 } else {
-                    for (let ip of STUN.NETWORK.addresses.getPrivateAddresses()) {
+                    for (let ip of STUN.NETWORK.addresses.getPublicAddresses()) {
                         if (ip.indexOf(':') > 0)
                             output_easy("<b>" + "{% trans "NAT 66 detected!" %}" + "</b>");
                         else

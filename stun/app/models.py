@@ -1,6 +1,7 @@
 from __future__ import unicode_literals
 import operator
 from django.db.models import Q, Count
+from django.db.transaction import atomic
 from app.libraries.geolocation import get_cc_from_ip_address
 from collections import Counter, defaultdict
 from django.db import models, transaction
@@ -318,7 +319,7 @@ class StunMeasurementManager(models.Manager):
 
         return 100.0*len(natted) / (len(natted) + len(nat_free))
 
-    @commit_on_success
+    @atomic
     def set_attributes(self, persist=True, force=True):
 
         self_filter = self.all()

@@ -385,6 +385,8 @@ class StunMeasurementManager(models.Manager):
                 res += "%s:" % a
             res += 3 * '0000:'
             res += '0000'
+        elif '.local' in address:
+            res = '.local'
         else:
             add = IPv4Address(address=address).exploded.split('.')[:3]
             for a in add:

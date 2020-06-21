@@ -7,11 +7,22 @@ import pytz
 from stun.settings import STATIC_ROOT
 from tqdm import tqdm
 from django.db.models import Count
+from multiprocessing import Pool
 
+
+def process_measurement(sm):
+
+    local_addresses = StunMeasurement.objects.show_addresses_to_the_world(sm.get_local_addresses())
+    stun_addresses = StunMeasurement.objects.show_addresses_to_the_world(sm.get_remote_addresses())
+    asns = sm.get_asns()
+    user_agent = sm.user_agent
+
+    date = sm.server_test_date.date()
+    return [local_addresses] + [stun_addresses] + [asns] + [user_agent] + [date]
 
 class Command(BaseCommand):
-
     def handle(self, *args, **options):
+
         comments = []
         comments.append(["# This is a TAB separated values file containing the results gathered by the NAT Meter experiment (https://natmeter.labs.lacnic.net)."])
         comments.append(["# Private prefixes have been excluded."])
@@ -33,12 +44,13 @@ class Command(BaseCommand):
         ).filter(
             ips__gt=0,
             noisy_prefix=False,
-        ).exclude(
-            stunipaddress__ip_address_kind=StunIpAddress.Kinds.DOTLOCAL
+            # )\
+            # .exclude(
+            # stunipaddress__ip_address_kind=StunIpAddress.Kinds.DOTLOCAL
         ).order_by('-server_test_date')
         with open(STATIC_ROOT + '/results.csv', 'wb') as csvfile:
 
-            fieldnames = ['local_ip_addresses', 'remote_ip_addresses', 'asns', 'date']
+            fieldnames = ['local_ip_addresses', 'remote_ip_addresses', 'asns', 'user_agent', 'date']
 
             writer = csv.writer(csvfile, delimiter='\t')
 
@@ -48,12 +60,9 @@ class Command(BaseCommand):
             writer.writerow([])
 
             writer.writerow(fieldnames)
-            for sm in tqdm(sms):
-                local_addresses = StunMeasurement.objects.show_addresses_to_the_world(sm.get_local_addresses())
-                stun_addresses = StunMeasurement.objects.show_addresses_to_the_world(sm.get_remote_addresses())
-                asns = sm.get_asns()
 
-                if len(stun_addresses) == 0: continue
+            rows = list(
+                Pool().map(process_measurement, sms)
+            )
 
-                date = sm.server_test_date.date()
-                writer.writerow([local_addresses] + [stun_addresses] + [asns] + [date])
+            writer.writerows(rows)

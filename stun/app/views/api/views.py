@@ -57,7 +57,7 @@ def post(request):
 
     import ast, json
     from app.libraries.classes import datetime_uy
-    from app.models import StunIpAddress, StunMeasurement, StunIpAddressChangeEvent
+    from app.models import StunIpAddress, StunMeasurement
     from datetime import datetime
 
     post = json.loads(request.body)
@@ -75,7 +75,6 @@ def post(request):
     experiment_id = post.get("experiment_id")
     cookie = post.get("cookie")
     addresses = ast.literal_eval(post.get("addresses"))
-    ip_address_change_event = ast.literal_eval(post.get("ip_address_change_event"))
     tester_version = post.get("tester_version")
     href = post.get("href")
     user_agent = post.get("user_agent")
@@ -122,16 +121,6 @@ def post(request):
                 ip_address_kind=kind
             )
             stun_measurement.stunipaddress_set.add(a)
-
-    current_ = ip_address_change_event["current"]
-    previous_ = ip_address_change_event["previous"]
-    if current_ is not "" and previous_ is not "":
-        change = StunIpAddressChangeEvent(
-            previous=previous_,
-            current=current_,
-            stun_measurement=stun_measurement
-        )
-        stun_measurement.stunipaddresschangeevent_set.add(change)
 
     print "STUN measurement saved. %s" % (stun_measurement)
 

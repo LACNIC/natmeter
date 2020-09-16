@@ -92,7 +92,7 @@ def post(request):
         )
 
 
-    stun_measurement = StunMeasurement(
+    stun_measurement = StunMeasurement.objects.create(
         client_test_date=server_date,  # TODO fix this
         server_test_date=server_date,
         experiment_id=experiment_id,
@@ -101,7 +101,6 @@ def post(request):
         href=href,
         user_agent=user_agent
     )
-    stun_measurement.save()
 
     statsd.increment(
         'Result via HTTP POST',

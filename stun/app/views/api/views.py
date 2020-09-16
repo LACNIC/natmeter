@@ -1,12 +1,16 @@
-from django.views.decorators.csrf import csrf_exempt
-from django.http import HttpResponse
-from datadog import statsd
-import stun.settings as settings
-from app.models import StunMeasurement
-from collections import Counter
+import ast
+import json
 import operator
+from collections import Counter
+from datadog import statsd
+from datetime import datetime
 from django.db.models import Q
+from django.http import HttpResponse
+from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_http_methods
+from app.libraries.classes import datetime_uy
+from app.models import StunIpAddress, StunMeasurement
+import stun.settings as settings
 
 
 def sorted_counter(ctr):
@@ -54,11 +58,6 @@ def dotlocal_reports(request, *args, **kwargs):
 @csrf_exempt
 @require_http_methods(["POST"])
 def post(request):
-
-    import ast, json
-    from app.libraries.classes import datetime_uy
-    from app.models import StunIpAddress, StunMeasurement
-    from datetime import datetime
 
     post = json.loads(request.body)
 

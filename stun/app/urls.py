@@ -41,5 +41,5 @@ urlpatterns = patterns(
     url(r'script/', views.script, name='script'),
     url(r'cookies/', views.cookies, name='cookies')
 
-) + reports + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+) + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 

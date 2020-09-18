@@ -7,7 +7,6 @@ import stun.settings as settings
 reports = patterns(
     '',
 
-    #  'ips__gt': 0
     url(r'nat_free_0_true', views.generic_reports, {'nat_free_0': True, 'ips__gt': 0}, name='report_nat_free_0_true'),
     url(r'nat_free_0_false', views.generic_reports, {'nat_free_0': False, 'ips__gt': 0}, name='report_nat_free_0_false'),
     url(r'nat_free_4_true', views.generic_reports, {'nat_free_4': True, 'ips__gt': 0}, name='report_nat_free_4_true'),
@@ -38,7 +37,7 @@ urlpatterns = patterns(
     url(r'^$', views.home, name='home'),
     url(r'charts/', views.charts, name='charts'),
     url(r'post/', views.post, name='post'),
-    url(r'reports/', include(reports)),
+    # url(r'reports/', include(reports)),
     url(r'script/', views.script, name='script'),
     url(r'cookies/', views.cookies, name='cookies')
 

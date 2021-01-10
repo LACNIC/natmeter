@@ -51,7 +51,7 @@ def charts(request):
     # Country participation chart
     country_participation = StunMeasurement.objects.get_country_participation()
     total = sum(country_participation.values())
-    most_common = country_participation.most_common(n=3)
+    most_common = country_participation.most_common(n=5)
     country_participation_top = [(p[0], 1.0 * p[1]) for p in most_common]
     country_participation_top.append(
         ("Others", 1.0 * (total - sum(p[1] for p in most_common)))

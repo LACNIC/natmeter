@@ -37,7 +37,7 @@ urlpatterns = patterns(
     url(r'^$', views.home, name='home'),
     url(r'charts/', views.charts, name='charts'),
     url(r'post/', views.post, name='post'),
-    # url(r'reports/', include(reports)),
+    url(r'reports/', include(reports)),
     url(r'script/', views.script, name='script'),
     url(r'cookies/', views.cookies, name='cookies')
 

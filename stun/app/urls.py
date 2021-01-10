@@ -15,10 +15,10 @@ reports = patterns(
     url(r'nat_free_6_false', views.generic_reports, {'nat_free_6': False, 'v6_count__gt': 0, 'ips__gt': 0}, name='report_nat_free_6_false'),
     url(r'dualstack_true', views.generic_reports, {'dualstack': True, 'ips__gt': 0}, name='report_dualstack_true'),
     url(r'dualstack_false', views.generic_reports, {'dualstack': False, 'ips__gt': 0}, name='report_dualstack_false'),
-    url(r'npt_true', views.generic_reports, {'npt': True, 'ips__gt': 0}, name='report_npt_false'),
+    url(r'npt_true', views.generic_reports, {'npt': True, 'ips__gt': 0}, name='report_npt_true'),
     url(r'npt_false', views.generic_reports, {'npt': False, 'ips__gt': 0}, name='report_npt_false'),
-    url(r'v4_only', views.generic_reports, {'v6_count': 0, 'ips__gt': 0}, name='report_npt_false'),
-    url(r'v6_only', views.generic_reports, {'v4_count': 0, 'ips__gt': 0}, name='report_npt_false'),
+    url(r'v4_only', views.generic_reports, {'v6_count': 0, 'ips__gt': 0}, name='report_v6_count'),
+    url(r'v6_only', views.generic_reports, {'v4_count': 0, 'ips__gt': 0}, name='report_v4_count'),
 
     url(r'dotlocal_ips__gt_0', views.dotlocal_reports, {'n_addr_dotlocal__gt': 0}, name='dotlocal_ips__gt_0'),
     url(r'all', views.dotlocal_reports, {}, name='all'),

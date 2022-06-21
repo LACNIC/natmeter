@@ -28,7 +28,7 @@ mod-wsgi==4.6.4
 nbconvert==4.2.0
 nbformat==4.1.0
 netaddr==0.7.13
-numpy==1.11.0
+numpy==1.22.0
 oauth2client==4.0.0
 pathlib2==2.1.0
 pexpect==4.2.1
